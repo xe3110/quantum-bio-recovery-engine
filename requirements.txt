@@ -1,0 +1,17 @@
+# Core scientific stack
+numpy>=2.0
+scipy>=1.10
+pandas>=2.0
+matplotlib>=3.7
+networkx>=3.0
+
+# Quantum optimization stack
+qiskit==1.*
+qiskit-aer>=0.15
+qiskit-algorithms>=0.4
+qiskit-optimization>=0.7
+
+# Optimization / utilities
+docplex>=2.31
+rustworkx>=0.17
+psutil>=5.9
