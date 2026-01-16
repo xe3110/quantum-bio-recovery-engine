@@ -67,6 +67,14 @@ source qbio-env/bin/activate
 pip install -r requirements.txt
 ```
 
+### One-Command Setup
+
+For a clean, reproducible environment:
+
+```bash
+./setup.sh
+```
+
 ## Reproducibility
 
 ### Scaling Benchmark (k = 4)
