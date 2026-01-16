@@ -1,211 +1,367 @@
 # Quantum Bio Recovery Engine — Lab Journal
 
-## Researcher
-Rishabh Kumar  
-Frontend & Full-Stack Engineer | Quantum-Bio Systems Researcher (Independent)
+**Researcher:** Rishabh Kumar
 
-## Start Date
-16 January 2026
+**Project:** Quantum Bio Recovery Engine
 
-## Time Commitment
-4–5 hours per day (consistent long-term research cadence)
+**Focus:** Hybrid biological–probabilistic–combinatorial–quantum optimization for therapeutic combination discovery
+
+**Start Date:** Day 1 (Foundation Phase)
 
 ---
 
-## 1. Motivation
+## Project Vision
 
-This project is driven by a personal and scientific mission: to build a computational system that can simulate how drugs influence complex biological systems at the level of protein networks, not just individual molecular targets.
+To design a reproducible, extensible research platform that models disease biology as a networked system, simulates pharmacological perturbations, formulates therapeutic combination discovery as a Hamiltonian (QUBO) optimization problem, and benchmarks exact, heuristic, and quantum-ready solvers across combinatorial scaling regimes.
 
-Rather than asking:
-> "Does this drug bind to this protein?"
-
-This work asks:
-> "Does this drug move a diseased biological system closer to a healthy state, and with what probability?"
-
-This approach combines systems biology, artificial intelligence, probabilistic modeling, and quantum optimization to explore drug discovery and therapeutic evaluation as a multi-scale, dynamic problem.
+Long-term goal: enable hybrid quantum–classical approaches for exploring high-order therapeutic combination spaces where classical exact solvers become computationally impractical.
 
 ---
 
-## 2. Long-Term Vision
+## Day 1 — Foundation & Architecture
 
-The long-term vision is to develop a hybrid AI–Quantum platform capable of:
+### Objectives
 
-- Modeling healthy and diseased protein interaction networks
-- Simulating drug-induced perturbations across biological pathways
-- Estimating the probability of therapeutic success and systemic risk
-- Supporting both open scientific research and real-world translational applications
+* Define a full-stack conceptual pipeline for quantum-assisted drug discovery
+* Establish research framing and reproducibility mindset
+* Create a lab-style workflow and logging structure
 
-This system is designed to be:
-- Publishable in peer-reviewed scientific venues
-- Reproducible by independent researchers
-- Extensible into a clinical or pharmaceutical research platform
-
----
-
-## 3. Core Hypothesis
-
-A hybrid quantum–classical optimization framework can improve the accuracy and robustness of drug efficacy prediction by:
-
-- Finding lower-energy, more stable drug–protein binding conformations
-- Optimizing network-level biological state transitions toward healthy reference states
-- Integrating probabilistic inference over molecular, network, and clinical priors
-
-Compared to classical docking and scoring alone, this approach should yield higher-quality candidate ranking and more meaningful system-level predictions.
-
----
-
-## 4. Flagship Disease Model
-
-**Proposed Disease:** Multiple Sclerosis (MS)
-
-**Rationale:**
-- Rich, publicly available protein interaction and gene expression datasets
-- Well-characterized immune, neural, and metabolic pathways
-- Multiple existing FDA-approved drugs for benchmarking
-- Strong relevance to neurological systems and network-level dysfunction
-
-This disease model will serve as the primary reference system for development, benchmarking, and publication.
-
----
-
-## 5. System Architecture (High-Level)
+### Conceptual Pipeline
 
 ```
 Disease / Protein Set
-↓
+        ↓
 Protein Interaction Network (Healthy vs Diseased)
-↓
+        ↓
 Drug Input (SMILES / Known Compounds)
-↓
+        ↓
 Classical Docking & Pre-Filtering
-↓
+        ↓
 Quantum Optimization Layer
-↓
+        ↓
 Systems-Level Network Simulation
-↓
+        ↓
 Bayesian Probability Engine
-↓
+        ↓
 Therapeutic Success & Risk Scores
 ```
 
+### Notes
+
+* The system is designed to treat biological recovery as a **network perturbation problem** rather than a single-target optimization.
+* Optimization layer framed as a **Hamiltonian minimization / QUBO maximization** task, allowing future deployment on quantum hardware.
+
+### Reflection
+
+> Established a hybrid architecture integrating biological modeling, probabilistic inference, and Hamiltonian-based optimization. The system is framed as a reproducible research platform rather than a black-box predictor, enabling benchmarking across classical, heuristic, and quantum solvers.
 
 ---
 
-## 6. Scientific Principles
+## Day 2 — Disease Network Construction
 
-This work draws from:
+### Objectives
 
-- Network Medicine (Barabási et al.)
-- Quantum Chemistry and Variational Algorithms
-- Bayesian Inference and Probabilistic Graphical Models
-- Graph Neural Networks and Systems Biology
-- Open Science and Reproducible Research Practices
+* Build a protein–protein interaction (PPI) network for a reference disease system (Multiple Sclerosis)
+* Validate biological plausibility and pipeline integrity
+
+### Implementation
+
+* Used curated protein set related to immune signaling and myelin biology
+* Queried interaction confidence scores from external biological knowledge base (STRING-style model)
+* Constructed a weighted graph representation
+
+### Results
+
+**Network Summary:**
+
+* Nodes: 10
+* Edges: 35
+
+**Sample Interactions:**
+
+```
+IFNG ↔ MBP | confidence=0.667
+IFNG ↔ VCAM1 | confidence=0.748
+IFNG ↔ MOG | confidence=0.823
+IFNG ↔ HLA-DRB1 | confidence=0.830
+IFNG ↔ STAT3 | confidence=0.907
+IFNG ↔ CD40 | confidence=0.927
+IFNG ↔ CXCL10 | confidence=0.959
+IFNG ↔ IL2RA | confidence=0.967
+IFNG ↔ TNF | confidence=0.991
+MBP ↔ HLA-DRB1 | confidence=0.851
+```
+
+### Observations
+
+* IFNG emerges as a dominant hub, consistent with immune-centric MS pathology
+* Network density validates system coherence and biological relevance
+
+### Reflection
+
+> Successfully constructed a high-confidence MS PPI network and validated hub dominance of IFNG, aligning with known immune-mediated disease mechanisms. This reference network serves as the baseline system state for downstream perturbation and optimization experiments.
 
 ---
 
-## 7. Milestones
+## Day 3 — Disease Distance Metric
 
-### Phase 1 — Biological Network Engine
-- Build healthy and diseased protein interaction networks
-- Define system distance and recovery metrics
+### Objectives
 
-### Phase 2 — Chemical Interaction Layer
-- Implement molecular docking and binding score extraction
-- Integrate ADMET prediction
+* Define a quantitative measure of system deviation between healthy and perturbed network states
 
-### Phase 3 — Quantum Optimization
-- Encode binding and network energy functions as Hamiltonians
-- Apply VQE / QAOA for optimization
+### Metric
 
-### Phase 4 — Probability & Validation
-- Build Bayesian success/risk estimation
-- Benchmark against classical pipelines
-- Prepare publication-quality results
+**System Disease Distance Score**
+
+* Measures aggregate edge-weight deviation under simulated perturbations
+* Interpreted as network-level biological stress
+
+### Sample Outputs
+
+```
+System Disease Distance Score: 0.1221
+System Disease Distance Score: 1.2708
+```
+
+### Interpretation
+
+* Low score → near-baseline state
+* High score → strongly perturbed / diseased system
+
+### Reflection
+
+> Introduced a network-level scalar metric capturing global biological deviation, enabling consistent downstream mapping between drug perturbations and system recovery potential.
 
 ---
 
-## 8. Open Science Commitment
+## Day 4 — Drug Recovery Scoring
 
-This project will prioritize:
-- Transparent methods
-- Reproducible experiments
-- Open-source core components
-- Public benchmarks and documentation
+### Objectives
 
-Sensitive datasets, enterprise integrations, and scalable infrastructure layers may remain proprietary in later translational phases.
+* Simulate pharmacological perturbations
+* Map drug effects onto network recovery space
 
----
+### Example
 
-## 9. Weekly Reflection Log
+**Drug:** Fingolimod
+**Recovery Score:** 0.4451
 
-### Week 1 — Foundation
-**Goal:** Build protein network model for MS and define system state metrics.
+### Interpretation
 
-Reflections:
+* Recovery score represents estimated normalization of network topology relative to disease state
 
-###### Week 1 — Foundation (Reflection Entry)
+### Reflection
 
-```
-MS Reference Network v1
-Successfully constructed a 10-node, 35-edge high-confidence protein–protein interaction (PPI) network for Multiple Sclerosis using STRING DB. The network exhibits high density and reveals IFNG as a dominant hub, consistent with immune-centric system architecture reported in MS pathology. This validated both the biological relevance of the selected protein set and the integrity of the network construction pipeline.
-
-This reference network will serve as the baseline system state for subsequent drug perturbation modeling, healthy vs diseased state comparison, and probabilistic recovery scoring.
-```
-
-```
-Implemented disease state modeling by integrating gene expression fold-change data into the MS PPI network as node activity weights. Defined a cosine-based system distance metric to quantify deviation between healthy and diseased biological states, establishing a numerical baseline for future drug-induced recovery scoring.
-```
-
-```
-Upgraded disease distance metric to incorporate edge-weighted interaction strength, transforming the system model from node-only perturbation to network-aware disruption scoring. This better reflects hub-driven pathology characteristic of immune-mediated diseases such as MS.
-```
-
-```
-Upgraded system distance metric to a network-aware, edge-weighted formulation. Resulting MS disease score (~1.27) reflects hub-amplified immune and neuroinflammatory disruption, consistent with known MS pathology. This scalar function now serves as a candidate system “energy” for optimization and therapeutic recovery modeling.
-```
-
-```
-Implemented network-level drug perturbation modeling using a target-weighted effect vector. Fingolimod simulation produced a recovery score of ~0.45, indicating partial restoration of immune-neuro system state consistent with known disease-modifying (non-curative) clinical behavior in MS. This validates the system’s ability to produce qualitatively realistic therapeutic response patterns.
-```
-
-```
-Implemented a Bayesian success model mapping network-level recovery scores into probabilistic therapeutic success estimates using a Beta posterior with Monte Carlo uncertainty. This transforms deterministic system recovery metrics into confidence-bounded decision variables suitable for drug ranking and trial prioritization.
-```
-
-```
-Implemented Bayesian probability mapping of network recovery scores. Fingolimod produced a moderate success probability (mean ≈ 0.41, 95% CI ≈ 0.26–0.58), reflecting cautious inference under weak priors and injected uncertainty. This demonstrates the system’s ability to express therapeutic predictions with calibrated confidence rather than deterministic scores.
-```
-
-```
-Executed a multi-drug virtual screening pipeline for MS. Fingolimod ranked highest (Recovery ≈ 0.63, P ≈ 0.67, 95% CI ≈ 0.54–0.79), indicating strong system-wide immune network stabilization. Dimethyl fumarate showed moderate efficacy, while Natalizumab and Interferon-beta exhibited weaker system-level recovery, reflecting narrower mechanistic impact. Results support the value of network-centric therapeutic prioritization over single-target scoring.
-```
-
-```
-Executed a pairwise combination therapy synergy analysis across the MS protein interaction network. Identified Fingolimod + Dimethyl Fumarate as the top synergistic combination (Recovery ≈ 0.88, Synergy ≈ 0.25, P ≈ 0.87, 95% CI ≈ 0.77–0.95), indicating complementary stabilization of immune and neuroinflammatory network hubs. Results demonstrate the platform’s capacity to discover emergent multi-target therapeutic effects beyond single-agent efficacy.
-```
-
-```
-Validated the drug-combination Hamiltonian using an exact minimum eigensolver. The optimizer independently identified Fingolimod + Dimethyl Fumarate as the optimal combination (objective ≈ 1.261), matching network-level synergy and probabilistic screening results. This confirms internal consistency across biological modeling, probabilistic inference, and optimization layers, establishing a reproducible benchmark for future quantum and heuristic solvers.
-```
-
-```
-Initial scaling benchmarks for k=2 combinations showed identical performance across exact, greedy, and random solvers, confirming polynomial-time tractability for pairwise optimization. This establishes a baseline regime and motivates extension to higher-order (k≥3) combination selection to enter the combinatorial hardness domain relevant for quantum-assisted optimization.
-```
-
-```
-Scaling benchmarks for k=3 revealed the onset of heuristic failure at N ≥ 12, where greedy selection exhibited measurable optimality gaps relative to the exact Hamiltonian solver, while random search performance became trial-dependent. This identifies a transition into a combinatorial hardness regime suitable for evaluating hybrid quantum–classical optimization approaches.
-```
-
-```
-Demonstrated combinatorial scaling in k=4 therapeutic combination optimization, with exact Hamiltonian solver runtime increasing by >500× between N=8 and N=24, while heuristic methods remained constant-time but developed measurable optimality gaps. This establishes a hardness regime suitable for evaluating hybrid quantum–classical optimization approaches.
-```
+> Established a functional mapping from drug perturbations to network recovery metrics, enabling formal comparison between pharmacological candidates.
 
 ---
 
-## 10. Signature
+## Day 5 — Probabilistic Modeling
 
-I commit to building this system with scientific integrity, long-term discipline, and the intent to contribute meaningful tools and knowledge to the global research and medical community.
+### Objectives
 
-**Signed:**  
-Rishabh Kumar  
-**Date:** 16 January 2026
+* Convert recovery scores into interpretable success probabilities
+
+### Bayesian Output
+
+```
+Probability of Therapeutic Success:
+Mean: 0.412
+95% CI: (0.255, 0.579)
+```
+
+### Notes
+
+* Enables uncertainty-aware ranking of drugs
+* Provides statistical framing rather than deterministic scoring
+
+### Reflection
+
+> Added probabilistic interpretation layer, enabling uncertainty quantification and confidence intervals for therapeutic success estimates.
+
+---
+
+## Day 6 — Drug Panel Screening
+
+### Objectives
+
+* Screen multiple drugs under unified probabilistic and recovery framework
+
+### Results
+
+```
+=== MS Drug Screening Results ===
+1. Fingolimod           | Recovery: 0.629 | P(Success): 0.667 [0.537, 0.785]
+2. Dimethyl Fumarate  | Recovery: 0.380 | P(Success): 0.463 [0.333, 0.596]
+3. Natalizumab        | Recovery: 0.237 | P(Success): 0.185 [0.094, 0.298]
+4. Interferon-beta   | Recovery: 0.166 | P(Success): 0.130 [0.055, 0.230]
+```
+
+### Reflection
+
+> Demonstrated rank consistency between network recovery and probabilistic success estimates, validating internal coherence of the modeling stack.
+
+---
+
+## Day 7 — Synergy Discovery
+
+### Objectives
+
+* Identify combinatorial effects between drug pairs
+
+### Results
+
+```
+=== MS Combination Synergy Results ===
+1. Fingolimod + Dimethyl Fumarate | Recovery: 0.881 | Synergy: 0.252 | P(Success): 0.87
+2. Fingolimod + Natalizumab      | Recovery: 0.785 | Synergy: 0.156 | P(Success): 0.704
+3. Dimethyl Fumarate + Natalizumab | Recovery: 0.617 | Synergy: 0.237 | P(Success): 0.537
+```
+
+### Interpretation
+
+* Synergy metric captures non-linear improvement beyond additive recovery
+
+### Reflection
+
+> Identified dominant therapeutic synergies and established a formal combinatorial scoring framework for drug pair selection.
+
+---
+
+## Day 8 — Hamiltonian Formulation & Optimization
+
+### Objectives
+
+* Encode drug selection as a constrained optimization problem
+* Validate Hamiltonian formulation
+
+### Formulation
+
+**Objective:**
+
+Maximize:
+
+```
+Σ recovery[i] * x_i + Σ synergy[i][j] * x_i * x_j
+```
+
+Subject to:
+
+```
+Σ x_i = k
+```
+
+### Implementation
+
+* Encoded as QUBO / QuadraticProgram
+* Solved using exact minimum eigensolver (NumPy baseline)
+
+### Result
+
+```
+Selected drugs:
+- Fingolimod
+- Dimethyl Fumarate
+Objective value: 1.261
+```
+
+### Reflection
+
+> Validated Hamiltonian formulation by independently rediscovering the same optimal combination identified by network and synergy layers, confirming cross-layer consistency.
+
+---
+
+## Day 9 — Scaling Benchmarks (k = 3)
+
+### Objectives
+
+* Benchmark optimization hardness
+* Compare exact, greedy, and random solvers
+
+### Results
+
+| N  | Exact | Greedy | Random |
+| -- | ----- | ------ | ------ |
+| 4  | 3.158 | 3.158  | 3.158  |
+| 6  | 3.180 | 3.180  | 3.180  |
+| 8  | 3.118 | 3.118  | 3.118  |
+| 10 | 3.634 | 3.634  | 3.634  |
+| 12 | 3.842 | 3.575  | 3.842  |
+
+### Interpretation
+
+* Onset of heuristic failure observed at N ≥ 12
+* Greedy solver trapped in local optimum
+
+### Reflection
+
+> Identified transition from polynomially tractable to combinatorially hard regime for k=3 selection, validating need for advanced optimization strategies.
+
+---
+
+## Day 9 — Scaling Benchmarks (k = 4)
+
+### Results
+
+| N  | Exact Time (s) | Exact Value | Greedy Value | Random Value |
+| -- | -------------- | ----------- | ------------ | ------------ |
+| 8  | 0.0064         | 5.188       | 5.188        | 5.188        |
+| 12 | 0.0095         | 5.118       | 5.118        | 4.998        |
+| 16 | 0.0260         | 5.065       | 5.065        | 5.034        |
+| 20 | 0.1879         | 5.226       | 5.143        | 5.033        |
+| 24 | 3.3665         | 5.520       | 5.494        | 5.124        |
+
+### Observations
+
+* Exact solver runtime increased by >500× from N=8 to N=24
+* Greedy and random solvers remained constant-time but showed growing optimality gaps
+
+### Reflection
+
+> Demonstrated combinatorial scaling behavior and identified a computational regime where classical exact solvers become impractical and heuristics sacrifice solution quality, motivating hybrid quantum–classical optimization strategies.
+
+---
+
+## Public Release
+
+### Repository
+
+* Name: `quantum-bio-recovery-engine`
+* Status: Public
+
+### Research Layer Added
+
+* README.md (scientific front door)
+* MIT License
+* CITATION.cff
+* Curated requirements.txt
+* One-command `setup.sh`
+* Figures and reproducibility instructions
+
+### Reflection
+
+> Released the full research platform as a public, reproducible repository with experimental logs, figures, and setup automation, establishing academic-grade transparency and collaboration readiness.
+
+---
+
+## Current Status
+
+* Full biological → probabilistic → combinatorial → Hamiltonian → benchmark pipeline operational
+* Reproducible environment setup validated
+* Scaling curves and figures generated
+
+---
+
+## Next Research Directions
+
+1. Replace exact eigensolver with variational quantum solvers (VQE/QAOA)
+2. Deploy on real quantum hardware (IBM Quantum Runtime)
+3. Integrate molecular docking (SMILES → binding energy)
+4. Extend to multi-disease comparative modeling
+5. Publish preprint (arXiv / bioRxiv)
+
+---
+
+## Closing Note
+
+This lab journal documents the full evolution of a hybrid quantum–biological optimization platform from conceptual design through empirical scaling benchmarks and public research release. The system demonstrates a reproducible pathway for exploring combinatorial therapeutic discovery using Hamiltonian-based optimization and quantum-ready computational frameworks.
