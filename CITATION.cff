@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "Quantum Bio Recovery Engine"
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Kumar
+    given-names: Rishabh
+version: 0.1.0
+date-released: 2026-01-16
+repository-code: https://github.com/YOUR_USERNAME/quantum-bio-recovery-engine
+license: MIT
