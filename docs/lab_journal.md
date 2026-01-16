@@ -142,7 +142,15 @@ Sensitive datasets, enterprise integrations, and scalable infrastructure layers 
 **Goal:** Build protein network model for MS and define system state metrics.
 
 Reflections:
-- 
+
+###### Week 1 — Foundation (Reflection Entry)
+
+```
+MS Reference Network v1
+Successfully constructed a 10-node, 35-edge high-confidence protein–protein interaction (PPI) network for Multiple Sclerosis using STRING DB. The network exhibits high density and reveals IFNG as a dominant hub, consistent with immune-centric system architecture reported in MS pathology. This validated both the biological relevance of the selected protein set and the integrity of the network construction pipeline.
+
+This reference network will serve as the baseline system state for subsequent drug perturbation modeling, healthy vs diseased state comparison, and probabilistic recovery scoring.
+```
 
 ---
 
