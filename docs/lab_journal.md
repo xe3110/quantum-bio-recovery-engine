@@ -152,6 +152,54 @@ Successfully constructed a 10-node, 35-edge high-confidence protein–protein in
 This reference network will serve as the baseline system state for subsequent drug perturbation modeling, healthy vs diseased state comparison, and probabilistic recovery scoring.
 ```
 
+```
+Implemented disease state modeling by integrating gene expression fold-change data into the MS PPI network as node activity weights. Defined a cosine-based system distance metric to quantify deviation between healthy and diseased biological states, establishing a numerical baseline for future drug-induced recovery scoring.
+```
+
+```
+Upgraded disease distance metric to incorporate edge-weighted interaction strength, transforming the system model from node-only perturbation to network-aware disruption scoring. This better reflects hub-driven pathology characteristic of immune-mediated diseases such as MS.
+```
+
+```
+Upgraded system distance metric to a network-aware, edge-weighted formulation. Resulting MS disease score (~1.27) reflects hub-amplified immune and neuroinflammatory disruption, consistent with known MS pathology. This scalar function now serves as a candidate system “energy” for optimization and therapeutic recovery modeling.
+```
+
+```
+Implemented network-level drug perturbation modeling using a target-weighted effect vector. Fingolimod simulation produced a recovery score of ~0.45, indicating partial restoration of immune-neuro system state consistent with known disease-modifying (non-curative) clinical behavior in MS. This validates the system’s ability to produce qualitatively realistic therapeutic response patterns.
+```
+
+```
+Implemented a Bayesian success model mapping network-level recovery scores into probabilistic therapeutic success estimates using a Beta posterior with Monte Carlo uncertainty. This transforms deterministic system recovery metrics into confidence-bounded decision variables suitable for drug ranking and trial prioritization.
+```
+
+```
+Implemented Bayesian probability mapping of network recovery scores. Fingolimod produced a moderate success probability (mean ≈ 0.41, 95% CI ≈ 0.26–0.58), reflecting cautious inference under weak priors and injected uncertainty. This demonstrates the system’s ability to express therapeutic predictions with calibrated confidence rather than deterministic scores.
+```
+
+```
+Executed a multi-drug virtual screening pipeline for MS. Fingolimod ranked highest (Recovery ≈ 0.63, P ≈ 0.67, 95% CI ≈ 0.54–0.79), indicating strong system-wide immune network stabilization. Dimethyl fumarate showed moderate efficacy, while Natalizumab and Interferon-beta exhibited weaker system-level recovery, reflecting narrower mechanistic impact. Results support the value of network-centric therapeutic prioritization over single-target scoring.
+```
+
+```
+Executed a pairwise combination therapy synergy analysis across the MS protein interaction network. Identified Fingolimod + Dimethyl Fumarate as the top synergistic combination (Recovery ≈ 0.88, Synergy ≈ 0.25, P ≈ 0.87, 95% CI ≈ 0.77–0.95), indicating complementary stabilization of immune and neuroinflammatory network hubs. Results demonstrate the platform’s capacity to discover emergent multi-target therapeutic effects beyond single-agent efficacy.
+```
+
+```
+Validated the drug-combination Hamiltonian using an exact minimum eigensolver. The optimizer independently identified Fingolimod + Dimethyl Fumarate as the optimal combination (objective ≈ 1.261), matching network-level synergy and probabilistic screening results. This confirms internal consistency across biological modeling, probabilistic inference, and optimization layers, establishing a reproducible benchmark for future quantum and heuristic solvers.
+```
+
+```
+Initial scaling benchmarks for k=2 combinations showed identical performance across exact, greedy, and random solvers, confirming polynomial-time tractability for pairwise optimization. This establishes a baseline regime and motivates extension to higher-order (k≥3) combination selection to enter the combinatorial hardness domain relevant for quantum-assisted optimization.
+```
+
+```
+Scaling benchmarks for k=3 revealed the onset of heuristic failure at N ≥ 12, where greedy selection exhibited measurable optimality gaps relative to the exact Hamiltonian solver, while random search performance became trial-dependent. This identifies a transition into a combinatorial hardness regime suitable for evaluating hybrid quantum–classical optimization approaches.
+```
+
+```
+Demonstrated combinatorial scaling in k=4 therapeutic combination optimization, with exact Hamiltonian solver runtime increasing by >500× between N=8 and N=24, while heuristic methods remained constant-time but developed measurable optimality gaps. This establishes a hardness regime suitable for evaluating hybrid quantum–classical optimization approaches.
+```
+
 ---
 
 ## 10. Signature
