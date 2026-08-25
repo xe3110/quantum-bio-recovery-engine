@@ -1,0 +1,7 @@
+core
+data
+docs
+experiments
+figures
+notebooks
+qbio-quantum-env

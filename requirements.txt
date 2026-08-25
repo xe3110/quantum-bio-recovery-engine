@@ -15,3 +15,7 @@ qiskit-optimization>=0.7
 docplex>=2.31
 rustworkx>=0.17
 psutil>=5.9
+requests>=2.31
+
+# Testing
+pytest>=8.0

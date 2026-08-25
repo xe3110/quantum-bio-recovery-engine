@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Fingolimod",
+    "targets": {}
+  },
+  {
+    "name": "Natalizumab",
+    "targets": {}
+  },
+  {
+    "name": "Ocrelizumab",
+    "targets": {}
+  },
+  {
+    "name": "Alemtuzumab",
+    "targets": {}
+  },
+  {
+    "name": "Teriflunomide",
+    "targets": {}
+  },
+  {
+    "name": "Dimethyl fumarate",
+    "targets": {}
+  },
+  {
+    "name": "Cladribine",
+    "targets": {}
+  },
+  {
+    "name": "Siponimod",
+    "targets": {}
+  },
+  {
+    "name": "PROBUCOL",
+    "targets": {
+      "VCAM1": 0.3
+    }
+  },
+  {
+    "name": "SUCCINOBUCOL",
+    "targets": {
+      "VCAM1": 0.3
+    }
+  },
+  {
+    "name": "SYMBIOPOLYOL",
+    "targets": {
+      "VCAM1": 0.3
+    }
+  },
+  {
+    "name": "BIIB-091",
+    "targets": {
+      "CD40": 0.3
+    }
+  }
+]

@@ -1,0 +1,3498 @@
+{
+  "metadata": {
+    "panel_version": "3.0.0",
+    "generated_by": "tools/curate_ms_panel_v3.py",
+    "purpose": "Mechanism-curated candidate panel for research prioritisation. Not a prescribing, efficacy, or co-administration dataset.",
+    "schema": {
+      "target_effects": "signed unitless directional hypotheses in [-1,1]; not affinities or doses",
+      "cns_penetration": "0-1 ordinal confidence that the agent reaches CNS parenchyma at therapeutic exposure",
+      "compartment": "dominant site of action: peripheral | cns | both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate",
+        "remyelination",
+        "neuroprotection",
+        "metabolic_repair"
+      ],
+      "safety_burden": "0-1 ordinal, ranking-relevant risk magnitude per domain: infection, malignancy, cardiac, hepatic, teratogenicity, autoimmunity, ocular",
+      "half_life_class": "short | intermediate | long | reconstitution",
+      "target_family": "biological target group; agents sharing one are pharmacodynamically redundant regardless of modality and are never ranked as a combination"
+    },
+    "sources": [
+      "PMID:39376160",
+      "PMID:39177889",
+      "PMID:38719481",
+      "PMID:38480630",
+      "PMCID:PMC8218202"
+    ],
+    "curation_rule": "Approved MS disease-modifying therapies, late-stage clinical candidates, and mechanism-diverse repurposing/preclinical agents. Records marked as negative or safety controls are retained deliberately and must not be filtered out. Every record requires independent verification before publication use.",
+    "controls": {
+      "positive_redundancy": [
+        "Natalizumab",
+        "Natalizumab-biosimilar"
+      ],
+      "negative_efficacy": [
+        "Ustekinumab",
+        "High-dose biotin",
+        "Opicinumab",
+        "Evobrutinib"
+      ],
+      "safety_penalty": [
+        "Daclizumab",
+        "Cyclophosphamide",
+        "Mitoxantrone"
+      ]
+    },
+    "statistics": {
+      "n_drugs": 74,
+      "n_signature_genes": 112,
+      "n_genes_targeted": 93,
+      "signature_gene_coverage": 0.83,
+      "mechanism_classes": 55,
+      "evidence_tiers": {
+        "approved": 24,
+        "phase_3": 12,
+        "phase_2": 28,
+        "preclinical": 10
+      }
+    }
+  },
+  "drugs": [
+    {
+      "name": "Alemtuzumab",
+      "mechanism_class": "CD52_depletion",
+      "primary_moa": "Anti-CD52 lymphocyte depletion",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "reconstitution",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "infusion_reaction"
+      ],
+      "safety_burden": {
+        "infection": 0.8,
+        "malignancy": 0.5,
+        "cardiac": 0.3,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.9,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "CD52": -0.85,
+        "IL2RA": -0.45,
+        "IFNG": -0.35,
+        "IL17A": -0.35,
+        "CD40": -0.25,
+        "MS4A1": -0.4,
+        "CD19": -0.35,
+        "TBX21": -0.3,
+        "RORC": -0.3,
+        "FOXP3": 0.2
+      },
+      "curation_note": "Profound depletion followed by reconstitution; high secondary autoimmunity.",
+      "target_family": "CD52_depletion"
+    },
+    {
+      "name": "Alpha-lipoic acid",
+      "mechanism_class": "antioxidant",
+      "primary_moa": "Mitochondrial antioxidant cofactor",
+      "evidence_tier": "phase_2",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.5,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "oxidative_stress",
+        "metabolism",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "oxidative_stress",
+        "metabolism",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NFE2L2": 0.45,
+        "GPX1": 0.4,
+        "GSR": 0.4,
+        "CAT": 0.35,
+        "SOD1": 0.35,
+        "TXN": 0.35,
+        "NEFL": -0.25,
+        "MMP9": -0.25
+      },
+      "curation_note": "",
+      "target_family": "antioxidant"
+    },
+    {
+      "name": "Amiloride",
+      "mechanism_class": "ASIC1_blocker",
+      "primary_moa": "Acid-sensing ion channel 1 blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.45,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hyperkalemia"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.25,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NEFL": -0.3,
+        "CASP3": -0.25,
+        "BAX": -0.22,
+        "BCL2": 0.2
+      },
+      "curation_note": "",
+      "target_family": "ASIC1_blocker"
+    },
+    {
+      "name": "Azathioprine",
+      "mechanism_class": "purine_antimetabolite",
+      "primary_moa": "Purine synthesis inhibition",
+      "evidence_tier": "approved",
+      "ms_indication": "off_label",
+      "route": "oral",
+      "cns_penetration": 0.25,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "myelosuppression"
+      ],
+      "safety_burden": {
+        "infection": 0.55,
+        "malignancy": 0.5,
+        "cardiac": 0.0,
+        "hepatic": 0.4,
+        "teratogenicity": 0.7,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.35,
+        "IFNG": -0.3,
+        "IL17A": -0.25,
+        "MS4A1": -0.25,
+        "CD40": -0.2
+      },
+      "curation_note": "",
+      "target_family": "purine_antimetabolite"
+    },
+    {
+      "name": "Baricitinib",
+      "mechanism_class": "JAK_inhibitor",
+      "primary_moa": "JAK1/2 inhibition",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.45,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "thrombosis"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.35,
+        "cardiac": 0.4,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.65,
+      "pathways": [
+        "adaptive_immunity",
+        "microglial_activation"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "microglial_activation"
+      ],
+      "target_effects": {
+        "STAT1": -0.55,
+        "STAT3": -0.5,
+        "IFNG": -0.45,
+        "IL6": -0.35,
+        "AIF1": -0.3,
+        "CD68": -0.25,
+        "IL23A": -0.3
+      },
+      "curation_note": "",
+      "target_family": "JAK"
+    },
+    {
+      "name": "Belimumab",
+      "mechanism_class": "BAFF_antagonist",
+      "primary_moa": "Anti-BAFF B-cell survival blockade",
+      "evidence_tier": "preclinical",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "b_cell_depletion"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "TNFSF13B": -0.9,
+        "CD19": -0.35,
+        "MS4A1": -0.3,
+        "CXCL13": -0.3,
+        "POU2AF1": -0.3
+      },
+      "curation_note": "",
+      "target_family": "BAFF_antagonist"
+    },
+    {
+      "name": "Benztropine",
+      "mechanism_class": "muscarinic_antagonist",
+      "primary_moa": "M1/M3 antagonism driving OPC differentiation",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "anticholinergic"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.75,
+      "pathways": [
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "remyelination"
+      ],
+      "target_effects": {
+        "MBP": 0.45,
+        "PLP1": 0.4,
+        "MAG": 0.35,
+        "MYRF": 0.38,
+        "SOX10": 0.3,
+        "GPR17": -0.28
+      },
+      "curation_note": "",
+      "target_family": "muscarinic_OPC"
+    },
+    {
+      "name": "Bexarotene",
+      "mechanism_class": "RXR_agonist",
+      "primary_moa": "Retinoid X receptor agonist promoting remyelination",
+      "evidence_tier": "phase_2",
+      "ms_indication": "remyelination",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "hypothyroidism",
+        "hyperlipidemia"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.35,
+        "teratogenicity": 0.9,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "remyelination",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "remyelination",
+        "metabolism"
+      ],
+      "target_effects": {
+        "MBP": 0.45,
+        "PLP1": 0.4,
+        "MYRF": 0.4,
+        "SOX10": 0.35,
+        "OLIG2": 0.3,
+        "LDLR": 0.3,
+        "CSPG4": -0.25
+      },
+      "curation_note": "Remyelination signal offset by a poor tolerability profile in trial.",
+      "target_family": "RXR_agonist"
+    },
+    {
+      "name": "Cholecalciferol",
+      "mechanism_class": "vitamin_D",
+      "primary_moa": "Vitamin D receptor immunomodulation",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "hypercalcemia"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "FOXP3": 0.4,
+        "IL10": 0.35,
+        "TGFB1": 0.3,
+        "IL17A": -0.3,
+        "IFNG": -0.25,
+        "RORC": -0.25
+      },
+      "curation_note": "Adjunct evidence; not established as monotherapy DMT.",
+      "target_family": "vitamin_D"
+    },
+    {
+      "name": "Cladribine",
+      "mechanism_class": "purine_antimetabolite",
+      "primary_moa": "Selective lymphocyte depletion",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.3,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "reconstitution",
+      "safety_classes": [
+        "broad_immunosuppression"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.4,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.9,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.4,
+        "MS4A1": -0.45,
+        "CD19": -0.4,
+        "CD40": -0.3,
+        "IFNG": -0.25,
+        "CXCL13": -0.3,
+        "CD27": -0.35
+      },
+      "curation_note": "",
+      "target_family": "purine_antimetabolite"
+    },
+    {
+      "name": "Clemastine",
+      "mechanism_class": "H1_antihistamine",
+      "primary_moa": "M1 muscarinic antagonism promoting OPC differentiation",
+      "evidence_tier": "phase_2",
+      "ms_indication": "remyelination",
+      "route": "oral",
+      "cns_penetration": 0.75,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "anticholinergic",
+        "sedation"
+      ],
+      "safety_burden": {
+        "infection": 0.05,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "remyelination"
+      ],
+      "target_effects": {
+        "MBP": 0.55,
+        "PLP1": 0.5,
+        "MAG": 0.4,
+        "CNP": 0.4,
+        "MYRF": 0.45,
+        "SOX10": 0.35,
+        "OLIG1": 0.35,
+        "OLIG2": 0.35,
+        "GPR17": -0.3
+      },
+      "curation_note": "",
+      "target_family": "muscarinic_OPC"
+    },
+    {
+      "name": "Clobetasol",
+      "mechanism_class": "corticosteroid_repurposed",
+      "primary_moa": "Repurposed glucocorticoid OPC signal",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "topical",
+      "cns_penetration": 0.35,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "remyelination",
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "glucocorticoid_class"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.85,
+      "pathways": [
+        "remyelination",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "remyelination",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MBP": 0.38,
+        "PLP1": 0.35,
+        "MYRF": 0.32,
+        "TNF": -0.3,
+        "IL1B": -0.28
+      },
+      "curation_note": "",
+      "target_family": "glucocorticoid"
+    },
+    {
+      "name": "Cyclophosphamide",
+      "mechanism_class": "alkylating_agent",
+      "primary_moa": "DNA alkylation, broad lymphoablation",
+      "evidence_tier": "approved",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.25,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "urotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.8,
+        "malignancy": 0.8,
+        "cardiac": 0.3,
+        "hepatic": 0.0,
+        "teratogenicity": 0.95,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.45,
+        "MS4A1": -0.45,
+        "CD19": -0.4,
+        "IFNG": -0.4,
+        "IL17A": -0.35,
+        "CASP3": 0.3
+      },
+      "curation_note": "High-burden rescue therapy; useful as a safety-penalty stress test.",
+      "target_family": "alkylating_agent"
+    },
+    {
+      "name": "Daclizumab",
+      "mechanism_class": "CD25_antagonist",
+      "primary_moa": "Anti-CD25 (IL-2R alpha) modulation",
+      "evidence_tier": "approved",
+      "ms_indication": "withdrawn",
+      "route": "subcutaneous",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "hepatotoxicity",
+        "autoimmune_encephalitis"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.9,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.95,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.9,
+        "IFNG": -0.3,
+        "IL17A": -0.3,
+        "FOXP3": -0.25
+      },
+      "curation_note": "Withdrawn worldwide for fatal immune hepatitis/encephalitis. Retained as a safety-penalty positive control: any ranking that promotes it is wrong.",
+      "target_family": "CD25_antagonist"
+    },
+    {
+      "name": "Dimethyl fumarate",
+      "mechanism_class": "Nrf2_activator",
+      "primary_moa": "Nrf2 pathway activation, immune shift",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "lymphopenia",
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "oxidative_stress",
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "oxidative_stress",
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "NFE2L2": 0.75,
+        "HMOX1": 0.7,
+        "NQO1": 0.65,
+        "GPX1": 0.4,
+        "GSR": 0.4,
+        "TNF": -0.35,
+        "IL1B": -0.3,
+        "NOS2": -0.4,
+        "IL17A": -0.3,
+        "IL10": 0.3
+      },
+      "curation_note": "",
+      "target_family": "Nrf2_activation"
+    },
+    {
+      "name": "Diroximel fumarate",
+      "mechanism_class": "Nrf2_activator",
+      "primary_moa": "Nrf2 activation, improved GI tolerability",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "lymphopenia"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.25,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "oxidative_stress",
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "oxidative_stress",
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "NFE2L2": 0.72,
+        "HMOX1": 0.68,
+        "NQO1": 0.62,
+        "GPX1": 0.38,
+        "TNF": -0.32,
+        "IL1B": -0.28,
+        "NOS2": -0.38,
+        "IL17A": -0.28
+      },
+      "curation_note": "",
+      "target_family": "Nrf2_activation"
+    },
+    {
+      "name": "Eculizumab",
+      "mechanism_class": "complement_C5_inhibitor",
+      "primary_moa": "Terminal complement C5 blockade",
+      "evidence_tier": "preclinical",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "complement_blockade",
+        "meningococcal_risk"
+      ],
+      "safety_burden": {
+        "infection": 0.85,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "C5": -0.9,
+        "C3": -0.3,
+        "C1QA": -0.2,
+        "CFH": 0.2
+      },
+      "curation_note": "",
+      "target_family": "complement_C5_inhibitor"
+    },
+    {
+      "name": "Elezanumab",
+      "mechanism_class": "anti_RGMa",
+      "primary_moa": "Anti-RGMa neurorepair antibody",
+      "evidence_tier": "phase_2",
+      "ms_indication": "progressive_MS",
+      "route": "infusion",
+      "cns_penetration": 0.2,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "biologic_immunogenicity"
+      ],
+      "safety_burden": {
+        "infection": 0.05,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NEFL": -0.35,
+        "MBP": 0.35,
+        "PLP1": 0.3,
+        "OLIG2": 0.3,
+        "BDNF": 0.35,
+        "NTRK2": 0.3,
+        "CASP3": -0.25
+      },
+      "curation_note": "",
+      "target_family": "anti_RGMa"
+    },
+    {
+      "name": "Epigallocatechin gallate",
+      "mechanism_class": "polyphenol_antioxidant",
+      "primary_moa": "Catechin antioxidant and immune modulation",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.45,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.45,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.75,
+      "pathways": [
+        "oxidative_stress",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "oxidative_stress",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NFE2L2": 0.4,
+        "HMOX1": 0.35,
+        "CAT": 0.3,
+        "SOD1": 0.3,
+        "TNF": -0.25,
+        "NEFL": -0.2
+      },
+      "curation_note": "",
+      "target_family": "polyphenol_antioxidant"
+    },
+    {
+      "name": "Evobrutinib",
+      "mechanism_class": "BTK_inhibitor",
+      "primary_moa": "Covalent BTK inhibitor",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.45,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "b_cell_modulation",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.3,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.55,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.4,
+      "pathways": [
+        "B_cell_immunity",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "BTK": -0.78,
+        "CD79A": -0.35,
+        "CD79B": -0.33,
+        "AIF1": -0.25,
+        "IL1B": -0.25
+      },
+      "curation_note": "Phase 3 did not meet its primary endpoint; retained as a mechanism control.",
+      "target_family": "BTK_inhibitor"
+    },
+    {
+      "name": "Fasudil",
+      "mechanism_class": "ROCK_inhibitor",
+      "primary_moa": "Rho-kinase inhibition, axonal outgrowth",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.5,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hypotension"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.3,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.75,
+      "pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "MBP": 0.35,
+        "PLP1": 0.3,
+        "OLIG2": 0.3,
+        "CSPG4": -0.35,
+        "NEFL": -0.25,
+        "BDNF": 0.25
+      },
+      "curation_note": "",
+      "target_family": "ROCK_inhibitor"
+    },
+    {
+      "name": "Fenebrutinib",
+      "mechanism_class": "BTK_inhibitor",
+      "primary_moa": "Non-covalent reversible BTK inhibitor",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.6,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "b_cell_modulation",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.35,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.5,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "B_cell_immunity",
+        "microglial_activation"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "microglial_activation"
+      ],
+      "target_effects": {
+        "BTK": -0.8,
+        "CD79A": -0.38,
+        "CD79B": -0.36,
+        "AIF1": -0.35,
+        "CD68": -0.32,
+        "IL1B": -0.3,
+        "TNF": -0.25
+      },
+      "curation_note": "",
+      "target_family": "BTK_inhibitor"
+    },
+    {
+      "name": "Fingolimod",
+      "mechanism_class": "S1P_modulator",
+      "primary_moa": "Non-selective S1P receptor modulator",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.6,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "s1p_modulation",
+        "bradyarrhythmia"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.0,
+        "cardiac": 0.6,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.5
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity",
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity",
+        "remyelination"
+      ],
+      "target_effects": {
+        "S1PR1": -0.8,
+        "S1PR5": -0.45,
+        "SELL": -0.45,
+        "IFNG": -0.3,
+        "IL17A": -0.35,
+        "CCL2": -0.25,
+        "MBP": 0.15,
+        "OLIG2": 0.1
+      },
+      "curation_note": "",
+      "target_family": "S1P_modulator"
+    },
+    {
+      "name": "Firategrast",
+      "mechanism_class": "alpha4_integrin_small_molecule",
+      "primary_moa": "Oral reversible alpha4 integrin antagonist",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.3,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "integrin_blockade"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "ITGA4": -0.7,
+        "ITGB1": -0.4,
+        "VCAM1": -0.35,
+        "MMP9": -0.25
+      },
+      "curation_note": "",
+      "target_family": "alpha4_integrin"
+    },
+    {
+      "name": "Frexalimab",
+      "mechanism_class": "CD40L_antagonist",
+      "primary_moa": "Anti-CD40L costimulation blockade",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.1,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "costimulation_blockade"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.4,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "CD40LG": -0.85,
+        "CD40": -0.7,
+        "CD27": -0.3,
+        "AICDA": -0.45,
+        "CXCL13": -0.35,
+        "IFNG": -0.3,
+        "IL17A": -0.25,
+        "POU2AF1": -0.3
+      },
+      "curation_note": "",
+      "target_family": "CD40L_antagonist"
+    },
+    {
+      "name": "Glatiramer acetate",
+      "mechanism_class": "immune_deviation",
+      "primary_moa": "Random copolymer; Th1->Th2 deviation",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "subcutaneous",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "injection_site"
+      ],
+      "safety_burden": {
+        "infection": 0.1,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IFNG": -0.35,
+        "IL17A": -0.25,
+        "TNF": -0.2,
+        "IL10": 0.55,
+        "TGFB1": 0.45,
+        "FOXP3": 0.4,
+        "TBX21": -0.3,
+        "BDNF": 0.3
+      },
+      "curation_note": "",
+      "target_family": "immune_deviation"
+    },
+    {
+      "name": "High-dose biotin",
+      "mechanism_class": "metabolic_cofactor",
+      "primary_moa": "Carboxylase cofactor, myelin lipid synthesis",
+      "evidence_tier": "phase_3",
+      "ms_indication": "progressive_MS",
+      "route": "oral",
+      "cns_penetration": 0.6,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "assay_interference"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.65,
+      "pathways": [
+        "metabolism",
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "remyelination"
+      ],
+      "target_effects": {
+        "PPARGC1A": 0.35,
+        "NDUFA1": 0.35,
+        "ATP5F1A": 0.35,
+        "SLC2A1": 0.3,
+        "MBP": 0.3,
+        "PLP1": 0.25
+      },
+      "curation_note": "Phase 3 (SPI2) was negative; retained as a metabolic mechanism control.",
+      "target_family": "metabolic_cofactor"
+    },
+    {
+      "name": "Hydroxychloroquine",
+      "mechanism_class": "lysosomotropic_agent",
+      "primary_moa": "TLR/lysosomal modulation of microglia",
+      "evidence_tier": "phase_2",
+      "ms_indication": "PPMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "cns_innate",
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "retinopathy",
+        "cardiac"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.3,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.6
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "TLR4": -0.55,
+        "AIF1": -0.4,
+        "CD68": -0.35,
+        "IL1B": -0.3,
+        "TNF": -0.25,
+        "NLRP3": -0.3
+      },
+      "curation_note": "",
+      "target_family": "lysosomotropic_agent"
+    },
+    {
+      "name": "Ibudilast",
+      "mechanism_class": "PDE_inhibitor",
+      "primary_moa": "PDE4/10 and MIF inhibition, glial modulation",
+      "evidence_tier": "phase_2",
+      "ms_indication": "progressive_MS",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.1,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.2,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "microglial_activation",
+        "innate_immunity",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "microglial_activation",
+        "innate_immunity",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "AIF1": -0.5,
+        "CD68": -0.45,
+        "TYROBP": -0.35,
+        "TNF": -0.4,
+        "IL1B": -0.4,
+        "NLRP3": -0.35,
+        "NEFL": -0.3,
+        "CASP3": -0.25,
+        "BDNF": 0.3
+      },
+      "curation_note": "",
+      "target_family": "PDE_inhibitor"
+    },
+    {
+      "name": "Idebenone",
+      "mechanism_class": "mitochondrial_agent",
+      "primary_moa": "Short-chain quinone, electron transport support",
+      "evidence_tier": "phase_2",
+      "ms_indication": "PPMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.15,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "metabolism",
+        "oxidative_stress",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "oxidative_stress",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NDUFA1": 0.45,
+        "ATP5F1A": 0.45,
+        "TFAM": 0.35,
+        "PPARGC1A": 0.35,
+        "SOD2": 0.3,
+        "NEFL": -0.25
+      },
+      "curation_note": "",
+      "target_family": "mitochondrial_agent"
+    },
+    {
+      "name": "Inebilizumab",
+      "mechanism_class": "CD19_depletion",
+      "primary_moa": "Anti-CD19 B and plasmablast depletion",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "b_cell_depletion",
+        "hypogammaglobulinemia"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.25,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "CD19": -0.9,
+        "MS4A1": -0.6,
+        "CD27": -0.6,
+        "POU2AF1": -0.55,
+        "AICDA": -0.45,
+        "CXCL13": -0.45,
+        "TNFSF13B": -0.25
+      },
+      "curation_note": "Approved in NMOSD, not MS; included for CD19-vs-CD20 mechanism contrast.",
+      "target_family": "CD20_CD19_B_depletion"
+    },
+    {
+      "name": "Interferon beta-1a",
+      "mechanism_class": "type_I_interferon",
+      "primary_moa": "Type I interferon immunomodulation",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "intramuscular",
+      "cns_penetration": 0.1,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "flu_like",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.15,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.5,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "IL17A": -0.35,
+        "IL23A": -0.3,
+        "IFNG": -0.25,
+        "IL10": 0.4,
+        "MMP9": -0.45,
+        "VCAM1": -0.25,
+        "CLDN5": 0.3,
+        "STAT1": 0.35,
+        "TNF": -0.2
+      },
+      "curation_note": "",
+      "target_family": "type_I_interferon"
+    },
+    {
+      "name": "Interferon beta-1b",
+      "mechanism_class": "type_I_interferon",
+      "primary_moa": "Type I interferon immunomodulation",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "subcutaneous",
+      "cns_penetration": 0.1,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "flu_like",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.15,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.5,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "IL17A": -0.33,
+        "IL23A": -0.28,
+        "IFNG": -0.25,
+        "IL10": 0.38,
+        "MMP9": -0.42,
+        "VCAM1": -0.25,
+        "CLDN5": 0.28,
+        "STAT1": 0.33
+      },
+      "curation_note": "",
+      "target_family": "type_I_interferon"
+    },
+    {
+      "name": "Lamotrigine",
+      "mechanism_class": "sodium_channel_blocker",
+      "primary_moa": "Voltage-gated sodium channel blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "rash_sjs"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.2,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NEFL": -0.35,
+        "NEFH": -0.3,
+        "CASP3": -0.25,
+        "GRIA1": -0.25
+      },
+      "curation_note": "Phase 2 in SPMS did not show benefit on the primary endpoint.",
+      "target_family": "sodium_channel"
+    },
+    {
+      "name": "Laquinimod",
+      "mechanism_class": "immunomodulator",
+      "primary_moa": "Aryl hydrocarbon receptor-linked immunomodulation",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.4,
+        "hepatic": 0.5,
+        "teratogenicity": 0.6,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "adaptive_immunity",
+        "microglial_activation",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "microglial_activation",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "AIF1": -0.4,
+        "CD68": -0.35,
+        "TNF": -0.3,
+        "IL17A": -0.3,
+        "IL10": 0.3,
+        "NEFL": -0.3,
+        "BDNF": 0.35,
+        "CASP3": -0.25
+      },
+      "curation_note": "Development halted at higher doses for cardiovascular findings.",
+      "target_family": "immunomodulator"
+    },
+    {
+      "name": "Masitinib",
+      "mechanism_class": "tyrosine_kinase_inhibitor",
+      "primary_moa": "c-Kit/CSF1R mast cell and microglial TKI",
+      "evidence_tier": "phase_3",
+      "ms_indication": "progressive_MS",
+      "route": "oral",
+      "cns_penetration": 0.5,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "cns_innate",
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "neutropenia",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.35,
+        "malignancy": 0.0,
+        "cardiac": 0.2,
+        "hepatic": 0.45,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "CSF1R": -0.65,
+        "AIF1": -0.4,
+        "CD68": -0.4,
+        "TYROBP": -0.35,
+        "TNF": -0.3,
+        "IL1B": -0.28,
+        "ITGAM": -0.3
+      },
+      "curation_note": "",
+      "target_family": "tyrosine_kinase_inhibitor"
+    },
+    {
+      "name": "Memantine",
+      "mechanism_class": "NMDA_antagonist",
+      "primary_moa": "Uncompetitive NMDA receptor antagonism",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.75,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "cns_adverse_effects"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "GRIN1": -0.7,
+        "GRIA1": -0.35,
+        "CASP3": -0.25,
+        "NEFL": -0.25
+      },
+      "curation_note": "",
+      "target_family": "NMDA_antagonist"
+    },
+    {
+      "name": "Metformin",
+      "mechanism_class": "AMPK_activator",
+      "primary_moa": "AMPK activation, metabolic reprogramming",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "gi_intolerance",
+        "lactic_acidosis"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.1,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "metabolism",
+        "remyelination",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "remyelination",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "PRKAA1": 0.75,
+        "MTOR": -0.5,
+        "PPARGC1A": 0.45,
+        "TFAM": 0.35,
+        "SIRT1": 0.4,
+        "IL17A": -0.25,
+        "FOXP3": 0.3,
+        "MBP": 0.25,
+        "OLIG2": 0.25
+      },
+      "curation_note": "",
+      "target_family": "AMPK_activator"
+    },
+    {
+      "name": "Methotrexate",
+      "mechanism_class": "DHFR_inhibitor",
+      "primary_moa": "Dihydrofolate reductase inhibition",
+      "evidence_tier": "approved",
+      "ms_indication": "off_label",
+      "route": "oral",
+      "cns_penetration": 0.2,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.6,
+        "teratogenicity": 0.95,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "IFNG": -0.3,
+        "IL17A": -0.28,
+        "TNF": -0.3,
+        "IL2RA": -0.25,
+        "IL6": -0.25
+      },
+      "curation_note": "",
+      "target_family": "DHFR_inhibitor"
+    },
+    {
+      "name": "Methylprednisolone",
+      "mechanism_class": "corticosteroid",
+      "primary_moa": "High-dose glucocorticoid for relapse",
+      "evidence_tier": "approved",
+      "ms_indication": "relapse_treatment",
+      "route": "infusion",
+      "cns_penetration": 0.6,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "glucocorticoid_class",
+        "hyperglycemia"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.0,
+        "cardiac": 0.2,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "TNF": -0.5,
+        "IL1B": -0.5,
+        "IL6": -0.5,
+        "IFNG": -0.4,
+        "IL17A": -0.35,
+        "MMP9": -0.45,
+        "CLDN5": 0.35,
+        "ICAM1": -0.35,
+        "VCAM1": -0.3,
+        "IL10": 0.3
+      },
+      "curation_note": "Relapse rescue only; not a disease-modifying maintenance therapy.",
+      "target_family": "glucocorticoid"
+    },
+    {
+      "name": "Miconazole",
+      "mechanism_class": "antifungal_repurposed",
+      "primary_moa": "Repurposed OPC differentiation enhancer",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "topical",
+      "cns_penetration": 0.3,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.85,
+      "pathways": [
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "remyelination"
+      ],
+      "target_effects": {
+        "MBP": 0.4,
+        "PLP1": 0.38,
+        "MYRF": 0.35,
+        "OLIG1": 0.3,
+        "SOX10": 0.3
+      },
+      "curation_note": "Systemic exposure and CNS delivery are unresolved barriers.",
+      "target_family": "antifungal_repurposed"
+    },
+    {
+      "name": "Minocycline",
+      "mechanism_class": "tetracycline_microglial",
+      "primary_moa": "Microglial deactivation, MMP inhibition",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "photosensitivity",
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.1,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.25,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.3,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "microglial_activation",
+        "blood_brain_barrier",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "microglial_activation",
+        "blood_brain_barrier",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "AIF1": -0.55,
+        "CD68": -0.5,
+        "ITGAM": -0.4,
+        "MMP9": -0.6,
+        "TNF": -0.35,
+        "IL1B": -0.35,
+        "NOS2": -0.4,
+        "CASP3": -0.3,
+        "CLDN5": 0.25
+      },
+      "curation_note": "",
+      "target_family": "tetracycline_microglial"
+    },
+    {
+      "name": "Mitoxantrone",
+      "mechanism_class": "topoisomerase_inhibitor",
+      "primary_moa": "Type II topoisomerase inhibition",
+      "evidence_tier": "approved",
+      "ms_indication": "SPMS",
+      "route": "infusion",
+      "cns_penetration": 0.2,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "cardiotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.8,
+        "cardiac": 0.9,
+        "hepatic": 0.0,
+        "teratogenicity": 0.8,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.4,
+        "MS4A1": -0.4,
+        "IFNG": -0.35,
+        "TNF": -0.3,
+        "CD40": -0.25,
+        "CASP3": 0.3
+      },
+      "curation_note": "Cumulative-dose-limited; retained mainly as a mechanistic anchor.",
+      "target_family": "topoisomerase_inhibitor"
+    },
+    {
+      "name": "Mycophenolate mofetil",
+      "mechanism_class": "IMPDH_inhibitor",
+      "primary_moa": "Inosine monophosphate dehydrogenase inhibition",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "oral",
+      "cns_penetration": 0.2,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.3,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.9,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "B_cell_immunity"
+      ],
+      "target_effects": {
+        "IL2RA": -0.4,
+        "MS4A1": -0.35,
+        "CD19": -0.3,
+        "IFNG": -0.3,
+        "IL17A": -0.28
+      },
+      "curation_note": "",
+      "target_family": "IMPDH_inhibitor"
+    },
+    {
+      "name": "Natalizumab",
+      "mechanism_class": "alpha4_integrin_antibody",
+      "primary_moa": "Anti-VLA-4 blockade of CNS entry",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "pml_risk",
+        "infusion_reaction"
+      ],
+      "safety_burden": {
+        "infection": 0.9,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.2,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.2,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "ITGA4": -0.9,
+        "ITGB1": -0.55,
+        "VCAM1": -0.5,
+        "ICAM1": -0.3,
+        "MMP9": -0.35,
+        "CCL2": -0.25,
+        "CXCL10": -0.3,
+        "CLDN5": 0.25
+      },
+      "curation_note": "PML risk drives the dominant safety burden, JCV-status dependent.",
+      "target_family": "alpha4_integrin"
+    },
+    {
+      "name": "Natalizumab-biosimilar",
+      "mechanism_class": "alpha4_integrin_antibody",
+      "primary_moa": "Biosimilar anti-VLA-4",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "pml_risk",
+        "infusion_reaction"
+      ],
+      "safety_burden": {
+        "infection": 0.9,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "ITGA4": -0.88,
+        "ITGB1": -0.54,
+        "VCAM1": -0.48,
+        "ICAM1": -0.29,
+        "MMP9": -0.34
+      },
+      "curation_note": "Mechanistic duplicate of natalizumab; acts as a positive control pair.",
+      "target_family": "alpha4_integrin"
+    },
+    {
+      "name": "Nicotinamide riboside",
+      "mechanism_class": "NAD_precursor",
+      "primary_moa": "NAD+ precursor supporting axonal metabolism",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.5,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.65,
+      "pathways": [
+        "metabolism",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "SIRT1": 0.55,
+        "PPARGC1A": 0.45,
+        "TFAM": 0.4,
+        "NDUFA1": 0.35,
+        "NEFL": -0.2
+      },
+      "curation_note": "",
+      "target_family": "NAD_precursor"
+    },
+    {
+      "name": "Ocrelizumab",
+      "mechanism_class": "CD20_depletion",
+      "primary_moa": "Anti-CD20 B-cell depletion",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS/PPMS",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "b_cell_depletion",
+        "hypogammaglobulinemia"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.3,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.2,
+      "pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MS4A1": -0.9,
+        "CD19": -0.75,
+        "CD27": -0.55,
+        "CXCL13": -0.55,
+        "CD79A": -0.6,
+        "CD79B": -0.58,
+        "POU2AF1": -0.5,
+        "AICDA": -0.4,
+        "CD40": -0.25
+      },
+      "curation_note": "",
+      "target_family": "CD20_CD19_B_depletion"
+    },
+    {
+      "name": "Ofatumumab",
+      "mechanism_class": "CD20_depletion",
+      "primary_moa": "Anti-CD20, subcutaneous self-administered",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "subcutaneous",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "b_cell_depletion",
+        "hypogammaglobulinemia"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.25,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.2,
+      "pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MS4A1": -0.88,
+        "CD19": -0.72,
+        "CD27": -0.52,
+        "CXCL13": -0.52,
+        "CD79A": -0.58,
+        "CD79B": -0.55,
+        "POU2AF1": -0.48,
+        "AICDA": -0.38
+      },
+      "curation_note": "",
+      "target_family": "CD20_CD19_B_depletion"
+    },
+    {
+      "name": "Opicinumab",
+      "mechanism_class": "anti_LINGO1",
+      "primary_moa": "Anti-LINGO-1 remyelination antibody",
+      "evidence_tier": "phase_2",
+      "ms_indication": "remyelination",
+      "route": "infusion",
+      "cns_penetration": 0.2,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "biologic_immunogenicity"
+      ],
+      "safety_burden": {
+        "infection": 0.05,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "remyelination",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "LINGO1": -0.85,
+        "MBP": 0.5,
+        "PLP1": 0.45,
+        "MAG": 0.4,
+        "MYRF": 0.45,
+        "OLIG1": 0.35,
+        "OLIG2": 0.35,
+        "SOX10": 0.3,
+        "NEFL": -0.2
+      },
+      "curation_note": "Phase 2 endpoints were not met; retained as a remyelination mechanism anchor.",
+      "target_family": "anti_LINGO1"
+    },
+    {
+      "name": "Orelabrutinib",
+      "mechanism_class": "BTK_inhibitor",
+      "primary_moa": "Covalent BTK inhibitor",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.55,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "b_cell_modulation"
+      ],
+      "safety_burden": {
+        "infection": 0.3,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.4,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "B_cell_immunity",
+        "microglial_activation"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "microglial_activation"
+      ],
+      "target_effects": {
+        "BTK": -0.78,
+        "CD79A": -0.35,
+        "AIF1": -0.3,
+        "CD68": -0.28,
+        "IL1B": -0.25
+      },
+      "curation_note": "",
+      "target_family": "BTK_inhibitor"
+    },
+    {
+      "name": "Oxcarbazepine",
+      "mechanism_class": "sodium_channel_blocker",
+      "primary_moa": "Sodium channel blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hyponatremia",
+        "rash_sjs"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.2,
+        "teratogenicity": 0.6,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NEFL": -0.33,
+        "NEFH": -0.3,
+        "GRIA1": -0.22
+      },
+      "curation_note": "",
+      "target_family": "sodium_channel"
+    },
+    {
+      "name": "Ozanimod",
+      "mechanism_class": "S1P_modulator",
+      "primary_moa": "S1P1/S1P5-selective modulator",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.5,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "s1p_modulation",
+        "bradyarrhythmia"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.3,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.35
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "S1PR1": -0.78,
+        "S1PR5": -0.5,
+        "SELL": -0.4,
+        "IFNG": -0.28,
+        "IL17A": -0.3
+      },
+      "curation_note": "",
+      "target_family": "S1P_modulator"
+    },
+    {
+      "name": "Peginterferon beta-1a",
+      "mechanism_class": "type_I_interferon",
+      "primary_moa": "Pegylated type I interferon",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "subcutaneous",
+      "cns_penetration": 0.1,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "flu_like",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.15,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.45,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.3,
+      "pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "blood_brain_barrier"
+      ],
+      "target_effects": {
+        "IL17A": -0.34,
+        "IL23A": -0.29,
+        "IFNG": -0.25,
+        "IL10": 0.39,
+        "MMP9": -0.43,
+        "CLDN5": 0.29,
+        "STAT1": 0.34
+      },
+      "curation_note": "",
+      "target_family": "type_I_interferon"
+    },
+    {
+      "name": "Phenytoin",
+      "mechanism_class": "sodium_channel_blocker",
+      "primary_moa": "Sodium channel blockade, axonal protection",
+      "evidence_tier": "phase_2",
+      "ms_indication": "optic_neuritis",
+      "route": "oral",
+      "cns_penetration": 0.7,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "rash_sjs",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.4,
+        "teratogenicity": 0.8,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "NEFL": -0.35,
+        "NEFH": -0.32,
+        "CASP3": -0.22
+      },
+      "curation_note": "",
+      "target_family": "sodium_channel"
+    },
+    {
+      "name": "Pioglitazone",
+      "mechanism_class": "PPARG_agonist",
+      "primary_moa": "PPAR-gamma agonism, metabolic and glial effects",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "cns_innate"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "fluid_retention",
+        "fracture_risk"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.2,
+        "cardiac": 0.4,
+        "hepatic": 0.25,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "metabolism",
+        "microglial_activation"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "microglial_activation"
+      ],
+      "target_effects": {
+        "PPARGC1A": 0.4,
+        "PRKAA1": 0.3,
+        "AIF1": -0.35,
+        "CD68": -0.3,
+        "TNF": -0.3,
+        "IL1B": -0.28,
+        "NOS2": -0.3
+      },
+      "curation_note": "",
+      "target_family": "PPARG_agonist"
+    },
+    {
+      "name": "Ponesimod",
+      "mechanism_class": "S1P_modulator",
+      "primary_moa": "S1P1-selective modulator, rapid reversibility",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.45,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "s1p_modulation",
+        "bradyarrhythmia"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.3,
+        "hepatic": 0.25,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "S1PR1": -0.82,
+        "SELL": -0.42,
+        "IFNG": -0.28,
+        "IL17A": -0.28
+      },
+      "curation_note": "",
+      "target_family": "S1P_modulator"
+    },
+    {
+      "name": "Quetiapine",
+      "mechanism_class": "atypical_antipsychotic",
+      "primary_moa": "Repurposed OPC differentiation signal",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.75,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "sedation",
+        "metabolic_syndrome"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.3,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.8,
+      "pathways": [
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "remyelination"
+      ],
+      "target_effects": {
+        "MBP": 0.4,
+        "PLP1": 0.35,
+        "CNP": 0.3,
+        "OLIG1": 0.3,
+        "SOX10": 0.25
+      },
+      "curation_note": "Rodent remyelination signal only; sedation limits translatability.",
+      "target_family": "atypical_antipsychotic"
+    },
+    {
+      "name": "Remibrutinib",
+      "mechanism_class": "BTK_inhibitor",
+      "primary_moa": "Covalent BTK inhibitor",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.5,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "b_cell_modulation",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.3,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.45,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "B_cell_immunity",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "BTK": -0.8,
+        "CD79A": -0.36,
+        "CD79B": -0.34,
+        "IL1B": -0.25,
+        "TNF": -0.22
+      },
+      "curation_note": "",
+      "target_family": "BTK_inhibitor"
+    },
+    {
+      "name": "Resveratrol",
+      "mechanism_class": "SIRT1_activator",
+      "primary_moa": "Sirtuin activation, antioxidant signalling",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "gi_intolerance"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.75,
+      "pathways": [
+        "metabolism",
+        "oxidative_stress"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "oxidative_stress"
+      ],
+      "target_effects": {
+        "SIRT1": 0.6,
+        "NFE2L2": 0.4,
+        "PPARGC1A": 0.35,
+        "TNF": -0.25,
+        "IL1B": -0.22
+      },
+      "curation_note": "Preclinical MS evidence is mixed, including reports of harm in EAE.",
+      "target_family": "SIRT1_activator"
+    },
+    {
+      "name": "Riluzole",
+      "mechanism_class": "glutamate_modulator",
+      "primary_moa": "Glutamate release inhibition, Na channel block",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.65,
+      "compartment": "cns",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.5,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "GRIN1": -0.55,
+        "GRIA1": -0.5,
+        "NEFL": -0.3,
+        "CASP3": -0.3,
+        "BAX": -0.25,
+        "BCL2": 0.25
+      },
+      "curation_note": "",
+      "target_family": "glutamate_modulator"
+    },
+    {
+      "name": "Rituximab",
+      "mechanism_class": "CD20_depletion",
+      "primary_moa": "Anti-CD20, off-label in MS",
+      "evidence_tier": "approved",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "b_cell_depletion",
+        "hypogammaglobulinemia"
+      ],
+      "safety_burden": {
+        "infection": 0.55,
+        "malignancy": 0.3,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MS4A1": -0.85,
+        "CD19": -0.7,
+        "CD27": -0.5,
+        "CXCL13": -0.5,
+        "CD79A": -0.55,
+        "CD79B": -0.52,
+        "POU2AF1": -0.45
+      },
+      "curation_note": "Widely used off-label; included for mechanism-class breadth.",
+      "target_family": "CD20_CD19_B_depletion"
+    },
+    {
+      "name": "Secukinumab",
+      "mechanism_class": "IL17A_antagonist",
+      "primary_moa": "Anti-IL-17A blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "subcutaneous",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "cytokine_blockade"
+      ],
+      "safety_burden": {
+        "infection": 0.35,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.5,
+      "pathways": [
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IL17A": -0.9,
+        "RORC": -0.35,
+        "IL23A": -0.25,
+        "CCR6": -0.3
+      },
+      "curation_note": "",
+      "target_family": "IL17A_antagonist"
+    },
+    {
+      "name": "Simvastatin",
+      "mechanism_class": "HMGCR_inhibitor",
+      "primary_moa": "HMG-CoA reductase inhibition",
+      "evidence_tier": "phase_3",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.35,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "myopathy"
+      ],
+      "safety_burden": {
+        "infection": 0.0,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.3,
+        "teratogenicity": 0.6,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "metabolism",
+        "neuroprotection",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "neuroprotection",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "HMGCR": -0.8,
+        "LDLR": -0.4,
+        "TNF": -0.25,
+        "IL1B": -0.22,
+        "NEFL": -0.3,
+        "MTOR": -0.2,
+        "NOS2": -0.25
+      },
+      "curation_note": "",
+      "target_family": "HMGCR_inhibitor"
+    },
+    {
+      "name": "Siponimod",
+      "mechanism_class": "S1P_modulator",
+      "primary_moa": "S1P1/S1P5 modulator with CNS activity",
+      "evidence_tier": "approved",
+      "ms_indication": "SPMS",
+      "route": "oral",
+      "cns_penetration": 0.65,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "s1p_modulation",
+        "bradyarrhythmia"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.2,
+        "cardiac": 0.4,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.35
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "lymphocyte_trafficking",
+        "microglial_activation",
+        "remyelination",
+        "neuroprotection"
+      ],
+      "relevant_pathways": [
+        "lymphocyte_trafficking",
+        "microglial_activation",
+        "remyelination",
+        "neuroprotection"
+      ],
+      "target_effects": {
+        "S1PR1": -0.75,
+        "S1PR5": -0.6,
+        "SELL": -0.4,
+        "AIF1": -0.3,
+        "CD68": -0.3,
+        "IL17A": -0.3,
+        "MBP": 0.25,
+        "PLP1": 0.2,
+        "OLIG2": 0.2,
+        "NEFL": -0.25
+      },
+      "curation_note": "",
+      "target_family": "S1P_modulator"
+    },
+    {
+      "name": "Sirolimus",
+      "mechanism_class": "mTOR_inhibitor",
+      "primary_moa": "mTORC1 inhibition, Treg expansion",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "oral",
+      "cns_penetration": 0.35,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "metabolic"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.2,
+        "cardiac": 0.0,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.55,
+      "pathways": [
+        "metabolism",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "metabolism",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MTOR": -0.85,
+        "FOXP3": 0.45,
+        "IL17A": -0.35,
+        "RORC": -0.35,
+        "IFNG": -0.25,
+        "PRKAA1": 0.25
+      },
+      "curation_note": "",
+      "target_family": "mTOR_inhibitor"
+    },
+    {
+      "name": "Temelimab",
+      "mechanism_class": "anti_HERV_W",
+      "primary_moa": "Anti-HERV-W envelope monoclonal antibody",
+      "evidence_tier": "phase_2",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.15,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "cns_innate",
+        "remyelination"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "biologic_immunogenicity"
+      ],
+      "safety_burden": {
+        "infection": 0.1,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "microglial_activation",
+        "remyelination"
+      ],
+      "relevant_pathways": [
+        "microglial_activation",
+        "remyelination"
+      ],
+      "target_effects": {
+        "TLR4": -0.55,
+        "AIF1": -0.35,
+        "CD68": -0.3,
+        "TNF": -0.25,
+        "MBP": 0.3,
+        "PLP1": 0.25,
+        "OLIG2": 0.25,
+        "CSPG4": -0.25
+      },
+      "curation_note": "Targets a putative viral driver; efficacy evidence remains preliminary.",
+      "target_family": "anti_HERV_W"
+    },
+    {
+      "name": "Teriflunomide",
+      "mechanism_class": "DHODH_inhibitor",
+      "primary_moa": "Pyrimidine synthesis blockade",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "hepatotoxicity",
+        "teratogen"
+      ],
+      "safety_burden": {
+        "infection": 0.3,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.6,
+        "teratogenicity": 0.95,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "DHODH": -0.85,
+        "IFNG": -0.3,
+        "IL17A": -0.3,
+        "IL2RA": -0.3,
+        "TNF": -0.2,
+        "MTOR": -0.2,
+        "TBX21": -0.25
+      },
+      "curation_note": "",
+      "target_family": "DHODH"
+    },
+    {
+      "name": "Tocilizumab",
+      "mechanism_class": "IL6R_antagonist",
+      "primary_moa": "Anti-IL-6 receptor blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "infusion",
+      "cns_penetration": 0.1,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "cytokine_blockade",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.4,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "innate_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "innate_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IL6": -0.85,
+        "STAT3": -0.6,
+        "RORC": -0.4,
+        "IL17A": -0.4,
+        "TNF": -0.2,
+        "C3": -0.2
+      },
+      "curation_note": "",
+      "target_family": "IL6R_antagonist"
+    },
+    {
+      "name": "Tofacitinib",
+      "mechanism_class": "JAK_inhibitor",
+      "primary_moa": "JAK1/3 inhibition",
+      "evidence_tier": "preclinical",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "broad_immunosuppression",
+        "thrombosis"
+      ],
+      "safety_burden": {
+        "infection": 0.6,
+        "malignancy": 0.4,
+        "cardiac": 0.4,
+        "hepatic": 0.3,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.6,
+      "pathways": [
+        "adaptive_immunity",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "STAT1": -0.55,
+        "STAT3": -0.55,
+        "STAT4": -0.5,
+        "IFNG": -0.45,
+        "IL17A": -0.4,
+        "IL23A": -0.35,
+        "IL6": -0.3,
+        "IL2RA": -0.35
+      },
+      "curation_note": "",
+      "target_family": "JAK"
+    },
+    {
+      "name": "Tolebrutinib",
+      "mechanism_class": "BTK_inhibitor",
+      "primary_moa": "CNS-penetrant covalent BTK inhibitor",
+      "evidence_tier": "phase_3",
+      "ms_indication": "SPMS/nrSPMS",
+      "route": "oral",
+      "cns_penetration": 0.8,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "half_life_class": "short",
+      "safety_classes": [
+        "b_cell_modulation",
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.35,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.7,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.35,
+      "pathways": [
+        "B_cell_immunity",
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "microglial_activation",
+        "innate_immunity"
+      ],
+      "target_effects": {
+        "BTK": -0.85,
+        "CD79A": -0.4,
+        "CD79B": -0.38,
+        "MS4A1": -0.2,
+        "AIF1": -0.45,
+        "CD68": -0.4,
+        "TYROBP": -0.35,
+        "IL1B": -0.35,
+        "TNF": -0.3,
+        "NLRP3": -0.3
+      },
+      "curation_note": "CNS penetration is the differentiating claim; hepatic signal is dose-limiting.",
+      "target_family": "BTK_inhibitor"
+    },
+    {
+      "name": "Ublituximab",
+      "mechanism_class": "CD20_depletion",
+      "primary_moa": "Glycoengineered anti-CD20",
+      "evidence_tier": "approved",
+      "ms_indication": "RRMS",
+      "route": "infusion",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "b_cell_depletion",
+        "hypogammaglobulinemia"
+      ],
+      "safety_burden": {
+        "infection": 0.5,
+        "malignancy": 0.25,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.25,
+      "pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "B_cell_immunity",
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "MS4A1": -0.9,
+        "CD19": -0.74,
+        "CD27": -0.54,
+        "CXCL13": -0.53,
+        "CD79A": -0.59,
+        "CD79B": -0.56,
+        "POU2AF1": -0.49
+      },
+      "curation_note": "",
+      "target_family": "CD20_CD19_B_depletion"
+    },
+    {
+      "name": "Ustekinumab",
+      "mechanism_class": "IL12_IL23_antagonist",
+      "primary_moa": "Anti-p40 IL-12/IL-23 blockade",
+      "evidence_tier": "phase_2",
+      "ms_indication": "off_label",
+      "route": "subcutaneous",
+      "cns_penetration": 0.05,
+      "compartment": "peripheral",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "half_life_class": "long",
+      "safety_classes": [
+        "cytokine_blockade"
+      ],
+      "safety_burden": {
+        "infection": 0.4,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.0,
+        "teratogenicity": 0.0,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.45,
+      "pathways": [
+        "adaptive_immunity"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity"
+      ],
+      "target_effects": {
+        "IL12B": -0.85,
+        "IL23A": -0.7,
+        "IL17A": -0.45,
+        "RORC": -0.4,
+        "IFNG": -0.35,
+        "TBX21": -0.3
+      },
+      "curation_note": "Phase 2 in MS was negative; a valuable negative mechanistic control.",
+      "target_family": "IL12_IL23_antagonist"
+    },
+    {
+      "name": "Vidofludimus calcium",
+      "mechanism_class": "DHODH_inhibitor",
+      "primary_moa": "Second-generation DHODH inhibitor",
+      "evidence_tier": "phase_3",
+      "ms_indication": "RRMS",
+      "route": "oral",
+      "cns_penetration": 0.4,
+      "compartment": "both",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "metabolic_repair"
+      ],
+      "half_life_class": "intermediate",
+      "safety_classes": [
+        "hepatotoxicity"
+      ],
+      "safety_burden": {
+        "infection": 0.25,
+        "malignancy": 0.0,
+        "cardiac": 0.0,
+        "hepatic": 0.35,
+        "teratogenicity": 0.7,
+        "autoimmunity": 0.0,
+        "ocular": 0.0
+      },
+      "target_uncertainty": 0.4,
+      "pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "relevant_pathways": [
+        "adaptive_immunity",
+        "metabolism"
+      ],
+      "target_effects": {
+        "DHODH": -0.8,
+        "IL17A": -0.35,
+        "IFNG": -0.3,
+        "RORC": -0.3,
+        "TNF": -0.2
+      },
+      "curation_note": "",
+      "target_family": "DHODH"
+    }
+  ]
+}

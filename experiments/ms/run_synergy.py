@@ -5,6 +5,7 @@ from core.biology.disease_state import DiseaseStateModel
 from core.biology.system_distance import system_distance
 from core.chemistry.drug_effects import DrugModel
 from core.probability.bayesian_success import BayesianSuccessModel
+from core.drugs.chembl_loader import fetch_drugs_for_targets
 
 # ---------------------------
 # 1. MS Protein Set
@@ -25,43 +26,13 @@ MS_PROTEINS = [
 # ---------------------------
 # 2. Drug Panel (same as Day 6)
 # ---------------------------
-DRUG_PANEL = [
-    DrugModel(
-        name="Fingolimod",
-        targets={
-            "IFNG": 0.6,
-            "TNF": 0.7,
-            "STAT3": 0.75,
-            "CXCL10": 0.65,
-            "VCAM1": 0.8
-        }
-    ),
-    DrugModel(
-        name="Dimethyl Fumarate",
-        targets={
-            "TNF": 0.75,
-            "STAT3": 0.8,
-            "IFNG": 0.7,
-            "CD40": 0.85
-        }
-    ),
-    DrugModel(
-        name="Natalizumab",
-        targets={
-            "VCAM1": 0.5,
-            "CXCL10": 0.7,
-            "IL2RA": 0.8
-        }
-    ),
-    DrugModel(
-        name="Interferon-beta",
-        targets={
-            "IFNG": 0.85,
-            "STAT3": 0.9,
-            "CXCL10": 0.9
-        }
-    )
-]
+
+TARGETS = ["IFNG", "TNF", "STAT3", "CXCL10", "VCAM1", "CD40", "IL2RA"]
+
+DRUG_PANEL = fetch_drugs_for_targets(
+    targets=TARGETS,
+    max_drugs=50
+)
 
 # ---------------------------
 # 3. Build System

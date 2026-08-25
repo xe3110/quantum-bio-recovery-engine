@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantum-bio-recovery-engine"
+version = "0.1.0"
+description = "Hybrid quantum–biological optimization framework for therapeutic combination discovery"
+authors = [
+  { name = "Rishabh Kumar" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["."]

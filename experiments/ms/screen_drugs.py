@@ -1,118 +1,106 @@
+import argparse
 from core.biology.ppi_network import PPINetworkBuilder
 from core.biology.disease_state import DiseaseStateModel
-from core.biology.system_distance import system_distance
-from core.chemistry.drug_effects import DrugModel
-from core.probability.bayesian_success import BayesianSuccessModel
+from core.drugs.chembl_loader import fetch_drugs_for_targets
+from core.biology.target_loader import load_targets
 
-# ---------------------------
-# 1. MS Protein Set
-# ---------------------------
-MS_PROTEINS = [
-    "IL2RA",
-    "HLA-DRB1",
-    "MBP",
-    "TNF",
-    "IFNG",
-    "CXCL10",
-    "CD40",
-    "STAT3",
-    "MOG",
-    "VCAM1"
-]
-
-# ---------------------------
-# 2. Drug Panel
-# ---------------------------
-DRUG_PANEL = [
-    DrugModel(
-        name="Fingolimod",
-        targets={
-            "IFNG": 0.6,
-            "TNF": 0.7,
-            "STAT3": 0.75,
-            "CXCL10": 0.65,
-            "VCAM1": 0.8
-        }
-    ),
-    DrugModel(
-        name="Dimethyl Fumarate",
-        targets={
-            "TNF": 0.75,
-            "STAT3": 0.8,
-            "IFNG": 0.7,
-            "CD40": 0.85
-        }
-    ),
-    DrugModel(
-        name="Natalizumab",
-        targets={
-            "VCAM1": 0.5,
-            "CXCL10": 0.7,
-            "IL2RA": 0.8
-        }
-    ),
-    DrugModel(
-        name="Interferon-beta",
-        targets={
-            "IFNG": 0.85,
-            "STAT3": 0.9,
-            "CXCL10": 0.9
-        }
-    )
-]
-
-# ---------------------------
-# 3. Build System
-# ---------------------------
-print("\nBuilding MS System...")
-builder = PPINetworkBuilder(score_threshold=0.7)
-graph = builder.build_graph(MS_PROTEINS)
-
-model = DiseaseStateModel()
-expr = model.load_expression_data("data/ms_expression.csv")
-
-healthy, diseased = model.build_state_vector(graph, expr)
-baseline_distance = system_distance(healthy, diseased, graph)
-
-bayes = BayesianSuccessModel(prior_success=2, prior_failure=2)
-
-# ---------------------------
-# 4. Screen Drugs
-# ---------------------------
-results = []
-
-for drug in DRUG_PANEL:
-    post_state = drug.apply(diseased)
-    post_distance = system_distance(healthy, post_state, graph)
-
-    recovery_score = baseline_distance - post_distance
-
-    alpha, beta_param = bayes.update(
-        recovery_score=recovery_score,
-        trials=50,
-        noise=0.1
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Quantum Bio Recovery Engine — Drug Screening CLI"
     )
 
-    prob = bayes.probability(alpha, beta_param)
-
-    results.append({
-        "Drug": drug.name,
-        "RecoveryScore": round(recovery_score, 3),
-        "MeanProbability": round(prob["mean"], 3),
-        "CI_Low": round(prob["ci_low"], 3),
-        "CI_High": round(prob["ci_high"], 3)
-    })
-
-# ---------------------------
-# 5. Rank & Display
-# ---------------------------
-results = sorted(results, key=lambda x: x["MeanProbability"], reverse=True)
-
-print("\n=== MS Drug Screening Results ===")
-for i, r in enumerate(results, 1):
-    print(
-        f"{i}. {r['Drug']:20} | "
-        f"Recovery: {r['RecoveryScore']:>6} | "
-        f"P(Success): {r['MeanProbability']} "
-        f"[{r['CI_Low']}, {r['CI_High']}]"
+    parser.add_argument(
+        "--disease",
+        type=str,
+        default="ms",
+        help="Disease name (loads data/seeds/<disease>_drugs.json)"
     )
+
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default="therapeutic",
+        choices=["binding", "therapeutic"],
+        help="Drug discovery mode"
+    )
+
+    parser.add_argument(
+        "--max-drugs",
+        type=int,
+        default=50,
+        help="Maximum number of drugs to screen"
+    )
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    print("\nBuilding Disease System...")
+    print(f"Disease: {args.disease}")
+    print(f"Mode: {args.mode}")
+    print(f"Max Drugs: {args.max_drugs}\n")
+
+    TARGETS = load_targets(args.disease)
+
+    if not TARGETS:
+        print("❌ No disease targets found. Add data/targets/<disease>.json")
+        return
+
+    # ----------------------------
+    # Build PPI Network
+    # ----------------------------
+    builder = PPINetworkBuilder()
+    G = builder.build_graph(TARGETS)
+
+    print(f"\nPPI Network Loaded: {len(G.nodes)} nodes, {len(G.edges)} edges\n")
+
+    # ----------------------------
+    # Disease State Model
+    # ----------------------------
+    disease_model = DiseaseStateModel(G)
+    healthy = disease_model.healthy_state()
+    diseased = disease_model.diseased_state()
+
+    # ----------------------------
+    # Load Drug Panel
+    # ----------------------------
+    DRUG_PANEL = fetch_drugs_for_targets(
+        targets=TARGETS,
+        disease=args.disease,
+        max_drugs=args.max_drugs,
+        mode=args.mode
+    )
+
+    # ----------------------------
+    # Screen Drugs
+    # ----------------------------
+    print("\n=== Drug Screening Results ===\n")
+
+    results = []
+    for drug in DRUG_PANEL:
+        post_state = drug.apply(diseased, graph=disease_model.graph)
+        recovery = disease_model.directional_recovery(
+            healthy,
+            diseased,
+            post_state
+        )
+        prob, ci = disease_model.success_probability(recovery)
+
+        results.append((drug.name, recovery, prob, ci))
+
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    for i, (name, recovery, prob, ci) in enumerate(results[:10], 1):
+        print(
+            f"{i:2d}. {name:25s} | "
+            f"Recovery: {recovery:0.3f} | "
+            f"P(Success): {prob:0.3f} {ci}"
+        )
+
+    print("\nDone.\n")
+
+
+if __name__ == "__main__":
+    main()

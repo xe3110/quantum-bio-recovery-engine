@@ -1,3 +1,13 @@
+Metadata-Version: 2.4
+Name: quantum-bio-recovery-engine
+Version: 0.1.0
+Summary: Hybrid quantum–biological optimization framework for therapeutic combination discovery
+Author: Rishabh Kumar
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
 # Quantum Bio Recovery Engine
 
 *A hybrid quantum–classical framework for modeling disease networks, simulating drug perturbations, and optimizing high-order therapeutic combinations using Hamiltonian-based optimization and scaling benchmarks.*
@@ -40,13 +50,10 @@ Scaling & Hardness Benchmarking
 ```
 quantum-bio-recovery-engine/
 ├── core/ # Biology, optimization, and Hamiltonian modules
-│ └── biology/ # Signature scoring, network proximity, screen statistics
 ├── experiments/
 │ ├── ms/ # Disease-specific experiments (e.g., Multiple Sclerosis)
 │ └── benchmarks/ # Scaling and hardness benchmarks
-├── tools/ # Input curation and external-database fetchers
-├── tests/ # Behavioural tests for the screen
-├── data/ # Curated panels, signatures, and the cached interactome
+├── data/ # Synthetic and experimental datasets
 ├── figures/ # Generated plots and benchmark figures
 ├── lab_journal/ # Experimental logs and daily research notes
 ├── requirements.txt # Reproducible environment specification
@@ -96,38 +103,6 @@ figures/
 ├── fig_runtime.png
 └── fig_quality.png
 ```
-
-### MS combination-candidate screen
-
-A deterministic, multi-parameter, discovery-stage screen over **74 MS candidates**
-(2,701 pairs) against a **112-gene directional disease signature** and a cached
-**STRING v12 interactome**. It scores 20 parameters per pair spanning efficacy,
-pharmacology, network topology, evidence, and a 7-domain safety burden, then
-attaches permutation significance (BH-FDR), a weight-free Pareto front, bootstrap
-rank stability, and pre-declared positive/negative/safety controls.
-
-```bash
-python -m experiments.ms.run_extended_screen --top 30 --seed 7
-python -m experiments.ms.plot_screen
-pytest -q tests/
-```
-
-Outputs land in `experiments/ms/results/`: `ms_extended_screen.json` (full report
-with provenance) and `ms_pairs_full.csv` (every pair, every parameter, including
-the redundant pairs excluded from the primary ranking).
-
-**Read the mechanism strata, not the leaderboard.** Individual pair ranks are not
-stable under the curated target-effect uncertainty (top-30 bootstrap Jaccard
-≈ 0.25), and the runner warns when that is the case. Stratum-level ordering *is*
-stable, and it is the screen's defensible unit of inference.
-
-Regenerate the inputs with `python -m tools.curate_ms_panel_v3` (validates the
-panel against the signature) and `python -m tools.fetch_string_network`.
-
-See [the MS publication protocol](docs/ms_publication_protocol.md) for data
-provenance, every scoring assumption, the control design, and the validation work
-required for a manuscript. This is a hypothesis generator, not a clinical
-combination recommendation.
 
 ## Scientific Motivation
 

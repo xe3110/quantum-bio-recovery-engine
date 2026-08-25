@@ -1,0 +1,4 @@
+{
+  "disease": "parkinsons",
+  "drugs": ["Levodopa", "Pramipexole", "Ropinirole", "Selegiline"]
+}

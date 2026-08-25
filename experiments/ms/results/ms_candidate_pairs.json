@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "panel_version": "2026-08-25",
+    "purpose": "Mechanism-curated candidate panel for research prioritisation; not a prescribing or efficacy dataset.",
+    "schema": "target_effects are signed, unitless directional hypotheses in [-1,1], not affinities or doses.",
+    "sources": [
+      "PMID:39376160",
+      "PMID:39177889",
+      "PMID:38719481",
+      "PMID:38480630"
+    ],
+    "curation_rule": "Approved MS disease-modifying therapies plus selected phase 2/3 or preclinical mechanism-diverse candidates. Each record must be independently verified before use in a publication."
+  },
+  "config": {
+    "pathway_weight": 0.25,
+    "complementarity_weight": 0.2,
+    "evidence_weight": 0.15,
+    "uncertainty_penalty": 0.2,
+    "minimum_evidence": "phase_2"
+  },
+  "n_candidates": 210,
+  "primary_results": [
+    {
+      "drug_a": "Dimethyl fumarate",
+      "drug_b": "Natalizumab",
+      "priority_score": 0.5184,
+      "signed_reversal": 0.1134,
+      "gene_coverage": 0.288,
+      "pathway_coverage": 0.4,
+      "target_complementarity": 1.0,
+      "evidence_score": 1.0,
+      "uncertainty": 0.225,
+      "same_mechanism": false,
+      "shared_safety_class": false,
+      "excluded_from_primary_ranking": false,
+      "sensitivity_95ci": [
+        0.4773,
+        0.5689
+      ]
+    },
+    {
+      "drug_a": "Glatiramer acetate",
+      "drug_b": "Natalizumab",
+      "priority_score": 0.5165,
+      "signed_reversal": 0.1215,
+      "gene_coverage": 0.3403,
+      "pathway_coverage": 0.4,
+      "target_complementarity": 1.0,
+      "evidence_score": 1.0,
+      "uncertainty": 0.275,
+      "same_mechanism": false,
+      "shared_safety_class": false,
+      "excluded_from_primary_ranking": false,
+      "sensitivity_95ci": [
+        0.4629,
+        0.5909
+      ]
+    },
+    {
+      "drug_a": "Alemtuzumab",
+      "drug_b": "Natalizumab",
+      "priority_score": 0.5156,
+      "signed_reversal": 0.1356,
+      "gene_coverage": 0.3508,
+      "pathway_coverage": 0.3,
+      "target_complementarity": 1.0,
+      "evidence_score": 1.0,
+      "uncertainty": 0.225,
+      "same_mechanism": false,
+      "shared_safety_class": false,
+      "excluded_from_primary_ranking": false,
+      "sensitivity_95ci": [
+        0.4605,
+        0.579
+      ]
+    }
+  ]
+}

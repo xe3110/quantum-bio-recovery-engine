@@ -1,0 +1,14 @@
+{
+  "disease": "multiple_sclerosis",
+  "sources": ["FDA", "EMA", "DrugBank"],
+  "drugs": [
+    "Fingolimod",
+    "Natalizumab",
+    "Ocrelizumab",
+    "Alemtuzumab",
+    "Teriflunomide",
+    "Dimethyl fumarate",
+    "Cladribine",
+    "Siponimod"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "disease": "parkinsons",
+  "description": "Core dopaminergic neurodegeneration and mitochondrial dysfunction network",
+  "targets": [
+    "SNCA",
+    "LRRK2",
+    "PINK1",
+    "PRKN",
+    "TH",
+    "SLC6A3",
+    "DRD2",
+    "COMT",
+    "MAOB",
+    "GBA1",
+    "ATP13A2",
+    "DJ1"
+  ]
+}

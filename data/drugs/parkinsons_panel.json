@@ -1,0 +1,294 @@
+[
+  {
+    "name": "Levodopa",
+    "targets": {}
+  },
+  {
+    "name": "Pramipexole",
+    "targets": {}
+  },
+  {
+    "name": "Ropinirole",
+    "targets": {}
+  },
+  {
+    "name": "Selegiline",
+    "targets": {}
+  },
+  {
+    "name": "CALCDPWW",
+    "targets": {
+      "SNCA": 0.977
+    }
+  },
+  {
+    "name": "CHOLESTEROL",
+    "targets": {
+      "SNCA": 0.935
+    }
+  },
+  {
+    "name": "CONGO RED FREE ACID",
+    "targets": {
+      "SNCA": 0.703
+    }
+  },
+  {
+    "name": "PARAROSANILINE",
+    "targets": {
+      "SNCA": 0.112
+    }
+  },
+  {
+    "name": "GENTIAN VIOLET",
+    "targets": {
+      "SNCA": 0.868
+    }
+  },
+  {
+    "name": "PHENOTHIAZINE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "TPCK",
+    "targets": {
+      "SNCA": 0.058
+    }
+  },
+  {
+    "name": "SANGUINARIUM",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "CLOMIPHENE CITRATE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "TYRPHOSTIN A9",
+    "targets": {
+      "SNCA": 0.443
+    }
+  },
+  {
+    "name": "ISOVELLERAL",
+    "targets": {
+      "SNCA": 0.137
+    }
+  },
+  {
+    "name": "CLOMIPHENE",
+    "targets": {
+      "SNCA": 0.066
+    }
+  },
+  {
+    "name": "BENZBROMARONE",
+    "targets": {
+      "SNCA": 0.309
+    }
+  },
+  {
+    "name": "TAMOXIFEN CITRATE",
+    "targets": {
+      "SNCA": 0.053
+    }
+  },
+  {
+    "name": "AZARIBINE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "CALANOLIDE A",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "REV-5901",
+    "targets": {
+      "SNCA": 0.052
+    }
+  },
+  {
+    "name": "T091317",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "BIOCHANIN A, DIMETHYL ETHER",
+    "targets": {
+      "SNCA": 0.151
+    }
+  },
+  {
+    "name": "TRIADIMEFON",
+    "targets": {
+      "SNCA": 0.471
+    }
+  },
+  {
+    "name": "CAFFEIC ACID PHENETHYL ESTER",
+    "targets": {
+      "SNCA": 0.162
+    }
+  },
+  {
+    "name": "CLIOQUINOL",
+    "targets": {
+      "SNCA": 0.183
+    }
+  },
+  {
+    "name": "QUINOLINE",
+    "targets": {
+      "SNCA": 0.201
+    }
+  },
+  {
+    "name": "PENTABROMOPHENOL",
+    "targets": {
+      "SNCA": 0.285
+    }
+  },
+  {
+    "name": "ETHION",
+    "targets": {
+      "SNCA": 0.091
+    }
+  },
+  {
+    "name": "DICLOFENAC SODIUM",
+    "targets": {
+      "SNCA": 0.058
+    }
+  },
+  {
+    "name": "NIALAMIDE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "XANTHYLETIN",
+    "targets": {
+      "SNCA": 0.151
+    }
+  },
+  {
+    "name": "CP-55940",
+    "targets": {
+      "SNCA": 0.162
+    }
+  },
+  {
+    "name": "CL-976",
+    "targets": {
+      "SNCA": 0.066
+    }
+  },
+  {
+    "name": "ZEARALANONE",
+    "targets": {
+      "SNCA": 0.059
+    }
+  },
+  {
+    "name": "ENCLOMIPHENE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "PIRARUBICIN",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "CHLOROTHALONIL",
+    "targets": {
+      "SNCA": 0.415
+    }
+  },
+  {
+    "name": "ANGUIDIN",
+    "targets": {
+      "SNCA": 0.151
+    }
+  },
+  {
+    "name": "HYDROXYPROGESTERONE CAPROATE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "4-CHLOROMERCURIBENZOIC ACID",
+    "targets": {
+      "SNCA": 0.24
+    }
+  },
+  {
+    "name": "EBSELEN",
+    "targets": {
+      "SNCA": 0.147
+    }
+  },
+  {
+    "name": "ROCAGLAMIDE",
+    "targets": {
+      "SNCA": 0.091
+    }
+  },
+  {
+    "name": "BAY-11-7085",
+    "targets": {
+      "SNCA": 0.151
+    }
+  },
+  {
+    "name": "CARMINE",
+    "targets": {
+      "SNCA": 0.082
+    }
+  },
+  {
+    "name": "AURINTRICARBOXYLIC ACID",
+    "targets": {
+      "SNCA": 0.196
+    }
+  },
+  {
+    "name": "BROMOENOL LACTONE",
+    "targets": {
+      "SNCA": 0.162
+    }
+  },
+  {
+    "name": "TEGASEROD MALEATE",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "OMEPRAZOLE MAGNESIUM",
+    "targets": {
+      "SNCA": 0.05
+    }
+  },
+  {
+    "name": "PD-169316",
+    "targets": {
+      "SNCA": 0.098
+    }
+  }
+]
