@@ -1,9 +1,14 @@
-"""Fetch and cache the STRING PPI subnetwork used for network-proximity scoring.
+"""Fetch and cache a STRING PPI subnetwork for network-proximity scoring.
 
 The cached edge list is committed so the screen is reproducible offline and so a
 reviewer can inspect the exact interactome the results depend on.
 
+Disease-agnostic: point it at any signature CSV and output path. It defaults to
+the MS signature so existing invocations keep working.
+
 Run: python -m tools.fetch_string_network [--score 400] [--add-nodes 150]
+     python -m tools.fetch_string_network --signature data/pd_expression.csv \
+         --out data/networks/string_pd_network.tsv
 """
 
 from __future__ import annotations
@@ -17,8 +22,8 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 STRING_URL = "https://string-db.org/api/json/network"
-OUT_EDGES = ROOT / "data/networks/string_ms_network.tsv"
-OUT_META = ROOT / "data/networks/string_ms_network.meta.json"
+DEFAULT_SIGNATURE = ROOT / "data/ms_expression_v3.csv"
+DEFAULT_EDGES = ROOT / "data/networks/string_ms_network.tsv"
 
 
 def main() -> None:
@@ -27,9 +32,17 @@ def main() -> None:
     parser.add_argument("--add-nodes", type=int, default=150,
                         help="STRING first-shell expansion, for shortest-path connectivity")
     parser.add_argument("--species", type=int, default=9606)
+    parser.add_argument("--signature", type=Path, default=DEFAULT_SIGNATURE,
+                        help="signature CSV whose genes seed the query")
+    parser.add_argument("--out", type=Path, default=DEFAULT_EDGES,
+                        help="edge-list TSV to write; metadata goes alongside it")
     args = parser.parse_args()
 
-    with (ROOT / "data/ms_expression_v3.csv").open(newline="") as handle:
+    out_edges = args.out if args.out.is_absolute() else ROOT / args.out
+    out_meta = out_edges.with_suffix(".meta.json")
+    signature_path = args.signature if args.signature.is_absolute() else ROOT / args.signature
+
+    with signature_path.open(newline="") as handle:
         genes = [row["gene"] for row in csv.DictReader(handle)]
 
     response = requests.get(
@@ -53,8 +66,8 @@ def main() -> None:
             continue
         edges.add((min(a, b), max(a, b), round(float(item["score"]), 3)))
 
-    OUT_EDGES.parent.mkdir(parents=True, exist_ok=True)
-    with OUT_EDGES.open("w", newline="") as handle:
+    out_edges.parent.mkdir(parents=True, exist_ok=True)
+    with out_edges.open("w", newline="") as handle:
         writer = csv.writer(handle, delimiter="\t")
         writer.writerow(["protein_a", "protein_b", "combined_score"])
         writer.writerows(sorted(edges))
@@ -63,6 +76,7 @@ def main() -> None:
     missing = sorted(set(genes) - nodes)
     meta = {
         "source": "STRING v12 REST API",
+        "signature": str(signature_path.relative_to(ROOT)),
         "url": STRING_URL,
         "species": args.species,
         "required_score": args.score,
@@ -77,7 +91,7 @@ def main() -> None:
             "contribute to signature-reversal metrics."
         ),
     }
-    OUT_META.write_text(json.dumps(meta, indent=2) + "\n")
+    out_meta.write_text(json.dumps(meta, indent=2) + "\n")
     print(json.dumps(meta, indent=2))
 
 

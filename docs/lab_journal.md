@@ -8,7 +8,7 @@
 
 **Start Date:** 2026-01-16 (Foundation Phase, Days 1-9)
 
-**Last updated:** 2026-08-25
+**Last updated:** 2026-08-26 (Phase 4)
 
 ---
 
@@ -577,3 +577,618 @@ recording git revision, Python/NumPy versions, platform, and the exact command.
 4. Validate the top stratum in glia/oligodendrocyte co-culture with full
    dose matrices (Bliss, HSA, Loewe, ZIP).
 5. Preprint.
+
+---
+
+---
+
+# Phase 3 — De Novo Molecular Design
+
+*Carried out on **2026-08-26**.*
+
+---
+
+## 2026-08-26 — Session A: From selecting molecules to designing one
+
+### Motivation
+
+Phase 2 ended with a screen that ranks pairs drawn from a fixed panel of 74
+agents. That question has a ceiling built into it: **the answer can only ever
+be a molecule someone has already made.** In MS every approved agent is a
+peripheral immunomodulator, and the screen's own headline finding was that
+peripheral-only combinations rank last. The screen could identify the gap and
+could not, in principle, fill it.
+
+So the question changed from *"which two existing agents pair best?"* to *"what
+should a molecule do, and what would such a molecule look like?"*
+
+That required three things the repository did not have: a specification of what
+a single molecule must do, a chemistry layer that can represent and measure a
+structure, and a generator that searches chemical space against the
+specification.
+
+### Architectural decision: build it disease-agnostic
+
+Phase 2's vocabularies — `MS_DISEASE_PATHWAYS`, `THERAPEUTIC_AXES`,
+`RISK_DOMAINS` — were module constants inside the MS scoring code. Fine for one
+disease and wrong for two: adding Parkinson's would have meant editing scoring
+logic. Phase 3 introduces a **disease model** (`core/models/disease.py`) loaded
+from a registry entry under `data/diseases/`. Everything downstream reads the
+context and never names a disease.
+
+### 1. The chemistry model
+
+RDKit has no wheel for the interpreter this project pins, so `core/chemistry/`
+was written from scratch: SMILES **parser and writer** (a generator must emit
+structures, not only read them), valence model, ring perception, Ertl TPSA,
+Wildman–Crippen logP, Lipinski/Veber, Wager CNS MPO, a declared
+synthetic-tractability proxy, structural alerts as readable graph predicates,
+and ECFP-style circular fingerprints.
+
+Validation state, all test-enforced:
+
+| Quantity | Status |
+| --- | --- |
+| SMILES round-trip | 15-molecule corpus, composition preserved exactly |
+| Formula and mass | all 42 curated structures match published values |
+| TPSA | matches published Ertl values exactly |
+| cLogP | reduced Crippen typing; ~0.4 MAE vs experiment |
+| Stereochemistry | absent — parsed and discarded |
+| Aromaticity | trusted as written, not re-perceived |
+
+Sanity check on real MS drugs behaved correctly on first run: dimethyl fumarate
+and diroximel fumarate flagged as Michael acceptors (that *is* their Nrf2
+mechanism), fingolimod's primary-amine pKa found, minocycline scored low on
+tractability as a complex polycyclic natural product.
+
+### 2. The Target Product Profile
+
+`core/design/target_profile.py` ranks candidate proteins by
+
+```
+priority = leverage x tractability x (1 - 0.5 x liability) x (1 + 0.35 x axis_gap)
+```
+
+with leverage split 60/40 between weighted signature membership and
+distance-decayed influence through STRING.
+
+**The tractability term is the single most important guard in the pipeline.**
+A new annotation, `data/targets/druggability.json`, assigns each of the 93
+panel targets a class and a small-molecule prior: 22 at or above 0.6, 32 below
+0.2. CD20 has among the highest leverage in MS and a tractability of **0.05**.
+Without the floor the engine would confidently specify a small molecule to bind
+the target of ocrelizumab. Sub-floor targets are reported as **readouts** —
+the profile still wants their expression to move, but no arm is pointed at
+them.
+
+**Axis-gap analysis, the campaign's most defensible output:**
+
+| therapeutic axis | unmet fraction among approved agents |
+| --- | --- |
+| remyelination | **1.00** |
+| neuroprotection | 0.96 |
+| cns_innate | 0.92 |
+| metabolic_repair | 0.88 |
+| immunomodulation | **0.00** |
+
+This is Phase 2's stratum finding restated as a specification, and derived
+independently.
+
+### 3. Fragment selection as a Hamiltonian
+
+Choosing which pharmacophores to fuse is a constrained binary optimisation —
+coverage saturates under Bliss, chemotypes duplicate, and a shared mass budget
+couples every pair. That is a QUBO, solved on three backends: exhaustive
+enumeration (ground truth), an exact Ising eigensolver, and QAOA on Aer.
+
+Two approximations, both documented rather than hidden:
+
+1. **Coverage truncation** — exact at `k=2`, second-order beyond.
+2. **Budget linearisation** — whole-molecule budgets cannot be written as a
+   quadratic, so each fragment is charged against a `1/k` share. Subadditivity
+   makes this **conservative**: the QUBO may reject a design that would have
+   fitted, and never admits one that does not. Test-enforced.
+
+### 4. Assembly
+
+A design is a recipe — scaffold, an arm per attachment point, a linker each,
+caps on the remainder — assembled into a real molecular graph, capped, and
+measured. Search is exhaustive enumeration over assemblies followed by seeded
+hill-climbing, then novelty assessment and MaxMin diversity selection.
+
+---
+
+## 2026-08-26 — Session B: What went wrong, and what it changed
+
+Three failures are recorded here because they are the useful part of the
+session.
+
+### Failure 1 — Coverage-only optimisation designs molecules that cannot reach the brain
+
+The first full run selected a **statin acid plus a sulfonylurea**: excellent
+profile coverage, TPSA 170–250 against an 40–80 window, MW up to 554 against a
+420 ceiling. **Every** top design failed the CNS gate.
+
+The Hamiltonian was optimising coverage while blind to the delivery constraint.
+Adding a polarity penalty fixed TPSA and **just moved the failure**: the
+optimiser swapped to an adamantane and a chloroarene and landed at cLogP 5.8–7.2,
+failing the same gate from the other side.
+
+The fix required the envelope to enter the Hamiltonian on **polarity, donors,
+and lipophilicity at once**, plus a mass budget that reserves atoms for the
+scaffold and linkers assembly adds afterwards. Handing the arms the whole
+molecular-weight ceiling was why 550 Da molecules kept appearing against a
+420 Da envelope.
+
+### Failure 2 — A silent bug in the Hamiltonian, caught by a test
+
+Quadratic couplings were stored keyed on the fragments' **ranked** order and
+looked up in **sorted** order. Every coupling whose ranking disagreed with the
+alphabet read back as zero. The optimiser was solving a different Hamiltonian
+than the one being reported, and nothing about the output looked wrong.
+
+It surfaced only because a test asserted the truncated objective agrees with an
+independently-recomputed exact objective at `k=2`. The lookup now raises on a
+missing pair rather than defaulting to zero. **All results below are post-fix.**
+
+### Failure 3 — QAOA returned an infeasible state that scored better than the optimum
+
+At `reps=2`, QAOA selected **four** arms where three were allowed, scoring
+*above* the true optimum precisely because the extra arm was never paid for.
+
+| reps | ansatz depth | feasible | matches optimum |
+| --- | --- | --- | --- |
+| 1 | 55 | yes | no |
+| 2 | 87 | **no** | no |
+| 3 | 119 | yes | **yes** |
+| 4 | 151 | yes | no |
+| 6 | 215 | yes | no |
+
+Textbook behaviour: `reps=3` finds the optimum, and deeper circuits do *worse*
+at a fixed iteration budget as the variational landscape gets harder. Every
+result now carries a `feasible` flag, because reading the objective without it
+inverts the conclusion. Default depth set to 3.
+
+### A blind spot in CNS MPO, found by a failing test
+
+A test asserting memantine should out-score a statin acid on CNS MPO failed —
+and the test premise was wrong, not the implementation. **Wager's score takes
+the *most basic* pKa as its ionisation term**, correctly for the basic and
+neutral compounds it was derived on, and is therefore blind to acids: a small
+carboxylic acid scores above 5 of 6 while being anionic at pH 7.4 and
+effectively barred from the brain.
+
+The implementation stayed faithful to Wager. A separate `acidic_centres()`
+check was added and the delivery gate now consults both.
+
+---
+
+## 2026-08-26 — Session C: Results
+
+> **Superseded.** The numbers in this session predate the Phase 4 bug fixes
+> (three chemistry errors found by RDKit cross-validation, and per-claim
+> evidence weighting). They are left as the record of what was believed at the
+> time; the current results are in the Phase 4 summary.
+
+### Backend agreement
+
+```
+Hamiltonian : 10 binary variables, 45 couplings, choose 2 (45 feasible of 1024 states)
+  enumeration  match  objective=+0.0901  feasible=True  0.024s
+  eigensolver  match  objective=+0.0901  feasible=True  0.022s
+  qaoa         match  objective=+0.0901  feasible=True  1.313s
+```
+
+### Target profile (top 8 of 14)
+
+| gene | class | direction | priority |
+| --- | --- | --- | --- |
+| MMP9 | enzyme | down | 0.7883 |
+| BTK | kinase | down | 0.7665 |
+| NLRP3 | enzyme | down | 0.7651 |
+| NOS2 | enzyme | down | 0.7442 |
+| CSF1R | kinase | down | 0.7016 |
+| RORC | nuclear receptor | down | 0.6994 |
+| S1PR1 | GPCR | down | 0.6505 |
+| MTOR | kinase | down | 0.5450 |
+
+32 further targets classified as readouts and excluded from binding.
+
+### Designs
+
+7,350 recipes attempted, 225 rejected as chemically invalid, 7,125 distinct
+structures.
+
+| # | formula | MW | cLogP | TPSA | CNS-MPO | Tanimoto to nearest known |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | C16H17ClN4O | 316.8 | 1.45 | 48.5 | 5.83 | 0.41 |
+| 2 | C18H18ClFN4O | 360.8 | 2.07 | 59.0 | 5.99 | 0.34 |
+| 3 | C20H20FN3O3 | 369.4 | 3.14 | 71.5 | 5.13 | 0.30 |
+
+Top design: `N1(CCN(CC1)c2ccc(Cl)cc2)C(=O)Nc3cccnc3`
+
+All above the CNS-MPO gate of 4.0, all inside the property envelope, all novel
+at a 0.6 Tanimoto threshold.
+
+### The negative result, stated plainly
+
+**Under a CNS envelope, three arms do not fit.** With the mass budget correctly
+reserving atoms for the scaffold and linkers, every `k=3` selection scores
+negative, while `k=2` lands at TPSA 62, cLogP 2.5, 19 heavy atoms. A
+CNS-penetrant three-mechanism single molecule is not reachable from this
+fragment library. The tool reports that rather than emitting 550 Da molecules
+that fail the gate.
+
+### The two stages disagree, and that is informative
+
+The arm set the Hamiltonian ranks first is **not** the arm set that assembles
+into the best molecule:
+
+| arm set | Hamiltonian objective | best assembled fitness |
+| --- | --- | --- |
+| BTK + CSF1R | **+0.0901** (rank 1) | 1.5439 |
+| BTK + TLR4 | +0.0822 (rank 2) | 1.4919 |
+| CSF1R + TLR4 | +0.0783 (rank 3) | **1.6027** |
+
+The QUBO scores profile coverage under a linearised envelope; design fitness
+adds developability, tractability, and structural alerts to a molecule that
+actually exists. The covalent BTK arm carries a Michael-acceptor alert and more
+mass, and pays for both only at the second stage — so the last-ranked arm set
+produced the winning structure.
+
+Caught only because the campaign carries several arm sets forward instead of
+the optimum alone. Reporting "the Hamiltonian's optimum" as though it were "the
+best design" would have been wrong, and the two are now reported separately
+throughout.
+
+### Interpretation
+
+The Hamiltonian's optimum, **BTK + CSF1R**, is the pairing of the two leading
+CNS-penetrant MS mechanisms — B-cell and microglial on one arm, microglial on
+the other. That it was reached from a directional signature, an interactome,
+and a druggability annotation, without ever being told, is the strongest
+internal-consistency check available at this stage.
+
+The top *assembled* molecule, `N1(CCN(CC1)c2ccc(Cl)cc2)C(=O)Nc3cccnc3`, is a
+**dual CSF1R / TLR4 antagonist aimed at microglial activation in progressive
+MS** — CNS-MPO 5.83 of 6, coordinated suppression of the microglial activation
+programme (CSF1R −0.75, AIF1 −0.69, TLR4 −0.60, CD68 −0.50, downstream
+TNF/IL-1β/IL-6/CCL2), and no counter-therapeutic movement at all.
+
+Its efficacy is **unknown and untested even for binding.** Scored on the panel's
+own scale it reaches a signature reversal of 0.0519 — second of 75, above the
+approved-agent median of 0.0301 — but that comparison is close to circular,
+because its arms were selected to maximise alignment with this very signature
+while the panel agents were not. It is an internal-consistency check, not
+evidence of effect.
+
+It also serves **one axis only** (`cns_innate`), and not the one with the
+largest gap: remyelination sits at an unmet fraction of 1.00 and this molecule
+does nothing for it. The envelope forced that — two arms of budget, both spent
+on the same axis. The molecule the profile argues for is exactly the one that
+does not fit.
+
+The defensible outputs therefore remain structural rather than chemical: the
+axis-gap asymmetry, and the demonstration that a three-mechanism CNS molecule
+does not fit the envelope. **Individual molecules are the least reliable thing
+the campaign produces**, for the same reason pair ranks were in Phase 2 — they
+sit downstream of the most uncertain inputs.
+
+### Artefacts
+
+```
+core/chemistry/molecule.py           SMILES parser + writer, valence, assembly
+core/chemistry/descriptors.py        Ertl TPSA, Crippen logP, shape, flexibility
+core/chemistry/druglikeness.py       Lipinski, Veber, CNS MPO, alerts, acids
+core/chemistry/fingerprint.py        circular fingerprints, novelty, diversity
+core/models/disease.py               disease model + registry loader
+core/design/target_profile.py        Target Product Profile derivation
+core/design/pharmacophores.py        fragment library loader + validation
+core/design/quantum_assembly.py      QUBO, enumeration / eigensolver / QAOA
+core/design/denovo.py                assembly, scoring, search
+experiments/design/run_denovo_design.py
+data/diseases/multiple_sclerosis.json
+data/targets/druggability.json       93 targets annotated
+data/chemistry/pharmacophore_library.json   48 fragments
+data/chemistry/ms_known_structures.json     42 verified structures
+tests/                               142 tests, all passing
+docs/denovo_design_protocol.md
+```
+
+### Reflection
+
+> Extended the platform from selecting existing drugs to specifying and
+> assembling new ones, and made the whole stack disease-agnostic in the
+> process. The most valuable outputs were again negative or structural: that
+> coverage-blind optimisation produces molecules that cannot reach the tissue,
+> that penalising one property just moves the failure to another, and that a
+> three-mechanism CNS molecule does not fit the envelope this library can
+> reach. A silent Hamiltonian bug and a documented blind spot in a published
+> CNS score were both caught by tests rather than by inspection, which is the
+> same argument Phase 2 made for building the validation machinery.
+
+### Next steps
+
+1. **Dock every proposal, then assay it.** Fragment-inherited engagement is an
+   assumption, not a prediction, and it is the first thing that will break.
+2. Have a chemist assess synthesisability — the tractability score is a
+   declared proxy, not a route.
+3. Profile `kinase_aminopyrimidine_hinge` selectivity across the kinome. A
+   designed multi-target ligand and an uncontrolled polypharmacology liability
+   are the same molecule seen from two sides.
+4. Expand the fragment library along the remyelination axis, where the profile
+   reports the largest unmet gap and the library is thinnest.
+5. Add ADMET: metabolic stability, hERG, CYP, and especially P-glycoprotein
+   efflux, which decides many CNS programmes and is unmodelled here.
+6. Populate a second disease registry entry end to end to exercise the
+   generality claim rather than asserting it.
+
+---
+
+---
+
+# Phase 4 — Hardening: Generality, Validation, and Provenance
+
+*Carried out on **2026-08-26**, in response to a review that identified five
+gaps. Each is recorded below with what was actually done about it, including
+where the answer was "the claim was too strong" rather than "the code was
+wrong".*
+
+---
+
+## 2026-08-26 — Session D: The review
+
+Five gaps, all correct:
+
+1. **"Disease-configurable", not proven disease-agnostic.** One registry entry,
+   and the new layers still imported `core.biology.ms_scoring` directly.
+2. **Hypothesis generation, not drug-design prediction.** No binding,
+   selectivity, assay loop, or validated ADMET.
+3. **Reimplementing chemistry instead of using RDKit is the highest technical
+   risk.** 42 formula checks do not validate perception, logP, or fingerprints.
+4. **Fragment engagement is manually inherited** with no per-claim evidence,
+   confidence, or feedback.
+5. **Result files treated as durable truth** rather than reproducible run
+   artifacts.
+
+Gap 1 was the sharpest: the import graph contradicted the README. A layer that
+calls itself disease-agnostic while importing MS scoring is not one, whatever
+its registry says.
+
+---
+
+## 2026-08-26 — Session E: Chemistry validated against RDKit (gap 3)
+
+RDKit has no wheel for the pinned interpreter, but the project's second
+environment is Python 3.11, where it installs cleanly. That turned gap 3 from
+unanswerable into measurable.
+
+### Architecture change
+
+RDKit is now the **preferred backend**, used automatically wherever importable;
+`core/chemistry/` is explicitly fallback infrastructure.
+`core.chemistry.backend` resolves the choice, records it on every descriptor
+vector, refuses to silently downgrade when RDKit is requested and absent, and
+is pinned to `local` for the test suite so assertions do not depend on the
+environment.
+
+### What cross-validation measured
+
+`tools/validate_chemistry.py` compares both implementations over curated drugs,
+library fragments, and **300 generated structures** — the molecules the
+pipeline actually emits, which exercise ring systems no curated set contains.
+
+| quantity | agreement |
+| --- | --- |
+| **structural perception** | **388 / 388 canonical SMILES match** |
+| HBD, HBA | exact everywhere |
+| TPSA | exact on designs; worst case 3.53 A^2 on curated drugs |
+| rotatable bonds | 0.91–1.00 exact |
+| ring count | 0.91–0.98 exact |
+| **cLogP** | **MAE 0.65–0.86, worst case 2.23** |
+| fingerprints | Spearman 0.982; 4/565 pairs disagree at the novelty threshold |
+
+The perception result is the one that matters and the one that was previously
+unevidenced: parser and writer together preserve the molecule as RDKit
+understands it, on every structure tested.
+
+### Three real bugs, none visible to composition checks
+
+* **Rotatable bonds were wrong on essentially every generated structure** —
+  0% exact, bias **+2.75**. Only amide C–N bonds were excluded where the strict
+  definition excludes any conjugated carbonyl–heteroatom bond, and assembly
+  produces carbamates and anhydrides freely. Now 0.91–1.00.
+* **Aromatic rings bearing exocyclic carbonyls were mistyped in cLogP by
+  +3 log units** (caffeine, uracil): a purinone ring carbon typed as an
+  aromatic ether rather than a carbonyl. Any purinone design would have had its
+  CNS MPO badly distorted.
+* **Ring perception invented a macrocycle in adamantane.**
+  `networkx.cycle_basis` is a spanning-tree basis, not a minimum one, and
+  returned an eight-membered ring where three six-membered rings exist. The
+  tractability proxy penalises rings above seven atoms, so every
+  adamantane-containing design was charged 0.35 for a macrocycle it does not
+  have. Switched to `minimum_cycle_basis`.
+
+One over-correction is recorded too: matching RDKit's *atom-centric* strict
+rotatable-bond rule exactly swung the bias negative, so the bond-level rule was
+kept and the residual disagreement documented rather than chased. Chasing exact
+parity with a reference implementation is a poor use of effort once the
+reference itself is available — the right answer was to prefer RDKit.
+
+---
+
+## 2026-08-26 — Session F: A second disease, end to end (gap 1)
+
+### Contracts extracted
+
+`Signature`, `load_signature`, `bliss_combine`, `combine_effects`,
+`alignment_metrics`, and `EVIDENCE_RANK` moved to `core/biology/signature.py`.
+`ms_scoring` re-exports them, so no caller broke. Risk weighting moved out of
+`ScoringConfig` and into the registry, because how strongly infection or
+dyskinesia constrains use is a property of the disease and its population, not
+of a scoring function. A test now asserts no module under `core/design/`
+mentions `ms_scoring`.
+
+### Parkinson's, built from scratch
+
+| | MS | Parkinson's |
+| --- | --- | --- |
+| Signature | 112 genes | **90 genes, 13 pathways** |
+| Panel | 74 agents | **35 agents, 29 mechanism classes** |
+| Interactome | STRING v12, 261 nodes | **STRING v12, 240 nodes** |
+| Druggability | 93 targets | **90 targets** |
+
+The panel is weighted deliberately toward failures — creatine, CoQ10,
+isradipine, inosine, cinpanemab — because Parkinson's has an unusually
+well-documented record of neuroprotection trials that did not work, which makes
+strong negative controls easy to declare in advance.
+
+Two things the second disease forced into the design:
+
+* **Gene aliasing.** STRING v12 still calls glucocerebrosidase `GBA`; HGNC says
+  `GBA1`. Unmapped, the most common genetic risk factor in PD had **zero
+  network leverage** and dropped out of the profile silently. Aliases are now
+  registry data, applied at load, so the cached interactome stays a faithful
+  record of what the source returned.
+* **A sharper test of the tractability floor.** Alpha-synuclein — the central
+  protein in the disease — is intrinsically disordered, prior 0.25. The profile
+  routes around its most important target through lysosomal and autophagic
+  mechanisms, which is what the clinical field actually does.
+
+The PD profile ranks **LRRK2 first**, then SLC6A3, NLRP3, MAOB, GBA1. Axis
+gaps: `symptomatic_dopaminergic` 0.00, `synuclein_proteostasis` and
+`trophic_support` both 1.00.
+
+### The library learned what it was missing
+
+Run against PD, `unreachable_requirements()` reported **10 of 14 targets with
+no chemical matter** — the library was built for MS. Eleven PD pharmacophores
+were added (LRRK2 aminopyrimidine, propargylamine, nitrocatechol, aminotetralin,
+iminosugar, dihydropyridine, hydroxypyridinone, ketoamide, and others), taking
+the library to 59 fragments and the gap to two, both symptomatic-dopaminergic
+targets a disease-modifying design would not pursue anyway.
+
+That diagnostic driving library growth is the intended workflow: fragments are
+disease-agnostic chemical matter, and the tool names what it cannot reach
+rather than quietly producing something worse.
+
+---
+
+## 2026-08-26 — Session G: Evidence, provenance, and honest status (gaps 2, 4, 5)
+
+### Per-claim evidence (gap 4)
+
+All **154 fragment–target claims** now carry provenance. Each pharmacophore
+declares an `evidence_tier` for its chemotype and the `primary_targets` it
+claims to *bind*; everything else in its map is a downstream transcriptional
+consequence and is discounted by half. Confidence weights profile coverage
+directly, so the optimiser prefers well-evidenced arms instead of treating a
+speculative inference like approved-drug pharmacology.
+
+Library composition: 10 approved-drug, 8 clinical-candidate, 9
+published-chemotype, 4 speculative.
+
+This visibly changed the MS result. The top design is now a **dual BTK / CSF1R
+inhibitor serving two therapeutic axes** (`cns_innate` + `immunomodulation`),
+where the previous top design served one.
+
+### Evidence status (gap 2)
+
+The binding, selectivity, and ADMET gaps cannot be closed without models and
+data this project does not have. What *was* fixed is that the caveats now
+travel with the data: every candidate carries a machine-readable
+`evidence_status` block enumerating **13 unassessed axes** — target binding,
+selectivity, cell activity, in-vivo efficacy, permeability, BBB transport, P-gp
+efflux, metabolic stability, CYP, hERG, solubility, synthetic route, freedom to
+operate — each with what would satisfy it and why its absence matters.
+`readiness` reads `hypothesis_only`. A consumer that never opens the protocol
+still receives the caveat.
+
+### Run artifacts (gap 5)
+
+`core/provenance.py` records the SHA-256 digest of every input, the git
+revision **and whether the tree was dirty**, interpreter, platform, tracked
+package versions, and the active chemistry backend. Results moved to
+`experiments/design/results/<disease>/`, are git-ignored, and carry a README
+distinguishing disposable snapshots from curated `data/`.
+
+The digest is the part that matters: a version string in a metadata block does
+not survive someone editing a CSV.
+
+---
+
+## 2026-08-26 — Session H: QAOA's default was luck
+
+Re-running the quantum benchmark across two diseases after the library grew
+exposed something the single-disease campaign had hidden. QAOA success is
+**non-monotonic in circuit depth and specific to the problem instance**: depth
+3, adopted as the default because it solved the original MS instance, then
+failed on *both* campaigns, while depths 2, 4, and 5 each succeeded on some
+instances and not others.
+
+| depth | MS | Parkinson's |
+| --- | --- | --- |
+| 1 | +0.0443 ✓ | +0.0732 |
+| 2 | +0.0443 ✓ | +0.0830 ✓ |
+| 3 | +0.0355 | +0.0830 ✓ |
+| 4 | +0.0443 ✓ | +0.0830 ✓ |
+| 5 | +0.0443 ✓ | +0.0830 ✓ |
+
+The runner now sweeps depths 1–5, keeps the best *feasible* selection, and
+prints what every depth returned. Reporting one lucky depth would have
+presented a heuristic as though it were a solver.
+
+### The stage inversion held for both diseases
+
+| disease | Hamiltonian rank 1 | best molecule came from |
+| --- | --- | --- |
+| MS | BTK + RORgt (+0.0443) | BTK + CSF1R, **rank 3** |
+| PD | GLUT + MAO-B (+0.0830) | caspase-1 + MAO-B, **rank 2** |
+
+Confirming that carrying several arm sets forward, rather than the optimum
+alone, is load-bearing rather than defensive.
+
+---
+
+## Phase 4 results
+
+**Multiple sclerosis** — `N1(CCN(CC1)C(=O)Nc2cccnc2)C3CCN(CC3)C(=O)C=C`
+C18H25N5O2, MW 343.4, cLogP 1.41, TPSA 68.8, CNS-MPO 5.33, Tanimoto 0.36.
+Dual BTK/CSF1R, two axes, mean engagement confidence 0.40.
+
+**Parkinson's** — `c1(ccc(cc1)CC(C)N(C)CC#C)OC(=O)C(=O)NCC2CC2`
+C19H24N2O3, MW 328.4, cLogP 1.61, TPSA 58.6, CNS-MPO 4.93, Tanimoto 0.32.
+MAO-B inhibitor fused to a caspase-1 warhead, mean engagement confidence 0.47.
+
+Both rank first against their disease panels on signature reversal — a
+**near-circular** comparison, since their arms were selected to maximise
+alignment with the signature they are then scored against, and reported only
+with that caveat attached.
+
+Test suite: **174 passing** without RDKit, **198 with it**.
+
+### Reflection
+
+> Four of the five gaps were closed and the fifth was made honest. The most
+> valuable work was again negative: cross-validation against RDKit found three
+> chemistry bugs that a year of formula-and-mass tests would never have caught,
+> and the second disease found a gene-alias failure that silently zeroed the
+> most important target in Parkinson's. Both were invisible in the output.
+> The pattern across all four phases is consistent — the machinery built to
+> doubt the results is what produces the results worth keeping. Where a claim
+> could not be supported, the claim moved rather than the evidence: RDKit
+> became the preferred backend instead of the reimplementation being defended,
+> and QAOA's depth became a swept parameter instead of a lucky constant.
+
+### Next steps
+
+1. **Dock the proposals.** Everything else is downstream of the
+   fragment-transplantation assumption, and it remains untested.
+2. Close the evidence loop: `core/design/evidence.py` has the hook for assay
+   results to update fragment confidences, and nothing populates it.
+3. Add ADMET where it can be done honestly — P-gp efflux first, since it
+   decides CNS programmes on its own.
+4. Replace both signatures with cohort-derived data; the PD one is weaker than
+   the MS one and both are illustrative.
+5. A third disease outside the CNS, to exercise the peripheral branch of the
+   delivery constraint, which neither current entry does.

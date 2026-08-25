@@ -1,0 +1,66 @@
+{
+  "identifier": "multiple_sclerosis",
+  "name": "Multiple sclerosis",
+  "description": "Chronic inflammatory demyelinating disease of the central nervous system, in which peripheral autoimmunity gives way over time to compartmentalised CNS inflammation, failed remyelination, and progressive axonal loss.",
+  "vocabulary": {
+    "pathways": [
+      "adaptive_immunity",
+      "B_cell_immunity",
+      "innate_immunity",
+      "microglial_activation",
+      "lymphocyte_trafficking",
+      "blood_brain_barrier",
+      "oxidative_stress",
+      "remyelination",
+      "neuroprotection",
+      "metabolism"
+    ],
+    "therapeutic_axes": [
+      "immunomodulation",
+      "cns_innate",
+      "remyelination",
+      "neuroprotection",
+      "metabolic_repair"
+    ],
+    "risk_domains": [
+      "infection",
+      "malignancy",
+      "cardiac",
+      "hepatic",
+      "teratogenicity",
+      "autoimmunity",
+      "ocular"
+    ],
+    "risk_weights": {
+      "infection": 1.0,
+      "malignancy": 0.9,
+      "cardiac": 0.7,
+      "hepatic": 0.7,
+      "teratogenicity": 0.5,
+      "autoimmunity": 0.9,
+      "ocular": 0.4
+    },
+    "risk_weights_rationale": "How strongly each domain constrains combination use in this population. Infection and autoimmunity dominate because the therapies are chronic immunosuppressants given to young adults over decades; teratogenicity is weighted lower than its clinical seriousness because it is manageable by prescribing policy rather than by drug choice."
+  },
+  "delivery": {
+    "requires_cns_exposure": true,
+    "cns_mpo_floor": 4.0,
+    "preferred_routes": [
+      "oral"
+    ],
+    "sanctuary_rationale": "Every approved disease-modifying therapy acts largely in the periphery, and every one of them plateaus in progressive disease. The leading explanation is that inflammation behind a re-closed blood-brain barrier becomes self-sustaining and inaccessible to peripheral immunosuppression. A molecule designed for progressive MS therefore has to reach CNS parenchyma at therapeutic exposure, which makes the CNS multi-parameter score a gate rather than a preference."
+  },
+  "data": {
+    "signature": "data/ms_expression_v3.csv",
+    "network": "data/networks/string_ms_network.tsv",
+    "panel": "data/drugs/ms_panel_v3.json",
+    "druggability": "data/targets/druggability.json",
+    "structures": "data/chemistry/ms_known_structures.json"
+  },
+  "provenance": {
+    "signature_version": "v3, 112 directional genes",
+    "network_source": "STRING v12, cached",
+    "panel_version": "3.0.0",
+    "note": "Discovery-stage research context. Nothing derived from it is a clinical recommendation."
+  }
+}

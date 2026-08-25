@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "purpose": "Structures for the small-molecule members of ms_panel_v3, used as the known-chemical-matter reference set for novelty assessment.",
+    "curation_rule": "Every entry carries the molecular formula and average mass reported in the public literature for that agent. tests/test_chemistry.py re-derives both from the SMILES and fails on any disagreement, so a mistyped structure cannot enter the reference set silently.",
+    "omissions": "Biologics (monoclonal antibodies, interferons, glatiramer acetate) have no small-molecule structure and are absent by construction. A small number of complex natural products are also absent where a structure could not be transcribed with confidence; absence weakens novelty checking against those agents and nothing else.",
+    "stereochemistry": "SMILES are written without stereo-descriptors because the molecule model does not carry stereochemistry. Formula and mass are unaffected; any claim requiring a defined stereocentre is out of scope.",
+    "sources": [
+      "DrugBank",
+      "PubChem",
+      "ChEMBL"
+    ]
+  },
+  "structures": [
+    {
+      "name": "Dimethyl fumarate",
+      "smiles": "COC(=O)C=CC(=O)OC",
+      "formula": "C6H8O4",
+      "mass": 144.13
+    },
+    {
+      "name": "Diroximel fumarate",
+      "smiles": "COC(=O)C=CC(=O)OCCN1C(=O)CCC1=O",
+      "formula": "C11H13NO6",
+      "mass": 255.22
+    },
+    {
+      "name": "Fingolimod",
+      "smiles": "CCCCCCCCc1ccc(CCC(N)(CO)CO)cc1",
+      "formula": "C19H33NO2",
+      "mass": 307.47
+    },
+    {
+      "name": "Teriflunomide",
+      "smiles": "CC(=O)C(=C(O)Nc1ccc(cc1)C(F)(F)F)C#N",
+      "formula": "C12H9F3N2O2",
+      "mass": 270.21
+    },
+    {
+      "name": "Laquinimod",
+      "smiles": "CCN(c1ccccc1)C(=O)C1=C(O)c2ccc(Cl)cc2N(C)C1=O",
+      "formula": "C19H17ClN2O3",
+      "mass": 356.8
+    },
+    {
+      "name": "Metformin",
+      "smiles": "CN(C)C(=N)N=C(N)N",
+      "formula": "C4H11N5",
+      "mass": 129.16
+    },
+    {
+      "name": "Memantine",
+      "smiles": "CC12CC3CC(C)(C1)CC(N)(C3)C2",
+      "formula": "C12H21N",
+      "mass": 179.3
+    },
+    {
+      "name": "Riluzole",
+      "smiles": "Nc1nc2cc(OC(F)(F)F)ccc2s1",
+      "formula": "C8H5F3N2OS",
+      "mass": 234.2
+    },
+    {
+      "name": "Lamotrigine",
+      "smiles": "Nc1nnc(-c2c(Cl)cccc2Cl)c(N)n1",
+      "formula": "C9H7Cl2N5",
+      "mass": 256.09
+    },
+    {
+      "name": "Phenytoin",
+      "smiles": "O=C1NC(=O)C(c2ccccc2)(c2ccccc2)N1",
+      "formula": "C15H12N2O2",
+      "mass": 252.27
+    },
+    {
+      "name": "Oxcarbazepine",
+      "smiles": "NC(=O)N1c2ccccc2CC(=O)c2ccccc21",
+      "formula": "C15H12N2O2",
+      "mass": 252.27
+    },
+    {
+      "name": "Pioglitazone",
+      "smiles": "CCc1ccc(CCOc2ccc(CC3SC(=O)NC3=O)cc2)nc1",
+      "formula": "C19H20N2O3S",
+      "mass": 356.44
+    },
+    {
+      "name": "Hydroxychloroquine",
+      "smiles": "CCN(CCO)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+      "formula": "C18H26ClN3O",
+      "mass": 335.87
+    },
+    {
+      "name": "Alpha-lipoic acid",
+      "smiles": "OC(=O)CCCCC1CCSS1",
+      "formula": "C8H14O2S2",
+      "mass": 206.33
+    },
+    {
+      "name": "Amiloride",
+      "smiles": "NC(=N)NC(=O)c1nc(Cl)c(N)nc1N",
+      "formula": "C6H8ClN7O",
+      "mass": 229.63
+    },
+    {
+      "name": "Resveratrol",
+      "smiles": "Oc1ccc(C=Cc2cc(O)cc(O)c2)cc1",
+      "formula": "C14H12O3",
+      "mass": 228.24
+    },
+    {
+      "name": "Idebenone",
+      "smiles": "COC1=C(OC)C(=O)C(CCCCCCCCCCO)=C(C)C1=O",
+      "formula": "C19H30O5",
+      "mass": 338.44
+    },
+    {
+      "name": "High-dose biotin",
+      "smiles": "OC(=O)CCCCC1SCC2NC(=O)NC12",
+      "formula": "C10H16N2O3S",
+      "mass": 244.31
+    },
+    {
+      "name": "Cladribine",
+      "smiles": "Nc1nc(Cl)nc2c1ncn2C1CC(O)C(CO)O1",
+      "formula": "C10H12ClN5O3",
+      "mass": 285.69
+    },
+    {
+      "name": "Azathioprine",
+      "smiles": "Cn1cnc(c1Sc1ncnc2[nH]cnc12)[N+](=O)[O-]",
+      "formula": "C9H7N7O2S",
+      "mass": 277.26
+    },
+    {
+      "name": "Methotrexate",
+      "smiles": "CN(Cc1cnc2nc(N)nc(N)c2n1)c1ccc(cc1)C(=O)NC(CCC(=O)O)C(=O)O",
+      "formula": "C20H22N8O5",
+      "mass": 454.44
+    },
+    {
+      "name": "Mycophenolate mofetil",
+      "smiles": "COc1c(C)c2COC(=O)c2c(O)c1CC=C(C)CCC(=O)OCCN1CCOCC1",
+      "formula": "C23H31NO7",
+      "mass": 433.5
+    },
+    {
+      "name": "Bexarotene",
+      "smiles": "CC1(C)CCC(C)(C)c2cc(C(=C)c3ccc(cc3)C(=O)O)c(C)cc12",
+      "formula": "C24H28O2",
+      "mass": 348.48
+    },
+    {
+      "name": "Ibudilast",
+      "smiles": "CC(C)C(=O)c1c(C(C)C)nn2ccccc12",
+      "formula": "C14H18N2O",
+      "mass": 230.31
+    },
+    {
+      "name": "Fasudil",
+      "smiles": "O=S(=O)(N1CCCNCC1)c1cccc2cnccc12",
+      "formula": "C14H17N3O2S",
+      "mass": 291.37
+    },
+    {
+      "name": "Tofacitinib",
+      "smiles": "CC1CCN(C(=O)CC#N)CC1N(C)c1ncnc2[nH]ccc12",
+      "formula": "C16H20N6O",
+      "mass": 312.37
+    },
+    {
+      "name": "Baricitinib",
+      "smiles": "CCS(=O)(=O)N1CC(C1)(CC#N)n1cc(cn1)-c1ncnc2[nH]ccc12",
+      "formula": "C16H17N7O2S",
+      "mass": 371.42
+    },
+    {
+      "name": "Benztropine",
+      "smiles": "CN1C2CCC1CC(C2)OC(c1ccccc1)c1ccccc1",
+      "formula": "C21H25NO",
+      "mass": 307.43
+    },
+    {
+      "name": "Quetiapine",
+      "smiles": "OCCOCCN1CCN(CC1)C1=Nc2ccccc2Sc2ccccc21",
+      "formula": "C21H25N3O2S",
+      "mass": 383.51
+    },
+    {
+      "name": "Simvastatin",
+      "smiles": "CCC(C)(C)C(=O)OC1CC(C)C=C2C=CC(C)C(CCC3CC(O)CC(=O)O3)C12",
+      "formula": "C25H38O5",
+      "mass": 418.57
+    },
+    {
+      "name": "Miconazole",
+      "smiles": "ClC1=CC(=C(C=C1)C(OCc1ccc(Cl)cc1Cl)Cn1ccnc1)Cl",
+      "formula": "C18H14Cl4N2O",
+      "mass": 416.13
+    },
+    {
+      "name": "Cyclophosphamide",
+      "smiles": "ClCCN(CCCl)P1(=O)NCCCO1",
+      "formula": "C7H15Cl2N2O2P",
+      "mass": 261.09
+    },
+    {
+      "name": "Mitoxantrone",
+      "smiles": "OCCNCCNc1ccc(NCCNCCO)c2c1C(=O)c1c(O)ccc(O)c1C2=O",
+      "formula": "C22H28N4O6",
+      "mass": 444.49
+    },
+    {
+      "name": "Methylprednisolone",
+      "smiles": "CC1CC2C3CCC(O)(C(=O)CO)C3(C)CC(O)C2C2(C)C=CC(=O)C=C12",
+      "formula": "C22H30O5",
+      "mass": 374.47
+    },
+    {
+      "name": "Minocycline",
+      "smiles": "CN(C)C1C2CC3C(N(C)C)c4c(O)cccc4C(=O)C3=C(O)C2(O)C(=O)C(C(N)=O)=C1O",
+      "formula": "C23H27N3O7",
+      "mass": 457.48
+    },
+    {
+      "name": "Epigallocatechin gallate",
+      "smiles": "Oc1cc(O)c2c(c1)OC(c1cc(O)c(O)c(O)c1)C(OC(=O)c1cc(O)c(O)c(O)c1)C2",
+      "formula": "C22H18O11",
+      "mass": 458.37
+    },
+    {
+      "name": "Cholecalciferol",
+      "smiles": "CC(C)CCCC(C)C1CCC2C1(C)CCCC2=CC=C1CC(O)CCC1=C",
+      "formula": "C27H44O",
+      "mass": 384.64
+    },
+    {
+      "name": "Nicotinamide riboside",
+      "smiles": "NC(=O)c1ccc[n+](c1)C1OC(CO)C(O)C1O",
+      "formula": "C11H15N2O5",
+      "mass": 255.25
+    },
+    {
+      "name": "Clemastine",
+      "smiles": "CC(c1ccc(Cl)cc1)(OCCC1CCCN1C)c1ccccc1",
+      "formula": "C21H26ClNO",
+      "mass": 343.89
+    },
+    {
+      "name": "Siponimod",
+      "smiles": "",
+      "formula": "C29H35F3N2O3",
+      "mass": 516.6
+    },
+    {
+      "name": "Ozanimod",
+      "smiles": "CC(C)Oc1ccc(cc1C#N)-c1noc(n1)-c1ccc2c(c1)CC(NCCO)C2",
+      "formula": "C23H24N4O3",
+      "mass": 404.47
+    },
+    {
+      "name": "Ponesimod",
+      "smiles": "CCCc1ccc(cc1OCC(O)CO)C=C1SC(=NC1=O)N(C)c1ccccc1Cl",
+      "formula": "C23H25ClN2O4S",
+      "mass": 460.98
+    },
+    {
+      "name": "Evobrutinib",
+      "smiles": "",
+      "formula": "C25H26N6O2",
+      "mass": 442.52
+    },
+    {
+      "name": "Tolebrutinib",
+      "smiles": "Nc1ncnc2c1c(cn2C1CCCN(C1)C(=O)C=C)-c1ccc(Oc2ccccc2)cc1",
+      "formula": "C26H25N5O2",
+      "mass": 439.52
+    },
+    {
+      "name": "Vidofludimus calcium",
+      "smiles": "",
+      "formula": "C20H18FNO3",
+      "mass": 339.36
+    },
+    {
+      "name": "Sirolimus",
+      "smiles": "",
+      "formula": "C51H79NO13",
+      "mass": 914.17
+    },
+    {
+      "name": "Firategrast",
+      "smiles": "",
+      "formula": "C25H24F2N2O6",
+      "mass": 486.47
+    },
+    {
+      "name": "Masitinib",
+      "smiles": "",
+      "formula": "C28H30N6OS",
+      "mass": 498.65
+    },
+    {
+      "name": "Clobetasol",
+      "smiles": "",
+      "formula": "C22H28ClFO4",
+      "mass": 410.9
+    },
+    {
+      "name": "Fenebrutinib",
+      "smiles": "",
+      "formula": "C37H44N8O4",
+      "mass": 664.8
+    },
+    {
+      "name": "Remibrutinib",
+      "smiles": "",
+      "formula": "C27H27N5O3",
+      "mass": 469.54
+    },
+    {
+      "name": "Orelabrutinib",
+      "smiles": "",
+      "formula": "C22H24N4O3",
+      "mass": 392.46
+    }
+  ]
+}

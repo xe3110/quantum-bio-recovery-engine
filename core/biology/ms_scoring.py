@@ -31,7 +31,13 @@ from typing import Any, Iterable, Sequence
 
 import numpy as np
 
-EVIDENCE_RANK = {"approved": 3, "phase_3": 2, "phase_2": 1, "preclinical": 0}
+# The generic contracts now live in core.biology.signature so that campaigns
+# for other diseases can use them without importing MS scoring. Re-exported
+# here so existing callers keep working unchanged.
+from core.biology.signature import (  # noqa: F401
+    EVIDENCE_RANK, Signature, alignment_metrics, bliss_combine, combine_effects,
+    load_signature,
+)
 
 MS_DISEASE_PATHWAYS = (
     "adaptive_immunity", "B_cell_immunity", "innate_immunity",
@@ -88,97 +94,6 @@ class ScoringConfig:
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
-
-
-@dataclass(frozen=True)
-class Signature:
-    """A signed disease signature with explicit therapeutic direction."""
-
-    logfc: dict[str, float]
-    desired: dict[str, int]
-    weight: dict[str, float]
-    pathway: dict[str, str]
-
-    @property
-    def genes(self) -> list[str]:
-        return list(self.logfc)
-
-    @property
-    def total_weight(self) -> float:
-        return sum(self.weight.values())
-
-
-def load_signature(path: Path | str) -> Signature:
-    """Read the v3 signature CSV, weighting genes by |logFC| x curation confidence."""
-    logfc, desired, weight, pathway = {}, {}, {}, {}
-    with Path(path).open(newline="") as handle:
-        for row in csv.DictReader(handle):
-            gene = row["gene"].strip()
-            if not gene:
-                raise ValueError("Disease signature contains an empty gene symbol")
-            if gene in logfc:
-                raise ValueError(f"Duplicate gene in signature: {gene}")
-            direction = int(row["desired_direction"])
-            if direction not in (-1, 1):
-                raise ValueError(f"desired_direction must be -1 or 1 for {gene}")
-            logfc[gene] = float(row["logFC"])
-            desired[gene] = direction
-            weight[gene] = abs(float(row["logFC"])) * float(row.get("confidence", 1.0))
-            pathway[gene] = row.get("pathway", "")
-    if not logfc:
-        raise ValueError("Disease signature is empty")
-    return Signature(logfc, desired, weight, pathway)
-
-
-def bliss_combine(a: float, b: float) -> float:
-    """Combine two signed fractional effects under Bliss independence.
-
-    Same-signed effects saturate toward +/-1; opposing effects partially cancel.
-    """
-    if a == 0.0:
-        return b
-    if b == 0.0:
-        return a
-    if (a > 0) == (b > 0):
-        sign = 1.0 if a > 0 else -1.0
-        return float(sign * (abs(a) + abs(b) - abs(a) * abs(b)))
-    return float(np.clip(a + b, -1.0, 1.0))
-
-
-def combine_effects(effects_a: dict[str, float], effects_b: dict[str, float]) -> dict[str, float]:
-    combined = dict(effects_a)
-    for gene, value in effects_b.items():
-        combined[gene] = bliss_combine(combined.get(gene, 0.0), value)
-    return combined
-
-
-def alignment_metrics(effects: dict[str, float], signature: Signature) -> dict[str, float]:
-    """Split target effects into therapeutic and counter-therapeutic movement."""
-    total = signature.total_weight
-    overlap = [g for g in effects if g in signature.logfc]
-    if not overlap or total == 0:
-        return {"reversal": 0.0, "counter_therapeutic": 0.0, "gene_coverage": 0.0}
-
-    therapeutic = 0.0
-    counter = 0.0
-    for gene in overlap:
-        aligned = float(np.clip(signature.desired[gene] * effects[gene], -1.0, 1.0))
-        w = signature.weight[gene]
-        if aligned >= 0:
-            therapeutic += w * aligned
-        else:
-            counter += w * -aligned
-    coverage = sum(signature.weight[g] for g in overlap) / total
-    return {
-        "reversal": therapeutic / total,
-        "counter_therapeutic": counter / total,
-        "gene_coverage": coverage,
-        # Directional quality: of the disease signal this agent actually
-        # engages, what fraction does it move the therapeutic way? Unlike raw
-        # reversal this spans the full [0,1] range, so it is comparable with
-        # the pharmacology and topology terms in the composite score.
-        "reversal_efficiency": (therapeutic / coverage / total) if coverage > 0 else 0.0,
-    }
 
 
 def _pathway_coverage(effects: dict[str, float], signature: Signature) -> float:

@@ -12,3 +12,8 @@ __pycache__/
 .DS_Store
 # Build artifacts
 *.egg-info/
+
+# Run artifacts: regenerated on demand, never a source of truth.
+# The README describing them is kept.
+experiments/*/results/**
+!experiments/*/results/README.md

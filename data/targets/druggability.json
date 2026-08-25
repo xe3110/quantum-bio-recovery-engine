@@ -1,0 +1,481 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "purpose": "Per-target modality annotation. Tells the de novo design layer which proteins a small molecule can realistically engage, so the target product profile is not built around targets only an antibody can reach.",
+    "schema": {
+      "target_class": "broad protein family",
+      "small_molecule_tractability": "0-1 ordinal prior that a drug-like small molecule can productively engage this protein; 0 marks a transcriptional readout rather than a target",
+      "note": "the reason for the value, so it can be argued with"
+    },
+    "curation_rule": "Ordinal priors reflecting precedent in the public literature: an approved small molecule against the target scores highest, a published chemotype without approval sits mid-range, and proteins that appear in the signature only as downstream readouts score at or near zero. These are judgements, not measurements, and every one should be re-derived before publication use.",
+    "readout_convention": "A target scoring below 0.2 is treated by the design engine as a readout: the profile may require its expression to move, but no arm of a designed molecule will be assigned to bind it.",
+    "n_targets": 93
+  },
+  "targets": {
+    "AICDA": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "AID; deaminase pocket is shallow"
+    },
+    "AIF1": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.05,
+      "note": "Iba1; microglial activation marker"
+    },
+    "ATP5F1A": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "ATP synthase subunit; bioenergetic readout"
+    },
+    "BAX": {
+      "target_class": "apoptosis",
+      "small_molecule_tractability": 0.3,
+      "note": "Pro-apoptotic; direct inhibitors are early"
+    },
+    "BCL2": {
+      "target_class": "apoptosis",
+      "small_molecule_tractability": 0.6,
+      "note": "BH3-mimetic chemotype is mature, though a depleting mechanism"
+    },
+    "BDNF": {
+      "target_class": "growth_factor",
+      "small_molecule_tractability": 0.15,
+      "note": "Induction is indirect; direct agonism is unresolved"
+    },
+    "BTK": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.95,
+      "note": "Well-precedented covalent and reversible inhibitor chemotypes"
+    },
+    "C1QA": {
+      "target_class": "complement",
+      "small_molecule_tractability": 0.15,
+      "note": "Complement C1q; protein-protein interface"
+    },
+    "C3": {
+      "target_class": "complement",
+      "small_molecule_tractability": 0.4,
+      "note": "Small-molecule C3 inhibitors reached the clinic"
+    },
+    "C5": {
+      "target_class": "complement",
+      "small_molecule_tractability": 0.3,
+      "note": "Dominated by antibody and peptide modalities"
+    },
+    "CASP3": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Executioner caspase; inhibition late in the cascade rarely rescues"
+    },
+    "CAT": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Catalase; antioxidant-response readout"
+    },
+    "CCL2": {
+      "target_class": "chemokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Monocyte chemoattractant; receptor is the tractable node"
+    },
+    "CCR6": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.7,
+      "note": "Chemokine receptor; antagonist chemotypes exist but selectivity is hard"
+    },
+    "CD19": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.05,
+      "note": "Antibody and cell-therapy target"
+    },
+    "CD27": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.1,
+      "note": "TNF-receptor superfamily; interface target"
+    },
+    "CD40": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.25,
+      "note": "Small-molecule CD40-CD40L disruptors are reported"
+    },
+    "CD40LG": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.25,
+      "note": "CD154; interface amenable to small-molecule disruption"
+    },
+    "CD52": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.05,
+      "note": "Depleting antibody target; no small-molecule route"
+    },
+    "CD68": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.05,
+      "note": "Macrophage lineage marker"
+    },
+    "CD79A": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.1,
+      "note": "BCR signalling subunit; reached via BTK instead"
+    },
+    "CD79B": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.1,
+      "note": "BCR signalling subunit; reached via BTK instead"
+    },
+    "CFH": {
+      "target_class": "complement",
+      "small_molecule_tractability": 0.05,
+      "note": "Regulatory factor; not a ligandable target"
+    },
+    "CLDN5": {
+      "target_class": "tight_junction",
+      "small_molecule_tractability": 0.15,
+      "note": "Blood-brain-barrier tight-junction protein; a readout"
+    },
+    "CNP": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.1,
+      "note": "Myelin-associated readout"
+    },
+    "CSF1R": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.9,
+      "note": "Type II kinase inhibitors reach microglia at CNS-adequate exposure"
+    },
+    "CSPG4": {
+      "target_class": "proteoglycan",
+      "small_molecule_tractability": 0.2,
+      "note": "NG2; OPC marker and inhibitory matrix component"
+    },
+    "CXCL10": {
+      "target_class": "chemokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Interferon-induced chemokine; usually a readout"
+    },
+    "CXCL13": {
+      "target_class": "chemokine",
+      "small_molecule_tractability": 0.15,
+      "note": "Meningeal follicle marker; readout"
+    },
+    "DHODH": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.95,
+      "note": "Validated oral MS target with two approved inhibitors"
+    },
+    "FOXP3": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.1,
+      "note": "Regulatory-T lineage factor; a readout, not a ligandable site"
+    },
+    "GPR17": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.85,
+      "note": "Orphan GPCR gating oligodendrocyte maturation; ligands published"
+    },
+    "GPX1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.25,
+      "note": "Glutathione peroxidase; readout"
+    },
+    "GRIA1": {
+      "target_class": "ion_channel",
+      "small_molecule_tractability": 0.8,
+      "note": "AMPA receptor subunit; negative modulators are established"
+    },
+    "GRIN1": {
+      "target_class": "ion_channel",
+      "small_molecule_tractability": 0.85,
+      "note": "NMDA receptor subunit; open-channel blockers are approved drugs"
+    },
+    "GSR": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Glutathione reductase; readout"
+    },
+    "HMGCR": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.95,
+      "note": "Statin chemotype; extensively characterised"
+    },
+    "HMOX1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Induced downstream of Nrf2 rather than engaged directly"
+    },
+    "ICAM1": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.3,
+      "note": "Protein-protein interface, weakly ligandable"
+    },
+    "IFNG": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.15,
+      "note": "Reached upstream via T-bet/JAK, not directly"
+    },
+    "IL10": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.1,
+      "note": "Regulatory cytokine; induction is indirect"
+    },
+    "IL12B": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Shared p40 subunit; reached upstream via TYK2/JAK"
+    },
+    "IL17A": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Antibody territory; reached upstream via RORgt"
+    },
+    "IL1B": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.4,
+      "note": "Reached upstream through NLRP3 and caspase-1"
+    },
+    "IL23A": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.25,
+      "note": "Oral IL-23-pathway agents act upstream at TYK2"
+    },
+    "IL2RA": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.15,
+      "note": "CD25; antibody territory"
+    },
+    "IL6": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.15,
+      "note": "Antibody territory; reached indirectly via JAK/STAT3"
+    },
+    "ITGA4": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.6,
+      "note": "Alpha-4 integrin; oral antagonists reached phase 2"
+    },
+    "ITGAM": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.4,
+      "note": "CD11b; allosteric agonists reported"
+    },
+    "ITGB1": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.5,
+      "note": "Beta-1 partner of the alpha-4 heterodimer"
+    },
+    "LDLR": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.3,
+      "note": "Cholesterol-handling receptor; engaged indirectly"
+    },
+    "LINGO1": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.2,
+      "note": "Antibody target; small-molecule route unestablished"
+    },
+    "MAG": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.1,
+      "note": "Myelin-associated glycoprotein; growth-inhibitory signalling"
+    },
+    "MBP": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.0,
+      "note": "Myelin basic protein; a remyelination readout, never a target"
+    },
+    "MMP9": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.7,
+      "note": "Zinc metalloprotease; selectivity across the family is the obstacle"
+    },
+    "MS4A1": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.05,
+      "note": "CD20; antibody target"
+    },
+    "MTOR": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.9,
+      "note": "ATP-competitive and allosteric macrolide chemotypes both established"
+    },
+    "MYRF": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.05,
+      "note": "Myelin regulatory factor; readout only"
+    },
+    "NDUFA1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Complex I subunit; bioenergetic readout"
+    },
+    "NEFH": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.0,
+      "note": "Neurofilament heavy chain; axonal-injury readout"
+    },
+    "NEFL": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.0,
+      "note": "Neurofilament light chain; the field's axonal-injury biomarker"
+    },
+    "NFE2L2": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.6,
+      "note": "Reached through covalent KEAP1 modification, the fumarate mechanism"
+    },
+    "NLRP3": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.9,
+      "note": "Inflammasome sensor; a mature, CNS-penetrant small-molecule target"
+    },
+    "NOS2": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.8,
+      "note": "iNOS; selective inhibitors reach the CNS"
+    },
+    "NQO1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.35,
+      "note": "Canonical Nrf2 transcriptional readout"
+    },
+    "NTRK2": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.7,
+      "note": "TrkB; small-molecule agonism is contested, antagonism is tractable"
+    },
+    "OLIG1": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.1,
+      "note": "Oligodendrocyte lineage readout"
+    },
+    "OLIG2": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.15,
+      "note": "Oligodendrocyte lineage readout"
+    },
+    "PLP1": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.0,
+      "note": "Proteolipid protein; remyelination readout"
+    },
+    "POU2AF1": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.05,
+      "note": "B-cell coactivator; readout only"
+    },
+    "PPARGC1A": {
+      "target_class": "transcriptional_coactivator",
+      "small_molecule_tractability": 0.3,
+      "note": "PGC-1alpha; engaged indirectly via AMPK/SIRT1"
+    },
+    "PRKAA1": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.85,
+      "note": "AMPK alpha-1; direct allosteric activators are established"
+    },
+    "RORC": {
+      "target_class": "nuclear_receptor",
+      "small_molecule_tractability": 0.85,
+      "note": "RORgt inverse agonists are a mature chemotype"
+    },
+    "S1PR1": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.95,
+      "note": "Functional antagonists are approved oral MS therapies"
+    },
+    "S1PR5": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.9,
+      "note": "Oligodendrocyte-expressed; co-engaged by approved modulators"
+    },
+    "SELL": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.25,
+      "note": "L-selectin; shedding is the usual mechanism"
+    },
+    "SIRT1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.7,
+      "note": "Allosteric activators are established, though contested mechanistically"
+    },
+    "SLC2A1": {
+      "target_class": "transporter",
+      "small_molecule_tractability": 0.4,
+      "note": "GLUT1; blood-brain-barrier glucose transport"
+    },
+    "SOD1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Superoxide dismutase; readout"
+    },
+    "SOD2": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Mitochondrial SOD; Nrf2/PGC-1alpha readout"
+    },
+    "SOX10": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.1,
+      "note": "Myelination programme readout"
+    },
+    "STAT1": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.35,
+      "note": "Reached indirectly through JAK inhibition, not directly"
+    },
+    "STAT3": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.4,
+      "note": "SH2-domain binders exist but potency remains a problem"
+    },
+    "STAT4": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.3,
+      "note": "Indirect via upstream kinases"
+    },
+    "TBX21": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.15,
+      "note": "T-bet; no tractable pocket"
+    },
+    "TFAM": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.1,
+      "note": "Mitochondrial biogenesis readout"
+    },
+    "TGFB1": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Pleiotropic; direct engagement carries fibrosis risk"
+    },
+    "TLR4": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.6,
+      "note": "Small-molecule antagonists exist; MD2 co-receptor complicates selectivity"
+    },
+    "TNF": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Small-molecule trimer disruptors exist but none is approved"
+    },
+    "TNFSF13B": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.15,
+      "note": "BAFF; antibody and receptor-fusion territory"
+    },
+    "TXN": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Thioredoxin; redox readout"
+    },
+    "TYROBP": {
+      "target_class": "adaptor",
+      "small_molecule_tractability": 0.2,
+      "note": "DAP12; adaptor protein with no obvious pocket"
+    },
+    "VCAM1": {
+      "target_class": "adhesion",
+      "small_molecule_tractability": 0.3,
+      "note": "Counter-receptor for alpha4beta1; interface target"
+    }
+  }
+}

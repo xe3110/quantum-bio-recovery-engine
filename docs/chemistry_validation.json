@@ -1,0 +1,415 @@
+{
+  "rdkit_version": "2026.03.5",
+  "descriptor_comparison": {
+    "curated_drugs": {
+      "n_entries": 42,
+      "local_parse_failures": [],
+      "structural_perception": {
+        "n": 42,
+        "rdkit_parses_local_output": 42,
+        "rdkit_rejection_rate": 0.0,
+        "canonical_smiles_match": 42,
+        "canonical_match_rate": 1.0,
+        "example_mismatches": [],
+        "example_rejections": []
+      },
+      "descriptors": {
+        "molecular_weight": {
+          "n": 42,
+          "exact_agreement": 0.5952,
+          "mean_absolute_error": 0.0027,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.007,
+          "max_absolute_error": 0.014,
+          "bias_mean_signed_error": -0.0027,
+          "worst_case": {
+            "error": -0.014,
+            "smiles": "OC(=O)CCCCC1CCSS1"
+          }
+        },
+        "clogp": {
+          "n": 42,
+          "exact_agreement": 0.0,
+          "mean_absolute_error": 0.8546,
+          "median_absolute_error": 0.7207,
+          "p95_absolute_error": 1.865,
+          "max_absolute_error": 2.2318,
+          "bias_mean_signed_error": -0.3702,
+          "worst_case": {
+            "error": -2.2318,
+            "smiles": "CN(C)C1C2CC3C(N(C)C)c4c(O)cccc4C(=O)C3=C(O)C2(O)C(=O)C(C(N)=O)=C1O"
+          }
+        },
+        "tpsa": {
+          "n": 42,
+          "exact_agreement": 0.8333,
+          "mean_absolute_error": 0.179,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.52,
+          "max_absolute_error": 3.53,
+          "bias_mean_signed_error": -0.1686,
+          "worst_case": {
+            "error": -3.53,
+            "smiles": "Cn1cnc(c1Sc1ncnc2[nH]cnc12)[N+](=O)[O-]"
+          }
+        },
+        "hbd": {
+          "n": 42,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "hba": {
+          "n": 42,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "rotatable_bonds": {
+          "n": 42,
+          "exact_agreement": 0.9048,
+          "mean_absolute_error": 0.0952,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 1.0,
+          "max_absolute_error": 1.0,
+          "bias_mean_signed_error": 0.0952,
+          "worst_case": {
+            "error": 1.0,
+            "smiles": "CC(=O)C(=C(O)Nc1ccc(cc1)C(F)(F)F)C#N"
+          }
+        },
+        "rings": {
+          "n": 42,
+          "exact_agreement": 0.9762,
+          "mean_absolute_error": 0.0238,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 1.0,
+          "bias_mean_signed_error": -0.0238,
+          "worst_case": {
+            "error": -1.0,
+            "smiles": "CC12CC3CC(C)(C1)CC(N)(C3)C2"
+          }
+        },
+        "aromatic_rings": {
+          "n": 42,
+          "exact_agreement": 0.9524,
+          "mean_absolute_error": 0.0476,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 1.0,
+          "bias_mean_signed_error": -0.0476,
+          "worst_case": {
+            "error": -1.0,
+            "smiles": "CCN(c1ccccc1)C(=O)C1=C(O)c2ccc(Cl)cc2N(C)C1=O"
+          }
+        },
+        "fraction_sp3": {
+          "n": 42,
+          "exact_agreement": 0.381,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": -0.0,
+            "smiles": "Nc1ncnc2c1c(cn2C1CCCN(C1)C(=O)C=C)-c1ccc(Oc2ccccc2)cc1"
+          }
+        }
+      }
+    },
+    "library_fragments": {
+      "n_entries": 53,
+      "local_parse_failures": [],
+      "structural_perception": {
+        "n": 51,
+        "rdkit_parses_local_output": 51,
+        "rdkit_rejection_rate": 0.0,
+        "canonical_smiles_match": 51,
+        "canonical_match_rate": 1.0,
+        "example_mismatches": [],
+        "example_rejections": []
+      },
+      "descriptors": {
+        "molecular_weight": {
+          "n": 51,
+          "exact_agreement": 0.8627,
+          "mean_absolute_error": 0.0009,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.007,
+          "max_absolute_error": 0.007,
+          "bias_mean_signed_error": -0.0009,
+          "worst_case": {
+            "error": -0.007,
+            "smiles": "S(=O)(=O)C"
+          }
+        },
+        "clogp": {
+          "n": 51,
+          "exact_agreement": 0.0,
+          "mean_absolute_error": 0.4807,
+          "median_absolute_error": 0.4664,
+          "p95_absolute_error": 1.064,
+          "max_absolute_error": 2.83,
+          "bias_mean_signed_error": 0.0708,
+          "worst_case": {
+            "error": -2.83,
+            "smiles": "c1cc(O)c(O)c([N+](=O)[O-])c1"
+          }
+        },
+        "tpsa": {
+          "n": 51,
+          "exact_agreement": 0.9608,
+          "mean_absolute_error": 0.0692,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 3.01,
+          "bias_mean_signed_error": -0.0692,
+          "worst_case": {
+            "error": -3.01,
+            "smiles": "c1cc(O)c(O)c([N+](=O)[O-])c1"
+          }
+        },
+        "hbd": {
+          "n": 51,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "hba": {
+          "n": 51,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "rotatable_bonds": {
+          "n": 51,
+          "exact_agreement": 0.9804,
+          "mean_absolute_error": 0.0196,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 1.0,
+          "bias_mean_signed_error": 0.0196,
+          "worst_case": {
+            "error": 1.0,
+            "smiles": "CC(C)N(C)CC#C"
+          }
+        },
+        "rings": {
+          "n": 51,
+          "exact_agreement": 0.9804,
+          "mean_absolute_error": 0.0196,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 1.0,
+          "bias_mean_signed_error": -0.0196,
+          "worst_case": {
+            "error": -1.0,
+            "smiles": "C13CC2CC(C1)CC(C2)C3"
+          }
+        },
+        "aromatic_rings": {
+          "n": 51,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "fraction_sp3": {
+          "n": 51,
+          "exact_agreement": 0.8235,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": "C(=O)C(=O)NCC1CC1"
+          }
+        }
+      }
+    },
+    "generated_designs": {
+      "n_entries": 50,
+      "local_parse_failures": [],
+      "structural_perception": {
+        "n": 50,
+        "rdkit_parses_local_output": 50,
+        "rdkit_rejection_rate": 0.0,
+        "canonical_smiles_match": 50,
+        "canonical_match_rate": 1.0,
+        "example_mismatches": [],
+        "example_rejections": []
+      },
+      "descriptors": {
+        "molecular_weight": {
+          "n": 50,
+          "exact_agreement": 0.86,
+          "mean_absolute_error": 0.001,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.007,
+          "max_absolute_error": 0.007,
+          "bias_mean_signed_error": -0.001,
+          "worst_case": {
+            "error": -0.007,
+            "smiles": "c1(cccc(c1)NS(=O)(=O)c2ccnc(N)n2)NC(=O)OC(=O)C=CC(=O)OC"
+          }
+        },
+        "clogp": {
+          "n": 50,
+          "exact_agreement": 0.0,
+          "mean_absolute_error": 0.7727,
+          "median_absolute_error": 0.78,
+          "p95_absolute_error": 1.435,
+          "max_absolute_error": 1.6308,
+          "bias_mean_signed_error": 0.761,
+          "worst_case": {
+            "error": 1.6308,
+            "smiles": "c1(cccc(c1)CCOc2ccnc(N)n2)CCOC(=O)C=CC(=O)OC"
+          }
+        },
+        "tpsa": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": "c1(cccc(c1)Cc2ccnc(N)n2)OC(=O)C=CC(=O)OC"
+          }
+        },
+        "hbd": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "hba": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "rotatable_bonds": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "rings": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "aromatic_rings": {
+          "n": 50,
+          "exact_agreement": 1.0,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": ""
+          }
+        },
+        "fraction_sp3": {
+          "n": 50,
+          "exact_agreement": 0.3,
+          "mean_absolute_error": 0.0,
+          "median_absolute_error": 0.0,
+          "p95_absolute_error": 0.0,
+          "max_absolute_error": 0.0,
+          "bias_mean_signed_error": 0.0,
+          "worst_case": {
+            "error": 0.0,
+            "smiles": "c1(cccc(c1)CCOc2ccnc(N)n2)NC(=O)OC(=O)C=CC(=O)OC"
+          }
+        }
+      }
+    }
+  },
+  "fingerprint_comparison": {
+    "n_pairs": 565,
+    "spearman_rho": 0.9764,
+    "pearson_r": 0.9975,
+    "mean_absolute_difference": 0.0145,
+    "max_absolute_difference": 0.1319,
+    "novelty_threshold_disagreements": 4,
+    "novelty_threshold_disagreement_rate": 0.0071,
+    "interpretation": "Absolute Tanimoto values are not expected to match: the local fingerprint keeps an unfolded identifier set, RDKit folds to 2048 bits, and the atom invariants differ. Rank correlation and the rate of disagreement at the 0.6 novelty threshold are the quantities that matter for how the fingerprint is used."
+  },
+  "method": {
+    "structural_perception": "The local writer's output is re-read by RDKit and canonicalised, then compared against RDKit's canonicalisation of the original input. Agreement means the local parser and writer together preserve the molecule as RDKit perceives it.",
+    "hbd_hba_convention": "Compared against RDKit NHOHCount and NOCount, matching the Lipinski counting convention the local implementation uses, not NumHDonors/NumHAcceptors."
+  }
+}

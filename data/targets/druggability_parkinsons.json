@@ -1,0 +1,468 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "disease": "parkinsons",
+    "purpose": "Per-target modality annotation for Parkinson's disease. Tells the design layer which proteins a small molecule can realistically engage.",
+    "schema": {
+      "target_class": "broad protein family",
+      "small_molecule_tractability": "0-1 ordinal prior that a drug-like small molecule can productively engage this protein; 0 marks a transcriptional readout rather than a target",
+      "note": "the reason for the value, so it can be argued with"
+    },
+    "curation_rule": "Ordinal priors reflecting precedent in the public literature, on the same scale as the MS annotation. Judgements, not measurements.",
+    "readout_convention": "A target scoring below 0.2 is treated by the design engine as a readout: the profile may require its expression to move, but no arm of a designed molecule will be assigned to bind it.",
+    "the_defining_problem": "Alpha-synuclein, the central protein in the disease, is intrinsically disordered and scores 0.25. Parkinson's is therefore a sharper test of the tractability floor than multiple sclerosis: the most important target is one a small molecule largely cannot reach, and the profile has to route around it through lysosomal and autophagic mechanisms instead.",
+    "n_targets": 90
+  },
+  "targets": {
+    "ACSL4": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.6,
+      "note": "Drives ferroptotic lipid peroxidation; inhibitors reported"
+    },
+    "AIF1": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.05,
+      "note": "Iba1; the standard microglial activation marker"
+    },
+    "ALDH1A1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Detoxifies reactive dopamine metabolites; inhibitor chemotypes exist, activation wanted"
+    },
+    "ATP13A2": {
+      "target_class": "transporter",
+      "small_molecule_tractability": 0.4,
+      "note": "Lysosomal polyamine transporter; no established chemotype"
+    },
+    "ATP5F1A": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "ATP synthase subunit; readout"
+    },
+    "BAX": {
+      "target_class": "apoptosis",
+      "small_molecule_tractability": 0.3,
+      "note": "Direct inhibitors are early"
+    },
+    "BCL2": {
+      "target_class": "apoptosis",
+      "small_molecule_tractability": 0.6,
+      "note": "BH3-mimetic chemotype is mature but pro-apoptotic, the wrong direction here"
+    },
+    "BDNF": {
+      "target_class": "growth_factor",
+      "small_molecule_tractability": 0.15,
+      "note": "Induction is indirect; direct agonism unresolved"
+    },
+    "CACNA1D": {
+      "target_class": "ion_channel",
+      "small_molecule_tractability": 0.8,
+      "note": "Cav1.3; isradipine reached phase 3 and failed on efficacy, not tractability"
+    },
+    "CALB1": {
+      "target_class": "calcium_buffer",
+      "small_molecule_tractability": 0.1,
+      "note": "Calbindin; marks the neurons that survive, a readout not a target"
+    },
+    "CASP1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.7,
+      "note": "Inflammasome protease downstream of NLRP3"
+    },
+    "CASP3": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Executioner caspase; inhibition this late rarely rescues"
+    },
+    "CAT": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Catalase; readout"
+    },
+    "CCL2": {
+      "target_class": "chemokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Its receptor is the tractable node"
+    },
+    "CD68": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.05,
+      "note": "Phagocytic activation marker"
+    },
+    "CDK5": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.7,
+      "note": "Aberrant p25/CDK5 activation is implicated; selective inhibition over the CDK family is hard"
+    },
+    "COMT": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.95,
+      "note": "Three approved inhibitors; tolcapone's hepatotoxicity is chemotype-specific"
+    },
+    "CTSB": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Cathepsin B; same activation problem"
+    },
+    "CTSD": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Cathepsin D degrades alpha-synuclein; activation rather than inhibition is wanted"
+    },
+    "CYBB": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.7,
+      "note": "NOX2; microglial superoxide source with published inhibitors"
+    },
+    "DDC": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.9,
+      "note": "AADC; carbidopa and benserazide exploit peripheral selectivity"
+    },
+    "DNAJB1": {
+      "target_class": "chaperone",
+      "small_molecule_tractability": 0.35,
+      "note": "J-domain co-chaperone; protein-protein interface"
+    },
+    "DNM1L": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.6,
+      "note": "Drp1 GTPase; fission inhibitors such as the mdivi-1 chemotype exist though mechanism is disputed"
+    },
+    "DRD1": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.9,
+      "note": "D1 agonists are established, with dyskinesia as the class liability"
+    },
+    "DRD2": {
+      "target_class": "gpcr",
+      "small_molecule_tractability": 0.95,
+      "note": "The most heavily drugged target in the disease"
+    },
+    "FBXO7": {
+      "target_class": "ligase",
+      "small_molecule_tractability": 0.25,
+      "note": "F-box protein in the mitophagy pathway; no chemotype"
+    },
+    "FTH1": {
+      "target_class": "iron_storage",
+      "small_molecule_tractability": 0.2,
+      "note": "Ferritin heavy chain; chelators act on the iron, not the protein"
+    },
+    "FTL": {
+      "target_class": "iron_storage",
+      "small_molecule_tractability": 0.2,
+      "note": "Ferritin light chain; readout"
+    },
+    "GBA1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.75,
+      "note": "Glucocerebrosidase; ambroxol chaperoning and substrate-reduction chemotypes both in clinic"
+    },
+    "GDNF": {
+      "target_class": "growth_factor",
+      "small_molecule_tractability": 0.15,
+      "note": "Protein delivered surgically; not a small-molecule target"
+    },
+    "GFAP": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.05,
+      "note": "Astrocyte activation marker and a fluid biomarker"
+    },
+    "GPX4": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.6,
+      "note": "Ferroptosis gatekeeper; covalent chemotypes exist, activation is the wanted direction"
+    },
+    "GSK3B": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.8,
+      "note": "ATP-competitive inhibitors are mature; selectivity and a narrow therapeutic index are the obstacles"
+    },
+    "GSR": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Glutathione reductase; readout"
+    },
+    "HLA-DRA": {
+      "target_class": "surface_antigen",
+      "small_molecule_tractability": 0.1,
+      "note": "MHC class II; antigen presentation readout"
+    },
+    "HMOX1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Induced downstream of Nrf2 rather than engaged directly"
+    },
+    "HSPA5": {
+      "target_class": "chaperone",
+      "small_molecule_tractability": 0.4,
+      "note": "BiP; ER stress node"
+    },
+    "HSPA8": {
+      "target_class": "chaperone",
+      "small_molecule_tractability": 0.4,
+      "note": "Hsc70; allosteric modulators reported, selectivity across the family is poor"
+    },
+    "HSPB1": {
+      "target_class": "chaperone",
+      "small_molecule_tractability": 0.3,
+      "note": "Small heat-shock protein; no tractable pocket"
+    },
+    "IL1B": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.4,
+      "note": "Reached upstream through NLRP3 and caspase-1"
+    },
+    "IL6": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.15,
+      "note": "Antibody territory"
+    },
+    "ITPR1": {
+      "target_class": "ion_channel",
+      "small_molecule_tractability": 0.5,
+      "note": "IP3 receptor; modulators are early"
+    },
+    "LAMP1": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.2,
+      "note": "Lysosomal membrane marker; a readout of lysosomal mass"
+    },
+    "LAMP2": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.2,
+      "note": "Chaperone-mediated autophagy receptor; largely a readout"
+    },
+    "LRRK2": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.95,
+      "note": "Selective inhibitors have reached phase 2 with CNS exposure; the best-precedented disease-modifying target in the disease"
+    },
+    "MAOB": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.95,
+      "note": "Three approved inhibitors; a mature chemotype"
+    },
+    "MAP1LC3B": {
+      "target_class": "marker",
+      "small_molecule_tractability": 0.2,
+      "note": "LC3-II is the canonical autophagy readout, not a target"
+    },
+    "MAPT": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.3,
+      "note": "Tau; aggregation inhibitors are an active but unproven class"
+    },
+    "MFN2": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.35,
+      "note": "Mitofusin; peptide-derived activators reported"
+    },
+    "MTOR": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.9,
+      "note": "Rapalogues and ATP-competitive chemotypes both established; drives autophagic clearance"
+    },
+    "NDUFA9": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Complex I subunit; readout"
+    },
+    "NDUFS1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.25,
+      "note": "Complex I subunit; a readout of bioenergetic state"
+    },
+    "NEFL": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.0,
+      "note": "Neurofilament light; the field's neurodegeneration biomarker"
+    },
+    "NFE2L2": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.6,
+      "note": "Reached covalently through KEAP1, the fumarate mechanism"
+    },
+    "NFKB1": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.35,
+      "note": "Reached upstream rather than directly"
+    },
+    "NLRP3": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.9,
+      "note": "Inflammasome sensor; CNS-penetrant chemotypes in clinic"
+    },
+    "NQO1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.35,
+      "note": "Canonical Nrf2 transcriptional readout"
+    },
+    "NR4A2": {
+      "target_class": "nuclear_receptor",
+      "small_molecule_tractability": 0.5,
+      "note": "Nurr1; ligands reported and disputed"
+    },
+    "NTRK2": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.7,
+      "note": "TrkB; small-molecule agonism remains contested"
+    },
+    "OPA1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.35,
+      "note": "Fusion GTPase; activation is the useful direction"
+    },
+    "PARK7": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "DJ-1; small redox-sensor protein, weakly ligandable"
+    },
+    "PINK1": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.5,
+      "note": "Kinetin-analogue activators reported; activating a kinase is far harder than inhibiting one"
+    },
+    "PPARGC1A": {
+      "target_class": "transcriptional_coactivator",
+      "small_molecule_tractability": 0.3,
+      "note": "PGC-1alpha; engaged indirectly through AMPK and sirtuins"
+    },
+    "PRKN": {
+      "target_class": "ligase",
+      "small_molecule_tractability": 0.4,
+      "note": "Parkin; allosteric activators are reported but early"
+    },
+    "PSMD4": {
+      "target_class": "proteasome",
+      "small_molecule_tractability": 0.3,
+      "note": "Proteasome subunit; inhibition is the wrong direction here"
+    },
+    "RAB10": {
+      "target_class": "gtpase",
+      "small_molecule_tractability": 0.2,
+      "note": "LRRK2 phosphorylation substrate; the pharmacodynamic readout for LRRK2 inhibition"
+    },
+    "RAB29": {
+      "target_class": "gtpase",
+      "small_molecule_tractability": 0.2,
+      "note": "LRRK2 pathway readout"
+    },
+    "RET": {
+      "target_class": "kinase",
+      "small_molecule_tractability": 0.6,
+      "note": "GDNF co-receptor; agonism is the therapeutically useful direction and the difficult one"
+    },
+    "SCARB2": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.3,
+      "note": "LIMP-2, the trafficking receptor for glucocerebrosidase; interface target"
+    },
+    "SDHB": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.25,
+      "note": "Complex II subunit; readout"
+    },
+    "SLC18A2": {
+      "target_class": "transporter",
+      "small_molecule_tractability": 0.85,
+      "note": "VMAT2; approved inhibitors exist, though for the opposite indication"
+    },
+    "SLC40A1": {
+      "target_class": "transporter",
+      "small_molecule_tractability": 0.3,
+      "note": "Ferroportin; hepcidin-mimetic peptides dominate"
+    },
+    "SLC6A3": {
+      "target_class": "transporter",
+      "small_molecule_tractability": 0.8,
+      "note": "Dopamine transporter; well-precedented but abuse liability follows the mechanism"
+    },
+    "SNCA": {
+      "target_class": "intrinsically_disordered",
+      "small_molecule_tractability": 0.25,
+      "note": "Alpha-synuclein is intrinsically disordered with no stable binding pocket. It is the central protein in the disease and among the least tractable for a small molecule, which is why the clinical programmes are antibodies and antisense. Lowering it indirectly, through lysosomal or autophagic enhancement, is the realistic small-molecule route."
+    },
+    "SNCAIP": {
+      "target_class": "scaffold",
+      "small_molecule_tractability": 0.15,
+      "note": "Synphilin-1; interaction partner without a pocket"
+    },
+    "SNCB": {
+      "target_class": "intrinsically_disordered",
+      "small_molecule_tractability": 0.15,
+      "note": "Beta-synuclein; same structural problem"
+    },
+    "SOD1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Antioxidant readout"
+    },
+    "SOD2": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Mitochondrial SOD; Nrf2/PGC-1alpha readout"
+    },
+    "SQSTM1": {
+      "target_class": "adaptor",
+      "small_molecule_tractability": 0.3,
+      "note": "p62; an autophagic flux readout more than a pocket"
+    },
+    "STUB1": {
+      "target_class": "ligase",
+      "small_molecule_tractability": 0.3,
+      "note": "CHIP E3 ligase; ligase activation is an immature modality"
+    },
+    "SYN1": {
+      "target_class": "structural",
+      "small_molecule_tractability": 0.05,
+      "note": "Synapsin; synaptic density readout"
+    },
+    "TFAM": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.1,
+      "note": "Mitochondrial biogenesis readout"
+    },
+    "TFEB": {
+      "target_class": "transcription_factor",
+      "small_molecule_tractability": 0.4,
+      "note": "Master lysosomal regulator, reached indirectly through mTOR rather than directly"
+    },
+    "TFRC": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.3,
+      "note": "Transferrin receptor; largely an antibody and delivery target"
+    },
+    "TH": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.2,
+      "note": "Tyrosine hydroxylase; the rate-limiting enzyme, but its loss is the readout of neuron death"
+    },
+    "TLR4": {
+      "target_class": "receptor",
+      "small_molecule_tractability": 0.6,
+      "note": "MD2 pocket antagonists reported"
+    },
+    "TNF": {
+      "target_class": "cytokine",
+      "small_molecule_tractability": 0.2,
+      "note": "Small-molecule trimer disruptors exist; none approved"
+    },
+    "TXN": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.3,
+      "note": "Thioredoxin; redox readout"
+    },
+    "UCHL1": {
+      "target_class": "enzyme",
+      "small_molecule_tractability": 0.5,
+      "note": "Deubiquitinase with covalent inhibitor chemotypes"
+    },
+    "VPS35": {
+      "target_class": "trafficking",
+      "small_molecule_tractability": 0.3,
+      "note": "Retromer subunit; pharmacological chaperones are early"
+    }
+  }
+}

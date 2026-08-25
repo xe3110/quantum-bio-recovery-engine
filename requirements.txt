@@ -17,5 +17,17 @@ rustworkx>=0.17
 psutil>=5.9
 requests>=2.31
 
+# Cheminformatics (optional but preferred)
+#
+# RDKit is the preferred chemistry backend and is used automatically whenever
+# it can be imported. It is not a hard requirement because it publishes no
+# wheel for every interpreter this project supports; core/chemistry/ is a
+# self-contained fallback whose divergence from RDKit is measured in
+# docs/chemistry_validation.json. Install it wherever a wheel exists:
+#
+#     pip install rdkit
+#
+# rdkit>=2024.03
+
 # Testing
 pytest>=8.0

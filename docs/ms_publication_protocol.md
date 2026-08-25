@@ -9,6 +9,11 @@ It is **not** a clinical combination recommender. Concurrent immunomodulation
 carries additive infection and malignancy risk that no in-silico score can
 quantify. Every output is a hypothesis for experimental validation.
 
+This screen ranks agents that **already exist**. The companion
+[de novo design protocol](denovo_design_protocol.md) covers the campaign that
+specifies and assembles one that does not, over the same disease model,
+signature, and interactome.
+
 ---
 
 ## 1. What changed from v2
@@ -192,8 +197,52 @@ command. Every run is deterministic under a stated seed.
 - Transcript-level direction is a weak proxy for clinical benefit (§5).
 - Pairwise only — no higher-order combinations, and no pharmacokinetic
   interaction modelling.
+- **Bounded by the panel.** The screen can only ever return a molecule someone
+  has already made. Its own headline finding is that peripheral-only
+  combinations rank last while the remyelination axis has no approved agent at
+  all — a gap the screen can identify and cannot, in principle, fill. See §11.
+- **Modality-blind.** Antibodies and small molecules are ranked side by side
+  with no representation of what each modality can reach. A top-ranked pair may
+  combine an intravenous antibody with an oral agent and say nothing about
+  whether either reaches the CNS compartment where the disease persists.
 
-## 10. Key references
+## 10. Where this screen ends and design begins
+
+Two of the limitations in §9 are structural rather than fixable: the screen is
+bounded by its panel, and it is modality-blind. Both are addressed by a
+separate campaign rather than by extending this one.
+
+The [de novo design protocol](denovo_design_protocol.md) reuses this screen's
+disease model — the same 112-gene directional signature, the same cached STRING
+interactome, the same 74-agent panel — and adds two things this screen lacks:
+
+- a **per-target druggability annotation** (`data/targets/druggability.json`,
+  93 targets) that records what each modality can reach, which is what makes
+  the modality-blindness above correctable; and
+- a **chemistry model** that can represent and measure a structure that does
+  not yet exist, which is what lifts the panel bound.
+
+The design campaign independently reproduces this screen's central finding.
+Where §6 reports that remyelination-pairing strata outrank every
+immunomodulation-only stratum, the design campaign's axis-gap analysis reports
+`remyelination = 1.00` and `immunomodulation = 0.00` unmet fraction among
+approved agents — the same asymmetry derived by a different route.
+
+It also inherits every input limitation listed above. The signature is still
+illustrative; `desired_direction` is still a curation judgement; and the design
+layer adds one further assumption of its own — that a pharmacophore keeps its
+activity when transplanted onto a scaffold it did not evolve on. Nothing in
+that pipeline is docked, synthesised, or assayed, and every designed candidate
+carries a machine-readable block naming the thirteen assessment axes on which
+nothing has been done.
+
+The generic contracts this screen shares with the design layer — the signature
+schema, the effect algebra, the evidence ranking — now live in
+`core/biology/signature.py` rather than in `ms_scoring`, which re-exports them.
+A second disease (Parkinson's) is registered and exercised end to end, which is
+what makes the disease-agnostic claim checkable rather than asserted.
+
+## 11. Key references
 
 - Dalla Costa G, et al. *Expert Rev Clin Pharmacol* (2024), PMID: 39376160.
 - Olejnik P, et al. *Pharmacol Rep* (2024), PMID: 39177889.

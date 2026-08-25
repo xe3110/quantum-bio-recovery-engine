@@ -1,0 +1,1027 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "purpose": "Annotated fragment library for de novo assembly. Each pharmacophore records the target-engagement hypothesis its chemotype carries, so an assembled molecule inherits a predicted polypharmacology vector from its parts.",
+    "the_central_assumption": "That a motif taken from a chemotype known to engage a target confers that engagement when transplanted onto a new scaffold. This is how medicinal chemists reason and it is wrong often enough to matter: activity depends on the whole molecule, not the fragment. Every engagement vector here is a hypothesis to be tested by assay, never a prediction of affinity, and no number in this file is a measured Ki, IC50, or EC50.",
+    "engagement_convention": "Signed values in [-1,1] on the same directional scale the drug panel uses: negative means the motif drives the target's activity or the transcript down, positive means up. Downstream transcriptional consequences are listed alongside direct binding targets, matching the panel's target_effects convention, which is what makes assembled molecules scoreable against the disease signature.",
+    "attachment_points": "'*' marks a bond to the rest of the molecule. Arms and caps carry one; linkers and scaffolds carry two or more.",
+    "roles": {
+      "pharmacophore": "carries a target-engagement hypothesis; the reason the molecule exists",
+      "scaffold": "multi-valent core that positions the arms",
+      "linker": "bivalent spacer setting distance and flexibility between arms",
+      "cap": "monovalent group tuning solubility, polarity, or metabolic stability; no engagement claim"
+    },
+    "sources": "Chemotypes abstracted from published inhibitor and modulator classes named in each entry's parent_chemotype field.",
+    "scope": "Fragments are disease-agnostic chemical matter and are shared across every campaign. The library began MS-oriented; Parkinson's pharmacophores were added when the PD profile reported ten of its fourteen targets as unreachable. unreachable_requirements() is the diagnostic that drives this file's growth.",
+    "evidence_schema": {
+      "evidence_tier": "strength of the published precedent that this chemotype engages its primary targets: approved_drug > clinical_candidate > published_chemotype > speculative",
+      "primary_targets": "the targets the chemotype is claimed to bind directly. Every other gene in `engages` is a downstream transcriptional consequence and is a materially weaker claim.",
+      "claim_confidence": "derived per fragment-target pair from the tier and whether the target is primary; see core/design/pharmacophores.Fragment.claim_confidence. It weights coverage scoring, so a speculative downstream claim contributes less than an approved-drug binding claim.",
+      "why_this_exists": "Without per-claim provenance a new scaffold assembled entirely from speculative downstream claims scores the same as one built on approved-drug pharmacology, and looks far more convincing than its evidence warrants."
+    }
+  },
+  "fragments": [
+    {
+      "id": "nrf2_fumarate",
+      "name": "Fumarate monoester Michael acceptor",
+      "role": "pharmacophore",
+      "smiles": "*OC(=O)C=CC(=O)OC",
+      "target_family": "Nrf2_activation",
+      "parent_chemotype": "Dimethyl fumarate / diroximel fumarate",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "cns_innate"
+      ],
+      "engages": {
+        "NFE2L2": 0.85,
+        "NQO1": 0.6,
+        "HMOX1": 0.55,
+        "GPX1": 0.35,
+        "SOD2": 0.3,
+        "NOS2": -0.3,
+        "TNF": -0.3
+      },
+      "liabilities": [
+        "michael_acceptor"
+      ],
+      "note": "Covalent KEAP1 cysteine modification releases Nrf2. The electrophile is the mechanism, so the resulting structural alert is intentional rather than a flaw.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "NFE2L2"
+      ]
+    },
+    {
+      "id": "btk_acrylamide_piperidine",
+      "name": "Piperidinyl acrylamide covalent warhead",
+      "role": "pharmacophore",
+      "smiles": "*C1CCN(CC1)C(=O)C=C",
+      "target_family": "BTK_inhibitor",
+      "parent_chemotype": "Tolebrutinib / evobrutinib covalent BTK inhibitors",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "engages": {
+        "BTK": -0.85,
+        "CD79A": -0.45,
+        "CD79B": -0.45,
+        "TYROBP": -0.3,
+        "CXCL13": -0.4,
+        "AICDA": -0.3
+      },
+      "liabilities": [
+        "michael_acceptor"
+      ],
+      "note": "Targets the BTK Cys481 residue. In MS this is the one mechanism with both a B-cell and a microglial arm, which is why it dominates the progressive-disease pipeline.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "BTK"
+      ]
+    },
+    {
+      "id": "kinase_aminopyrimidine_hinge",
+      "name": "4-aminopyrimidine hinge binder",
+      "role": "pharmacophore",
+      "smiles": "*c1ccnc(N)n1",
+      "target_family": "kinase_hinge",
+      "parent_chemotype": "Generic ATP-competitive kinase hinge motif",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "engages": {
+        "BTK": -0.45,
+        "CSF1R": -0.4,
+        "MTOR": -0.25,
+        "STAT3": -0.25
+      },
+      "liabilities": [],
+      "note": "A donor-acceptor pair matching kinase hinge backbone. Deliberately promiscuous across the kinome: it buys potency and costs selectivity, and the engagement vector says so.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "BTK",
+        "CSF1R",
+        "MTOR"
+      ]
+    },
+    {
+      "id": "nlrp3_sulfonylurea",
+      "name": "Sulfonylurea inflammasome blocker",
+      "role": "pharmacophore",
+      "smiles": "*S(=O)(=O)NC(=O)NC1CCCCC1",
+      "target_family": "NLRP3_inhibitor",
+      "parent_chemotype": "MCC950 / diarylsulfonylurea class",
+      "therapeutic_axes": [
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "engages": {
+        "NLRP3": -0.85,
+        "IL1B": -0.7,
+        "CASP3": -0.3,
+        "AIF1": -0.4,
+        "CD68": -0.35,
+        "IL6": -0.3,
+        "TNF": -0.25
+      },
+      "liabilities": [],
+      "note": "Binds the NACHT domain and locks the inflammasome closed. Blocks IL-1beta maturation upstream, which is the only realistic small-molecule route to a secreted cytokine.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "NLRP3"
+      ]
+    },
+    {
+      "id": "csf1r_picolinamide",
+      "name": "Picolinamide kinase headgroup",
+      "role": "pharmacophore",
+      "smiles": "*C(=O)Nc1cccnc1",
+      "target_family": "CSF1R_inhibitor",
+      "parent_chemotype": "CSF1R inhibitor amide series",
+      "therapeutic_axes": [
+        "cns_innate"
+      ],
+      "engages": {
+        "CSF1R": -0.75,
+        "AIF1": -0.55,
+        "CD68": -0.5,
+        "ITGAM": -0.35,
+        "TYROBP": -0.4,
+        "IL1B": -0.3
+      },
+      "liabilities": [],
+      "note": "CSF1R blockade depletes and reprogrammes microglia. Depleting the resident immune cell of the CNS is a mechanism with an obvious ceiling on tolerability.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "CSF1R"
+      ]
+    },
+    {
+      "id": "rorgt_arylsulfonyl",
+      "name": "Aryl sulfonyl inverse-agonist arm",
+      "role": "pharmacophore",
+      "smiles": "*S(=O)(=O)c1ccc(cc1)C(F)(F)F",
+      "target_family": "RORgt_inverse_agonist",
+      "parent_chemotype": "RORgt inverse agonist sulfonamide series",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "engages": {
+        "RORC": -0.8,
+        "IL17A": -0.7,
+        "CCR6": -0.4,
+        "IL23A": -0.35,
+        "IL12B": -0.3
+      },
+      "liabilities": [],
+      "note": "Occupies the RORgt ligand pocket and displaces the coactivator. Shuts down Th17 differentiation upstream of IL-17 rather than sequestering the cytokine.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "RORC"
+      ]
+    },
+    {
+      "id": "s1p_azetidine_acid",
+      "name": "Azetidine-3-carboxylic acid headgroup",
+      "role": "pharmacophore",
+      "smiles": "*N1CC(C1)C(=O)O",
+      "target_family": "S1P_modulator",
+      "parent_chemotype": "Siponimod / ponesimod zwitterionic headgroup",
+      "therapeutic_axes": [
+        "immunomodulation",
+        "cns_innate"
+      ],
+      "engages": {
+        "S1PR1": -0.8,
+        "S1PR5": -0.55,
+        "SELL": -0.5,
+        "CCR6": -0.3,
+        "AIF1": -0.3
+      },
+      "liabilities": [],
+      "note": "A phosphate-mimetic head giving functional antagonism by receptor internalisation. The S1PR5 arm is the reason this class is argued to act on oligodendrocytes as well as lymphocytes.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "S1PR1",
+        "S1PR5"
+      ]
+    },
+    {
+      "id": "s1p_aminodiol",
+      "name": "2-amino-1,3-propanediol headgroup",
+      "role": "pharmacophore",
+      "smiles": "*C(N)(CO)CO",
+      "target_family": "S1P_modulator",
+      "parent_chemotype": "Fingolimod sphingosine-mimetic head",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "engages": {
+        "S1PR1": -0.75,
+        "S1PR5": -0.45,
+        "SELL": -0.45
+      },
+      "liabilities": [],
+      "note": "Requires sphingosine-kinase phosphorylation to become active, so this arm carries a prodrug dependency the assembled molecule inherits.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "S1PR1",
+        "S1PR5"
+      ]
+    },
+    {
+      "id": "mmp_hydroxamate",
+      "name": "Hydroxamic acid zinc-binding group",
+      "role": "pharmacophore",
+      "smiles": "*C(=O)NO",
+      "target_family": "metalloprotease_inhibitor",
+      "parent_chemotype": "Broad-spectrum MMP hydroxamate class",
+      "therapeutic_axes": [
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "engages": {
+        "MMP9": -0.85,
+        "CLDN5": 0.45,
+        "ICAM1": -0.3,
+        "VCAM1": -0.3
+      },
+      "liabilities": [],
+      "note": "Chelates the catalytic zinc. Potent and famously unselective across the metalloproteinase family, which is what sank the oncology hydroxamates; the CLDN5 term reflects barrier preservation rather than a binding event.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "MMP9"
+      ]
+    },
+    {
+      "id": "nos_amidine",
+      "name": "Acetamidine iNOS arm",
+      "role": "pharmacophore",
+      "smiles": "*CCC(=N)N",
+      "target_family": "iNOS_inhibitor",
+      "parent_chemotype": "Aminoethyl-isothiourea / acetamidine iNOS series",
+      "therapeutic_axes": [
+        "cns_innate",
+        "neuroprotection"
+      ],
+      "engages": {
+        "NOS2": -0.8,
+        "TXN": 0.3,
+        "SOD1": 0.25,
+        "NEFL": -0.35
+      },
+      "liabilities": [],
+      "note": "Arginine-mimetic binding at the iNOS substrate site. Selectivity over the endothelial and neuronal isoforms is the whole difficulty of this class.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "NOS2"
+      ]
+    },
+    {
+      "id": "nmda_adamantyl",
+      "name": "Adamantanamine open-channel blocker",
+      "role": "pharmacophore",
+      "smiles": "*C12CC3CC(C1)CC(C3)C2",
+      "target_family": "NMDA_antagonist",
+      "parent_chemotype": "Memantine / amantadine cage amines",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "engages": {
+        "GRIN1": -0.7,
+        "GRIA1": -0.3,
+        "CASP3": -0.35,
+        "NEFL": -0.4,
+        "BDNF": 0.25
+      },
+      "liabilities": [],
+      "note": "Low-affinity, fast-off channel block: the kinetics are the reason memantine is tolerated where higher-affinity NMDA antagonists are not. The lipophilic cage also carries the molecule across the barrier.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "GRIN1"
+      ]
+    },
+    {
+      "id": "ampk_biguanide",
+      "name": "Biguanide metabolic activator",
+      "role": "pharmacophore",
+      "smiles": "*NC(=N)NC(=N)N",
+      "target_family": "AMPK_activator",
+      "parent_chemotype": "Metformin / phenformin biguanides",
+      "therapeutic_axes": [
+        "metabolic_repair"
+      ],
+      "engages": {
+        "PRKAA1": 0.75,
+        "PPARGC1A": 0.5,
+        "TFAM": 0.4,
+        "SLC2A1": 0.35,
+        "MTOR": -0.45,
+        "NDUFA1": -0.3
+      },
+      "liabilities": [],
+      "note": "Acts through complex-I inhibition and the resulting AMP:ATP shift rather than by binding AMPK. Strongly basic and polar, so it fights the CNS envelope hard.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "PRKAA1"
+      ]
+    },
+    {
+      "id": "dhodh_trifluoromethylanilide",
+      "name": "Trifluoromethyl anilide",
+      "role": "pharmacophore",
+      "smiles": "*C(=O)Nc1ccc(cc1)C(F)(F)F",
+      "target_family": "DHODH",
+      "parent_chemotype": "Teriflunomide / vidofludimus anilide series",
+      "therapeutic_axes": [
+        "immunomodulation"
+      ],
+      "engages": {
+        "DHODH": -0.8,
+        "IFNG": -0.4,
+        "IL17A": -0.35,
+        "TBX21": -0.3,
+        "AICDA": -0.3
+      },
+      "liabilities": [],
+      "note": "Blocks de novo pyrimidine synthesis, starving activated lymphocytes. Teratogenicity travels with the mechanism, not with the chemotype.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "DHODH"
+      ]
+    },
+    {
+      "id": "hmgcr_dihydroxyacid",
+      "name": "3,5-dihydroxyheptanoic acid",
+      "role": "pharmacophore",
+      "smiles": "*CC(O)CC(O)CC(=O)O",
+      "target_family": "HMGCR_inhibitor",
+      "parent_chemotype": "Statin HMG-mimetic head",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "engages": {
+        "HMGCR": -0.85,
+        "LDLR": 0.5,
+        "ICAM1": -0.35,
+        "NOS2": -0.25,
+        "MMP9": -0.3
+      },
+      "liabilities": [],
+      "note": "An HMG-CoA transition-state mimic. Highly polar and acidic: a hard fit for a CNS envelope, and the reason brain-penetrant statins are the lipophilic ones.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "HMGCR"
+      ]
+    },
+    {
+      "id": "muscarinic_benzhydryl",
+      "name": "Benzhydryl ether remyelination arm",
+      "role": "pharmacophore",
+      "smiles": "*OC(c1ccccc1)c1ccccc1",
+      "target_family": "muscarinic_OPC",
+      "parent_chemotype": "Clemastine / benztropine antimuscarinic remyelinators",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "engages": {
+        "GPR17": -0.5,
+        "OLIG1": 0.45,
+        "OLIG2": 0.5,
+        "MYRF": 0.5,
+        "SOX10": 0.4,
+        "MBP": 0.5,
+        "PLP1": 0.45,
+        "CNP": 0.4,
+        "CSPG4": -0.3
+      },
+      "liabilities": [],
+      "note": "M1/M3 antagonism releases the brake on oligodendrocyte-precursor differentiation. This is the only arm in the library pointed at the axis with no approved agent, and its anticholinergic burden is the cost.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "GPR17"
+      ]
+    },
+    {
+      "id": "gpr17_indole_acid",
+      "name": "Indole carboxylic acid",
+      "role": "pharmacophore",
+      "smiles": "*c1cc2ccccc2[nH]1",
+      "target_family": "GPR17_modulator",
+      "parent_chemotype": "GPR17 antagonist indole series",
+      "therapeutic_axes": [
+        "remyelination"
+      ],
+      "engages": {
+        "GPR17": -0.7,
+        "MYRF": 0.45,
+        "OLIG2": 0.4,
+        "MBP": 0.4,
+        "CNP": 0.35
+      },
+      "liabilities": [],
+      "note": "GPR17 arrests oligodendrocyte precursors mid-differentiation; antagonism releases them. Ligand pharmacology for this orphan receptor is still contested, so this is the least secure engagement claim in the library.",
+      "evidence_tier": "speculative",
+      "primary_targets": [
+        "GPR17"
+      ]
+    },
+    {
+      "id": "sirt_polyphenol",
+      "name": "Resorcinol antioxidant arm",
+      "role": "pharmacophore",
+      "smiles": "*c1cc(O)cc(O)c1",
+      "target_family": "SIRT1_activator",
+      "parent_chemotype": "Resveratrol / polyphenol stilbenes",
+      "therapeutic_axes": [
+        "metabolic_repair",
+        "neuroprotection"
+      ],
+      "engages": {
+        "SIRT1": 0.6,
+        "PPARGC1A": 0.45,
+        "NFE2L2": 0.35,
+        "SOD2": 0.3,
+        "CAT": 0.25,
+        "TNF": -0.25
+      },
+      "liabilities": [],
+      "note": "Sirtuin activation by polyphenols is mechanistically contested and confounded by assay-fluorophore artefacts. Included because the chemotype recurs in MS neuroprotection work, flagged because the evidence is weak.",
+      "evidence_tier": "speculative",
+      "primary_targets": [
+        "SIRT1"
+      ]
+    },
+    {
+      "id": "tlr4_antagonist_aryl",
+      "name": "Chlorophenyl TLR4 antagonist arm",
+      "role": "pharmacophore",
+      "smiles": "*c1ccc(Cl)cc1",
+      "target_family": "TLR4_antagonist",
+      "parent_chemotype": "Small-molecule TLR4/MD2 antagonists",
+      "therapeutic_axes": [
+        "cns_innate"
+      ],
+      "engages": {
+        "TLR4": -0.6,
+        "TNF": -0.35,
+        "IL6": -0.3,
+        "CCL2": -0.35,
+        "AIF1": -0.3
+      },
+      "liabilities": [],
+      "note": "Occupies the MD2 hydrophobic pocket. A lipophilic aryl group doing double duty as a permeability handle.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "TLR4"
+      ]
+    },
+    {
+      "id": "bcl2_neuroprotective_amide",
+      "name": "Aminothiazole apoptosis arm",
+      "role": "pharmacophore",
+      "smiles": "*c1csc(N)n1",
+      "target_family": "apoptosis_modulator",
+      "parent_chemotype": "Aminothiazole BH3-adjacent series",
+      "therapeutic_axes": [
+        "neuroprotection"
+      ],
+      "engages": {
+        "BCL2": 0.5,
+        "BAX": -0.4,
+        "CASP3": -0.5,
+        "NEFL": -0.35,
+        "NEFH": -0.3
+      },
+      "liabilities": [],
+      "note": "Anti-apoptotic bias in neurons. The same bias in lymphocytes is a malignancy concern, and nothing in a small molecule makes it cell-type selective.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "BCL2",
+        "BAX"
+      ]
+    },
+    {
+      "id": "glut_pyridine_metabolic",
+      "name": "Methoxypyridine bioenergetic arm",
+      "role": "pharmacophore",
+      "smiles": "*c1ccncc1OC",
+      "target_family": "metabolic_cofactor",
+      "parent_chemotype": "Pyridine-nucleotide precursor analogues",
+      "therapeutic_axes": [
+        "metabolic_repair"
+      ],
+      "engages": {
+        "SLC2A1": 0.45,
+        "ATP5F1A": 0.4,
+        "NDUFA1": 0.35,
+        "TFAM": 0.35,
+        "PPARGC1A": 0.3
+      },
+      "liabilities": [],
+      "note": "A weakly-supported bioenergetic arm standing in for the NAD-precursor mechanism, whose actual pharmacology needs the intact nucleoside.",
+      "evidence_tier": "speculative",
+      "primary_targets": [
+        "SLC2A1"
+      ]
+    },
+    {
+      "id": "scaffold_benzene_13",
+      "name": "1,3-disubstituted benzene",
+      "role": "scaffold",
+      "smiles": "*c1cccc(*)c1",
+      "attachment_count": 2,
+      "geometry": "meta, 120 degrees",
+      "note": "The default rigid two-arm core: cheap, flat, metabolically robust."
+    },
+    {
+      "id": "scaffold_benzene_14",
+      "name": "1,4-disubstituted benzene",
+      "role": "scaffold",
+      "smiles": "*c1ccc(*)cc1",
+      "attachment_count": 2,
+      "geometry": "para, 180 degrees",
+      "note": "Maximum reach between arms; the most common bivalent spacer in medicinal chemistry."
+    },
+    {
+      "id": "scaffold_benzene_135",
+      "name": "1,3,5-trisubstituted benzene",
+      "role": "scaffold",
+      "smiles": "*c1cc(*)cc(*)c1",
+      "attachment_count": 3,
+      "geometry": "trigonal",
+      "note": "Three-arm core. Adding a third arm costs roughly 80-120 Da, which for a CNS envelope is most of the budget."
+    },
+    {
+      "id": "scaffold_pyrimidine_24",
+      "name": "2,4-disubstituted pyrimidine",
+      "role": "scaffold",
+      "smiles": "*c1ccnc(*)n1",
+      "attachment_count": 2,
+      "geometry": "1,3-heteroaryl",
+      "note": "Lowers logP relative to benzene and offers hinge-like acceptors; a standard kinase-programme core."
+    },
+    {
+      "id": "scaffold_piperazine",
+      "name": "1,4-piperazine",
+      "role": "scaffold",
+      "smiles": "*N1CCN(*)CC1",
+      "attachment_count": 2,
+      "geometry": "saturated, chair",
+      "note": "Adds sp3 character and a basic centre that helps solubility and hurts the CNS pKa term."
+    },
+    {
+      "id": "scaffold_pyrazole_13",
+      "name": "1,3-disubstituted pyrazole",
+      "role": "scaffold",
+      "smiles": "*c1ccn(*)n1",
+      "attachment_count": 2,
+      "geometry": "1,3-azole",
+      "note": "Small, polar, metabolically stable aromatic connector."
+    },
+    {
+      "id": "scaffold_piperidine_14",
+      "name": "1,4-piperidine",
+      "role": "scaffold",
+      "smiles": "*N1CCC(*)CC1",
+      "attachment_count": 2,
+      "geometry": "saturated, chair",
+      "note": "One basic nitrogen and one carbon attachment; raises fraction sp3 without a second basic centre."
+    },
+    {
+      "id": "linker_methylene",
+      "name": "Methylene",
+      "role": "linker",
+      "smiles": "*C*",
+      "length": 1,
+      "note": "Shortest possible spacer; keeps the arms nearly in contact."
+    },
+    {
+      "id": "linker_ethylene",
+      "name": "Ethylene",
+      "role": "linker",
+      "smiles": "*CC*",
+      "length": 2,
+      "note": "Two rotatable bonds bought for minimal mass."
+    },
+    {
+      "id": "linker_ether",
+      "name": "Ether oxygen",
+      "role": "linker",
+      "smiles": "*O*",
+      "length": 1,
+      "note": "Adds an acceptor and a bend without adding a donor."
+    },
+    {
+      "id": "linker_amide",
+      "name": "Amide",
+      "role": "linker",
+      "smiles": "*C(=O)N*",
+      "length": 2,
+      "note": "Planar, rigid, and a donor-acceptor pair. Cheap to make and the most common bond in the pharmacopoeia."
+    },
+    {
+      "id": "linker_oxyethylene",
+      "name": "Oxyethylene",
+      "role": "linker",
+      "smiles": "*OCC*",
+      "length": 3,
+      "note": "Flexible polar spacer; each unit costs a rotatable bond."
+    },
+    {
+      "id": "linker_sulfonamide",
+      "name": "Sulfonamide",
+      "role": "linker",
+      "smiles": "*S(=O)(=O)N*",
+      "length": 2,
+      "note": "Strongly polar and acidic-NH; adds a large TPSA increment that a CNS envelope may not afford."
+    },
+    {
+      "id": "linker_direct",
+      "name": "Direct bond",
+      "role": "linker",
+      "smiles": "**",
+      "length": 0,
+      "note": "No spacer: the arms are joined directly, giving the most rigid and lowest-mass connection."
+    },
+    {
+      "id": "cap_morpholine",
+      "name": "Morpholine",
+      "role": "cap",
+      "smiles": "*N1CCOCC1",
+      "engages": {},
+      "note": "Solubilising, weakly basic, and metabolically robust. The default polarity handle."
+    },
+    {
+      "id": "cap_methylpiperazine",
+      "name": "N-methylpiperazine",
+      "role": "cap",
+      "smiles": "*N1CCN(C)CC1",
+      "engages": {},
+      "note": "Strong solubility gain from a basic centre; costs the CNS pKa desirability term."
+    },
+    {
+      "id": "cap_dimethylamino",
+      "name": "Dimethylamino",
+      "role": "cap",
+      "smiles": "*N(C)C",
+      "engages": {},
+      "note": "Small basic handle; a frequent site of oxidative N-dealkylation."
+    },
+    {
+      "id": "cap_methoxy",
+      "name": "Methoxy",
+      "role": "cap",
+      "smiles": "*OC",
+      "engages": {},
+      "note": "Low-cost acceptor; also a metabolic soft spot for O-demethylation."
+    },
+    {
+      "id": "cap_fluoro",
+      "name": "Fluorine",
+      "role": "cap",
+      "smiles": "*F",
+      "engages": {},
+      "note": "Blocks a metabolic site for 18 Da and nudges logP and pKa."
+    },
+    {
+      "id": "cap_trifluoromethyl",
+      "name": "Trifluoromethyl",
+      "role": "cap",
+      "smiles": "*C(F)(F)F",
+      "engages": {},
+      "note": "Raises lipophilicity and blocks oxidation; heavy for what it does."
+    },
+    {
+      "id": "cap_methyl",
+      "name": "Methyl",
+      "role": "cap",
+      "smiles": "*C",
+      "engages": {},
+      "note": "The cheapest lipophilicity increment there is."
+    },
+    {
+      "id": "cap_hydroxyl",
+      "name": "Hydroxyl",
+      "role": "cap",
+      "smiles": "*O",
+      "engages": {},
+      "note": "One donor and one acceptor; the CNS envelope charges heavily for donors."
+    },
+    {
+      "id": "cap_carboxamide",
+      "name": "Primary carboxamide",
+      "role": "cap",
+      "smiles": "*C(=O)N",
+      "engages": {},
+      "note": "Two donors and an acceptor; strong solubility gain, strong CNS penalty."
+    },
+    {
+      "id": "cap_methylsulfone",
+      "name": "Methylsulfone",
+      "role": "cap",
+      "smiles": "*S(=O)(=O)C",
+      "engages": {},
+      "note": "Polar without being a donor, which is the combination a CNS envelope likes."
+    },
+    {
+      "id": "cap_cyclopropyl",
+      "name": "Cyclopropyl",
+      "role": "cap",
+      "smiles": "*C1CC1",
+      "engages": {},
+      "note": "Rigid sp3 lipophilicity; raises fraction sp3 cheaply."
+    },
+    {
+      "id": "scaffold_benzene_124",
+      "name": "1,2,4-trisubstituted benzene",
+      "role": "scaffold",
+      "smiles": "*c1ccc(*)c(*)c1",
+      "attachment_count": 3,
+      "geometry": "asymmetric trigonal",
+      "note": "Three arms with two of them adjacent; the crowding is a real synthetic cost and a real conformational constraint."
+    },
+    {
+      "id": "scaffold_triazine_246",
+      "name": "2,4,6-trisubstituted 1,3,5-triazine",
+      "role": "scaffold",
+      "smiles": "*c1nc(*)nc(*)n1",
+      "attachment_count": 3,
+      "geometry": "symmetric trigonal",
+      "note": "Three symmetric arms on a polar, electron-poor core; each ring nitrogen is an acceptor, which lowers logP where a lipophilic three-arm design would otherwise overrun the envelope."
+    },
+    {
+      "id": "scaffold_pyridine_246",
+      "name": "2,4,6-trisubstituted pyridine",
+      "role": "scaffold",
+      "smiles": "*c1cc(*)cc(*)n1",
+      "attachment_count": 3,
+      "geometry": "trigonal, one acceptor",
+      "note": "A trigonal core with a single basic nitrogen: one acceptor and a modest polarity gain over benzene."
+    },
+    {
+      "id": "lrrk2_aminopyrimidine",
+      "name": "LRRK2 aminopyrimidine hinge",
+      "role": "pharmacophore",
+      "smiles": "*c1cc(C)nc(Nc2cccnc2)n1",
+      "target_family": "LRRK2_inhibitor",
+      "parent_chemotype": "Clinical LRRK2 inhibitor aminopyrimidine series",
+      "therapeutic_axes": [
+        "synuclein_proteostasis",
+        "mitochondrial_rescue"
+      ],
+      "engages": {
+        "LRRK2": -0.9,
+        "RAB10": -0.7,
+        "RAB29": -0.5,
+        "SNCA": -0.3,
+        "MAP1LC3B": 0.3,
+        "LAMP1": 0.25,
+        "VPS35": 0.2
+      },
+      "liabilities": [],
+      "note": "Hinge-binding motif from the clinical LRRK2 series. The class liability is pulmonary phospholipidosis from peripheral LRRK2 inhibition, which a CNS-restricted design does not avoid.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "LRRK2"
+      ]
+    },
+    {
+      "id": "maob_propargylamine",
+      "name": "Propargylamine MAO-B warhead",
+      "role": "pharmacophore",
+      "smiles": "*CC(C)N(C)CC#C",
+      "target_family": "MAOB_inhibitor",
+      "parent_chemotype": "Selegiline / rasagiline propargylamines",
+      "therapeutic_axes": [
+        "symptomatic_dopaminergic",
+        "mitochondrial_rescue"
+      ],
+      "engages": {
+        "MAOB": -0.9,
+        "SLC6A3": 0.15,
+        "BAX": -0.25,
+        "BCL2": 0.25,
+        "SOD2": 0.2
+      },
+      "liabilities": [],
+      "note": "Forms a covalent adduct with the FAD cofactor. Irreversible inhibition means duration is set by enzyme resynthesis, not by pharmacokinetics.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "MAOB"
+      ]
+    },
+    {
+      "id": "comt_nitrocatechol",
+      "name": "Nitrocatechol COMT arm",
+      "role": "pharmacophore",
+      "smiles": "*c1cc(O)c(O)c([N+](=O)[O-])c1",
+      "target_family": "COMT_inhibitor",
+      "parent_chemotype": "Entacapone / opicapone / tolcapone nitrocatechols",
+      "therapeutic_axes": [
+        "symptomatic_dopaminergic"
+      ],
+      "engages": {
+        "COMT": -0.9
+      },
+      "liabilities": [
+        "nitro_group"
+      ],
+      "note": "The nitrocatechol is the pharmacophore and the liability at once: it chelates the catalytic magnesium, and nitroreduction is the suspected route to tolcapone's hepatotoxicity.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "COMT"
+      ]
+    },
+    {
+      "id": "d2_aminotetralin",
+      "name": "2-aminotetralin dopamine agonist head",
+      "role": "pharmacophore",
+      "smiles": "*C1CCc2ccccc2C1N(C)C",
+      "target_family": "D2_agonist",
+      "parent_chemotype": "Rotigotine / aminotetralin dopamine agonists",
+      "therapeutic_axes": [
+        "symptomatic_dopaminergic"
+      ],
+      "engages": {
+        "DRD2": 0.85,
+        "DRD1": 0.3
+      },
+      "liabilities": [],
+      "note": "A rigidified dopamine mimic. Impulse-control disorders track with D3 affinity across this whole class.",
+      "evidence_tier": "approved_drug",
+      "primary_targets": [
+        "DRD2",
+        "DRD1"
+      ]
+    },
+    {
+      "id": "gba_iminosugar",
+      "name": "Iminosugar glucocerebrosidase chaperone",
+      "role": "pharmacophore",
+      "smiles": "*N1CC(O)C(O)C(O)C1CO",
+      "target_family": "GCase_chaperone",
+      "parent_chemotype": "Isofagomine / iminosugar GCase chaperones",
+      "therapeutic_axes": [
+        "synuclein_proteostasis"
+      ],
+      "engages": {
+        "GBA1": 0.8,
+        "SNCA": -0.4,
+        "SCARB2": 0.3,
+        "LAMP1": 0.3,
+        "CTSD": 0.25
+      },
+      "liabilities": [],
+      "note": "An active-site chaperone that must bind tightly enough to stabilise folding and release in the lysosome. That inverted-affinity requirement is the whole difficulty of the class.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "GBA1"
+      ]
+    },
+    {
+      "id": "gsk3b_maleimide",
+      "name": "Bisindolylmaleimide-style kinase arm",
+      "role": "pharmacophore",
+      "smiles": "*c1c[nH]c2ccccc12",
+      "target_family": "GSK3B_inhibitor",
+      "parent_chemotype": "GSK-3beta indole inhibitor series",
+      "therapeutic_axes": [
+        "synuclein_proteostasis"
+      ],
+      "engages": {
+        "GSK3B": -0.8,
+        "MAPT": -0.4,
+        "CDK5": -0.3,
+        "NFKB1": -0.25
+      },
+      "liabilities": [],
+      "note": "Indole hinge binder. GSK-3beta sits upstream of tau phosphorylation, and selectivity against CDK family kinases is the recurring problem.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "GSK3B"
+      ]
+    },
+    {
+      "id": "cav_dihydropyridine",
+      "name": "Dihydropyridine calcium-channel arm",
+      "role": "pharmacophore",
+      "smiles": "*C1C(C(=O)OC)=C(C)NC(C)=C1C(=O)OC",
+      "target_family": "CaV1_3_blocker",
+      "parent_chemotype": "Isradipine / dihydropyridine calcium blockers",
+      "therapeutic_axes": [
+        "mitochondrial_rescue"
+      ],
+      "engages": {
+        "CACNA1D": -0.8,
+        "ITPR1": -0.3,
+        "CALB1": 0.2
+      },
+      "liabilities": [],
+      "note": "Cav1.3 selectivity over Cav1.2 is the unsolved problem: isradipine failed phase 3 partly because the dose limited by peripheral vasodilation may never have engaged the CNS target.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "CACNA1D"
+      ]
+    },
+    {
+      "id": "iron_hydroxypyridinone",
+      "name": "Hydroxypyridinone iron chelator",
+      "role": "pharmacophore",
+      "smiles": "*n1ccc(=O)c(O)c1C",
+      "target_family": "iron_chelator",
+      "parent_chemotype": "Deferiprone hydroxypyridinones",
+      "therapeutic_axes": [
+        "mitochondrial_rescue"
+      ],
+      "engages": {
+        "FTH1": -0.6,
+        "FTL": -0.6,
+        "TFRC": -0.4,
+        "ACSL4": -0.3,
+        "GPX4": 0.3,
+        "SLC40A1": 0.25
+      },
+      "liabilities": [],
+      "note": "Bidentate iron chelation. Brain-penetrant and, in deferiprone's case, capable of redistributing iron without systemic depletion -- though the phase 2/3 motor outcome was negative.",
+      "evidence_tier": "clinical_candidate",
+      "primary_targets": [
+        "FTH1",
+        "FTL",
+        "TFRC"
+      ]
+    },
+    {
+      "id": "caspase1_ketoamide",
+      "name": "Ketoamide caspase warhead",
+      "role": "pharmacophore",
+      "smiles": "*C(=O)C(=O)NCC1CC1",
+      "target_family": "caspase_inhibitor",
+      "parent_chemotype": "Peptidomimetic caspase-1 ketoamides",
+      "therapeutic_axes": [
+        "neuroinflammation_control"
+      ],
+      "engages": {
+        "CASP1": -0.8,
+        "IL1B": -0.6,
+        "CASP3": -0.35,
+        "AIF1": -0.3
+      },
+      "liabilities": [],
+      "note": "Reversible covalent trap for the catalytic cysteine. Peptidomimetic caspase inhibitors have historically had poor exposure and little clinical success.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "CASP1"
+      ]
+    },
+    {
+      "id": "nox_phenothiazine",
+      "name": "Tricyclic NOX2 inhibitor arm",
+      "role": "pharmacophore",
+      "smiles": "*C1=Nc2ccccc2Sc2ccccc21",
+      "target_family": "NOX2_inhibitor",
+      "parent_chemotype": "Phenothiazine-derived NOX inhibitors",
+      "therapeutic_axes": [
+        "neuroinflammation_control"
+      ],
+      "engages": {
+        "CYBB": -0.7,
+        "AIF1": -0.4,
+        "GFAP": -0.3,
+        "TNF": -0.25,
+        "SOD1": 0.2
+      },
+      "liabilities": [],
+      "note": "Blocks microglial superoxide production. This chemotype is promiscuous across aminergic receptors, which is either an off-target burden or, in a dopaminergic disease, an outright hazard.",
+      "evidence_tier": "published_chemotype",
+      "primary_targets": [
+        "CYBB"
+      ]
+    },
+    {
+      "id": "trophic_aminopyrazole",
+      "name": "Aminopyrazole neurotrophic arm",
+      "role": "pharmacophore",
+      "smiles": "*c1cc(N)n(C)n1",
+      "target_family": "trophic_support",
+      "parent_chemotype": "Small-molecule neurotrophin-mimetic aminopyrazoles",
+      "therapeutic_axes": [
+        "trophic_support"
+      ],
+      "engages": {
+        "BDNF": 0.4,
+        "NTRK2": 0.45,
+        "RET": 0.3,
+        "NR4A2": 0.3,
+        "CASP3": -0.25
+      },
+      "liabilities": [],
+      "note": "The weakest engagement claim added for this disease. Small-molecule neurotrophin mimicry is contested throughout the literature, and the axis it serves has no approved agent precisely because nothing has worked.",
+      "evidence_tier": "speculative",
+      "primary_targets": [
+        "NTRK2",
+        "BDNF"
+      ]
+    }
+  ]
+}

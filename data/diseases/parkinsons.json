@@ -1,0 +1,53 @@
+{
+  "identifier": "parkinsons",
+  "name": "Parkinson's disease",
+  "description": "Progressive neurodegenerative disorder characterised by alpha-synuclein aggregation, loss of nigrostriatal dopaminergic neurons, mitochondrial and lysosomal dysfunction, and chronic microglial activation. Symptomatic dopaminergic therapy is effective and disease modification has repeatedly failed.",
+  "vocabulary": {
+    "pathways": [
+      "alpha_synuclein_proteostasis", "lysosomal_autophagy", "mitophagy",
+      "mitochondrial_function", "oxidative_stress", "iron_metabolism",
+      "dopaminergic_neurotransmission", "neuroinflammation", "kinase_signalling",
+      "calcium_homeostasis", "trophic_support", "axonal_integrity", "apoptosis"
+    ],
+    "therapeutic_axes": [
+      "symptomatic_dopaminergic", "synuclein_proteostasis", "mitochondrial_rescue",
+      "neuroinflammation_control", "trophic_support"
+    ],
+    "risk_domains": [
+      "dyskinesia", "impulse_control", "orthostatic_hypotension", "psychiatric",
+      "cardiac", "hepatic", "somnolence", "gastrointestinal"
+    ],
+    "risk_weights": {
+      "dyskinesia": 0.9,
+      "impulse_control": 0.9,
+      "orthostatic_hypotension": 0.7,
+      "psychiatric": 1.0,
+      "cardiac": 0.8,
+      "hepatic": 0.7,
+      "somnolence": 0.5,
+      "gastrointestinal": 0.4
+    },
+    "risk_weights_rationale": "Weighted by how strongly each domain constrains use in an elderly population on chronic dopaminergic therapy. Psychosis and impulse-control disorders are weighted highest because they are the usual reasons a regimen is abandoned; dyskinesia is close behind as the dose-limiting toxicity of the most effective drug in the disease. Note that this vocabulary shares no domain with the multiple sclerosis entry, which is the point: safety burden is a property of the disease and its population, not of the scoring code."
+  },
+  "delivery": {
+    "requires_cns_exposure": true,
+    "cns_mpo_floor": 4.0,
+    "preferred_routes": ["oral"],
+    "sanctuary_rationale": "The pathology is intraparenchymal from the outset: synuclein aggregation, mitophagy failure, and microglial activation all occur inside the CNS, and the degenerating substantia nigra is not reachable from the periphery. Levodopa works because it is actively transported across the barrier and decarboxylated centrally. A disease-modifying molecule has no such transporter to rely on, so CNS exposure is a gate on the design rather than a preference."
+  },
+  "gene_aliases": {
+    "GBA": "GBA1"
+  },
+  "data": {
+    "signature": "data/pd_expression.csv",
+    "network": "data/networks/string_pd_network.tsv",
+    "panel": "data/drugs/parkinsons_panel_v1.json",
+    "druggability": "data/targets/druggability_parkinsons.json"
+  },
+  "provenance": {
+    "signature_version": "v1, 90 directional genes",
+    "network_source": "STRING v12, cached 2026-08-26",
+    "panel_version": "1.0.0",
+    "note": "Illustrative discovery-stage context built to exercise the disease-agnostic contracts. The signature is curated from literature knowledge rather than derived from a specific cohort, and is weaker evidence than the MS entry's. Nothing derived from it is a clinical recommendation."
+  }
+}
