@@ -59,14 +59,15 @@ campaign specifies and builds one that does not.
 ```
 quantum-bio-recovery-engine/
 ├── core/ # Biology, chemistry, design, and Hamiltonian modules
-│ ├── biology/ # Signature scoring, network proximity, screen statistics
+│ ├── biology/ # Signature scoring, k-ary combination scoring, network proximity, statistics
 │ ├── chemistry/ # SMILES parser/writer, descriptors, developability, fingerprints
 │ ├── design/ # Target profiles, fragment library, QUBO assembly, de novo engine
 │ ├── models/ # Disease model and registry loader
 │ ├── quantum/ # Quantum optimizer for the drug-selection Hamiltonian
 │ └── provenance.py # Input digests, environment capture, run artifacts
 ├── experiments/
-│ ├── ms/ # Disease-specific experiments (e.g., Multiple Sclerosis)
+│ ├── ms/ # Multiple sclerosis: pairwise combination screen
+│ ├── parkinsons/ # Parkinson's: monotherapy + pair + triple screen
 │ ├── design/ # De novo design campaigns (disease-agnostic)
 │ └── benchmarks/ # Scaling and hardness benchmarks
 ├── tools/ # Input curation and external-database fetchers
@@ -156,6 +157,44 @@ See [the MS publication protocol](docs/ms_publication_protocol.md) for data
 provenance, every scoring assumption, the control design, and the validation work
 required for a manuscript. This is a hypothesis generator, not a clinical
 combination recommendation.
+
+### Parkinson's monotherapy, pair, and triple screen
+
+The same idea one order higher. A **35-agent** Parkinson's panel is scored
+against a **90-gene directional signature** and a cached STRING interactome at
+**k = 1, 2, and 3** — monotherapy, pairs, and triples — through a single
+disease-agnostic scorer that reads its pathways, therapeutic axes, risk domains
+and risk weights from the registry entry rather than from any constant in the
+code.
+
+```bash
+python -m experiments.parkinsons.run_combination_screen --top 25 --seed 7
+python -m experiments.parkinsons.run_combination_screen --quick      # smoke run
+```
+
+Outputs land in `experiments/parkinsons/results/`:
+`pd_combination_screen.json` (full report with provenance) and
+`pd_combinations_full.csv` (every combination at every order, including the
+redundant ones excluded from the primary ranking).
+
+Monotherapy runs through the **same function** as a triple, so the
+single-versus-combination comparison is a comparison of biology rather than of
+two implementations. Three fields carry it: `reversal_gain_over_best_single`
+(what a combination adds over its own best member),
+`score_gain_over_best_subset` (whether a third agent earns its place — negative
+means it does not), and `additivity_ratio` (below 1 the members are covering the
+same signal).
+
+> **`priority_score` is comparable only within a fixed order.** It includes
+> terms a single agent cannot earn — target complementarity, compartment
+> complementarity, network separation. Across orders, compare the efficacy
+> block, which is defined identically at every *k*. A test asserts the composite
+> never enters the cross-order comparison.
+
+See [the Parkinson's screen protocol](docs/parkinsons_screen.md) for the
+results and the disease's own caveats, and [the disease campaign
+protocol](docs/disease_campaign_protocol.md) for the standing procedure every
+campaign follows.
 
 ### De novo molecular design
 
@@ -263,7 +302,9 @@ Two, so the disease-agnostic claim is checkable rather than asserted:
 | Panel | 74 agents | 35 agents |
 | Interactome | STRING v12, 261 nodes | STRING v12, 240 nodes |
 | Druggability | 93 targets annotated | 90 targets annotated |
+| Known structures | 42 agents | 26 agents |
 | Unserved axis | remyelination (1.00) | synuclein proteostasis, trophic support (1.00) |
+| Combination screen | pairs | monotherapy + pairs + triples |
 
 They share **no therapeutic axis** and overlap on only two safety domains
 (cardiac, hepatic — generic organ toxicity). Nothing in Parkinson's care is
@@ -275,11 +316,21 @@ imports disease-specific scoring.
 python -m experiments.design.run_denovo_design --disease parkinsons --quantum-benchmark
 ```
 
+Each disease declares a **known-structure reference set** that the design
+campaign measures novelty against. It is optional in the loader and that turned
+out to be a trap: Parkinson's ran its first design campaign without one, so
+novelty fell back to the pharmacophore library's own fragments and a design was
+reported as more novel than it is. Two tests now fail if a registered disease
+omits the set or fills it with chemical matter the library already had. See
+[the de novo protocol](docs/denovo_design_protocol.md#the-novelty-figure-this-design-used-to-carry-was-wrong-2026-08-28).
+
 ### Adding a disease
 
 Pathways, therapeutic axes, risk domains, risk weights, gene aliases, and the
 delivery constraint all live in the registry rather than in scoring code.
-Adding a disease is a data task.
+Adding a disease is a data task. The full checklist — including the controls a
+panel must declare and the two claims the test suite enforces — is in [the
+disease campaign protocol](docs/disease_campaign_protocol.md).
 
 1. Drop a signature CSV (`gene, logFC, direction_class, desired_direction,
    pathway, confidence`), a cached interactome TSV, and a candidate panel JSON
@@ -294,6 +345,7 @@ Adding a disease is a data task.
 
 ```bash
 python -m experiments.design.run_denovo_design --disease <name>
+cp experiments/parkinsons/run_combination_screen.py experiments/<name>/   # change DISEASE
 ```
 
 The loader validates every referenced path on read and names what is missing,
@@ -306,7 +358,9 @@ covers, which is how the library learns what it is missing.
 
 | Document | What it covers |
 | --- | --- |
+| [Disease campaign protocol](docs/disease_campaign_protocol.md) | **Start here for a new disease.** What a registry entry must carry, the k-ary scoring contract, the cross-order comparison rule, the statistical treatment, and the checklist for adding the next disease |
 | [MS publication protocol](docs/ms_publication_protocol.md) | Screen inputs, all 20 scoring parameters, statistical treatment, controls, and the validation required for a manuscript |
+| [Parkinson's screen protocol](docs/parkinsons_screen.md) | The k = 1/2/3 screen: monotherapy vs combination results, mechanism strata, controls, and the caveats specific to chronic dopaminergic polypharmacy |
 | [De novo design protocol](docs/denovo_design_protocol.md) | Target profile derivation, the Hamiltonian and its two approximations, the chemistry model's validation state and blind spots, and the central transplantation assumption |
 | [Lab journal](docs/lab_journal.md) | Dated research log across all four phases, including the failures and what they changed |
 | [Chemistry validation](docs/chemistry_validation.json) | Machine-readable cross-validation of the local chemistry stack against RDKit, regenerated by `tools/validate_chemistry.py` |

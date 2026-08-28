@@ -45,7 +45,12 @@ ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "experiments/design/results"
 
 CSV_COLUMNS = [
-    "rank", "smiles", "molecular_formula", "fitness", "profile_coverage",
+    # `selected_for_diversity` distinguishes the two views this file carries.
+    # Rows are the full fitness ranking, which contains near-identical isomers;
+    # the campaign's actual deliverable is the diversity-selected subset the
+    # runner prints. Without the flag the CSV reads as "the designs" while
+    # showing a different, less diverse set than the report headlines.
+    "rank", "selected_for_diversity", "smiles", "molecular_formula", "fitness", "profile_coverage",
     "reversal_efficiency", "counter_therapeutic", "molecular_weight", "clogp", "tpsa",
     "hbd", "hba", "rotatable_bonds", "aromatic_rings", "fraction_sp3", "heavy_atoms",
     "cns_mpo", "meets_delivery_gate", "drug_likeness", "synthetic_tractability",
@@ -72,12 +77,13 @@ def _git_revision() -> str:
         return "unknown"
 
 
-def _csv_row(rank: int, candidate: dict) -> dict:
+def _csv_row(rank: int, candidate: dict, selected: bool = False) -> dict:
     descriptors = candidate["descriptors"]
     novelty = candidate["novelty"] or {}
     recipe = candidate["recipe"]
     return {
         "rank": rank,
+        "selected_for_diversity": selected,
         "smiles": candidate["smiles"],
         "molecular_formula": candidate["molecular_formula"],
         "fitness": candidate["fitness"],
@@ -267,8 +273,20 @@ def main() -> None:
     with csv_path.open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=CSV_COLUMNS)
         writer.writeheader()
-        for index, candidate in enumerate(design["all_ranked"], 1):
-            writer.writerow(_csv_row(index, candidate))
+        # The CSV must contain every design the report headlines. `all_ranked`
+        # is the top-N by raw fitness and `candidates` is the diversity-selected
+        # deliverable drawn from a wider pool, so neither list contains the
+        # other: writing `all_ranked` alone silently dropped most of the actual
+        # designs from the only file a reader is likely to open.
+        selected = {c["smiles"] for c in design["candidates"]}
+        merged: dict[str, dict] = {}
+        for candidate in [*design["candidates"], *design["all_ranked"]]:
+            merged.setdefault(candidate["smiles"], candidate)
+        ordered = sorted(merged.values(), key=lambda c: (-c["fitness"], c["smiles"]))
+        for index, candidate in enumerate(ordered, 1):
+            writer.writerow(
+                _csv_row(index, candidate, candidate["smiles"] in selected)
+            )
 
     print(f"\nWrote {_display(json_path)}")
     print(f"Wrote {_display(csv_path)}")

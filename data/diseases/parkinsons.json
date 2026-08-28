@@ -42,7 +42,8 @@
     "signature": "data/pd_expression.csv",
     "network": "data/networks/string_pd_network.tsv",
     "panel": "data/drugs/parkinsons_panel_v1.json",
-    "druggability": "data/targets/druggability_parkinsons.json"
+    "druggability": "data/targets/druggability_parkinsons.json",
+    "structures": "data/chemistry/pd_known_structures.json"
   },
   "provenance": {
     "signature_version": "v1, 90 directional genes",

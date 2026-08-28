@@ -200,7 +200,7 @@ command. Every run is deterministic under a stated seed.
 - **Bounded by the panel.** The screen can only ever return a molecule someone
   has already made. Its own headline finding is that peripheral-only
   combinations rank last while the remyelination axis has no approved agent at
-  all — a gap the screen can identify and cannot, in principle, fill. See §11.
+  all — a gap the screen can identify and cannot, in principle, fill. See §10.
 - **Modality-blind.** Antibodies and small molecules are ranked side by side
   with no representation of what each modality can reach. A top-ranked pair may
   combine an intravenous antibody with an oral agent and say nothing about
@@ -242,7 +242,34 @@ schema, the effect algebra, the evidence ranking — now live in
 A second disease (Parkinson's) is registered and exercised end to end, which is
 what makes the disease-agnostic claim checkable rather than asserted.
 
-## 11. Key references
+## 11. Relationship to the Parkinson's screen
+
+The [Parkinson's screen](parkinsons_screen.md) is this screen generalised in two
+directions, and reading them side by side is the clearest statement of what is
+method and what is disease.
+
+- It scores **k = 1, 2, and 3** where this one scores pairs only, so it carries
+  a monotherapy baseline and can ask whether a third agent earns its place.
+- It reads its pathways, therapeutic axes, risk domains, and risk weights from
+  the **registry entry**, where this screen holds them as module constants in
+  `ms_scoring`. That is the reason for the second module rather than an edit to
+  this one.
+
+Every k-ary term in `core/biology/combination_scoring.py` is defined as the mean
+of its pairwise form, so **k = 2 reduces exactly to the definitions used here**
+and nothing in this document is being quietly restated in different arithmetic.
+Tests pin that reduction for target complementarity, safety union, and Bliss
+folding.
+
+This screen has **not** been migrated onto that module; doing so, and re-running
+MS at k = 3, is recorded as the next structural task. Until then the two screens
+share their contracts and not their scorer, and their absolute scores are not
+comparable — different weights, different signature, different panel.
+
+The standing procedure both follow, and the checklist for the third disease, is
+in the [disease campaign protocol](disease_campaign_protocol.md).
+
+## 12. Key references
 
 - Dalla Costa G, et al. *Expert Rev Clin Pharmacol* (2024), PMID: 39376160.
 - Olejnik P, et al. *Pharmacol Rep* (2024), PMID: 39177889.

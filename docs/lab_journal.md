@@ -8,7 +8,7 @@
 
 **Start Date:** 2026-01-16 (Foundation Phase, Days 1-9)
 
-**Last updated:** 2026-08-26 (Phase 4)
+**Last updated:** 2026-08-29 (Phase 6)
 
 ---
 
@@ -1192,3 +1192,270 @@ Test suite: **174 passing** without RDKit, **198 with it**.
    the MS one and both are illustrative.
 5. A third disease outside the CNS, to exercise the peripheral branch of the
    delivery constraint, which neither current entry does.
+
+---
+
+## Phase 5 — The second disease gets its own screen (2026-08-26)
+
+### Objective
+
+Parkinson's was registered in Phase 4 and exercised end to end by the *design*
+campaign, but it had no combination screen of its own. The MS screen could not
+be pointed at it: `core/biology/ms_scoring.py` holds MS's pathways, therapeutic
+axes, risk domains, and risk weights as module constants, so running it against
+Parkinson's would have scored PD combinations against MS's vocabulary and
+reported `infection` as a worst risk domain for a disease where nothing is
+constrained by infection risk.
+
+Two things had to change, and one thing deliberately did not.
+
+### 1. Vocabulary moved from the code to the registry
+
+`core/biology/combination_scoring.py` reads every vocabulary from a
+`DiseaseContext`. Adding a third disease now touches no scoring code. A test
+asserts the property directly rather than by inspection: scoring a PD pair must
+produce a `worst_risk_domain` that is one of PD's domains and **is not** one of
+MS's.
+
+### 2. The screen learned to count past two
+
+The MS screen is pairwise. Parkinson's is treated with genuine polypharmacy —
+levodopa plus a decarboxylase inhibitor plus a COMT inhibitor plus a MAO-B
+inhibitor is an ordinary regimen — so a pairwise-only screen would have been
+answering the wrong question.
+
+`combination_metrics` scores a combination of any order. Every k-ary term is
+defined as the **mean of its pairwise form**, which was the design constraint
+worth holding: it makes k = 2 numerically identical to the pairwise
+definitions, so nothing about the MS results is being quietly restated in a new
+arithmetic, and it gives k ≥ 3 a definition that privileges no member. Tests
+pin the reduction for target complementarity, safety union, and Bliss folding,
+and assert that scoring is invariant to the order the members are listed in.
+
+### 3. The comparison that needed a rule, not a number
+
+The headline ask was monotherapy versus combination. The obvious
+implementation — rank everything by `priority_score` and see what wins — is
+wrong, and quietly so.
+
+`priority_score` includes target complementarity, compartment complementarity,
+and network separation. A single agent scores **zero on all three by
+construction**. Ranking singles against pairs by composite score therefore
+concludes that combinations win, when what they actually did was collect
+bonuses that are structurally unavailable to a monotherapy. The number would
+have looked like a finding.
+
+So the rule is stated instead: **`priority_score` is comparable only within a
+fixed order**, and across orders only the efficacy block — defined identically
+at every k — may be compared. `monotherapy_comparison` reports that block and
+nothing else, and a test asserts `priority_score` never enters the comparable
+set. Three fields carry the actual comparison:
+`reversal_gain_over_best_single`, `score_gain_over_best_subset` (negative means
+a third agent does not earn its place), and `additivity_ratio`.
+
+The last of those needed fixing after first sight. Its median is 1.0 at every
+order, because most agents in the panel have disjoint target sets and Bliss is
+exactly additive on disjoint genes — the median is the uninformative half of
+the statistic. The tail is the finding: 17% of pairs and 36% of triples are
+sub-additive, meaning their members are covering the same signal. The report
+now carries `fraction_subadditive`, the 5th percentile, and the minimum.
+
+### The bug that a smoke run would not have caught
+
+The first full run returned `nan` for every order-3 stratum bootstrap interval
+and a top-K Jaccard of exactly 0.0 — not a warning, a structural zero.
+
+The order loop reassigns `prefilter` at the end of each iteration to seed the
+next order. The robustness analyses ran *after* that reassignment, so at order 3
+they re-enumerated the triple space filtered by a set of **3-tuples** rather
+than the 2-faces that built it. Nothing matched, every re-ranking returned an
+empty list, and the statistics dutifully reported `nan` over nothing.
+
+It is the failure mode this project keeps producing: not a crash, an
+answer-shaped absence of an answer. The Jaccard of 0.0 was the tell — a real
+instability produces a small number, not a perfectly round one. The prefilter
+in force for the current order is now held in its own name.
+
+### The result that did not need the leaderboard
+
+The pattern from the MS screen reproduced exactly, at both orders: individual
+combination ranks are **not** stable under the curated target-effect
+uncertainty, while **stratum medians are**. Same conclusion, different disease,
+different vocabulary, different panel. The unit of inference is the mechanism
+stratum.
+
+Consistent with this, both screens agree on the shape of the disease they were
+given: the strata that rank highest are the ones pairing a symptomatic or
+metabolic agent with the axis that has **no approved agent at all** — trophic
+support in Parkinson's, remyelination in MS. A screen bounded by its panel can
+identify that gap and cannot, in principle, fill it. That is what the de novo
+design campaign is for.
+
+### What I chose not to build
+
+Parkinson's regimens are chronic oral polypharmacy in an elderly population, so
+the binding constraint on co-administration is pharmacokinetic — CYP and COMT
+interactions, additive hypotension, serotonin syndrome with MAO-B inhibitors.
+No such model exists here. Building one would have made the PD results
+non-comparable with the MS v3 numbers until MS was re-run against it, so the
+screen ships with route burden and half-life spread (`regimen_burden`) as the
+only co-administration cost, and the gap declared in the caveats block of every
+result file rather than only in prose.
+
+It is the top-priority next model.
+
+### Reflection
+
+> The interesting work was again in refusing a number rather than producing
+> one. `priority_score` across orders would have given a clean,
+> publishable-looking answer to the question I was actually asked, and it would
+> have been an artefact of which terms a single agent can structurally earn.
+> Writing down the comparison rule, then testing that the rule cannot be
+> violated, was worth more than the ranking it constrains. The `nan` bug makes
+> the same point from the other direction: the analysis did not fail, it
+> succeeded on an empty set, and only an implausibly round robustness figure
+> gave it away.
+
+### Next steps
+
+1. **PK/DDI model** — the largest declared gap, and the one that binds hardest
+   on the disease just screened.
+2. Migrate the MS screen onto `combination_scoring` so both diseases run one
+   contract, and re-run MS at k = 3.
+3. Dock the design proposals; still the assumption everything else sits on.
+4. Replace both signatures with cohort-derived data.
+5. A non-CNS disease, to exercise the peripheral branch of the delivery
+   constraint that neither current entry does.
+
+---
+
+## Phase 6 — Parkinson's drug discovery, and a silent novelty failure (2026-08-28)
+
+### Objective
+
+Bring the Parkinson's *design* campaign to the same standard as the MS one.
+Phase 4 had already run it end to end and Phase 5 gave PD its own combination
+screen, so on paper this was a re-run at parity. It was not.
+
+### The bug: an optional field that degraded a result without saying so
+
+Novelty in the design campaign is assessed against
+
+```python
+reference = [*disease.known_structures(), *library.parent_structures()]
+```
+
+`known_structures()` reads `data.structures` from the registry entry and
+returns `[]` when the key is absent. **Parkinson's had no `structures` key.**
+
+So every Parkinson's design was having its novelty measured against nothing but
+the pharmacophore fragments it had just been assembled from. The consequence is
+worse than a missing number would have been:
+
+- the `nearest_known_compound` field was **populated**, with
+  `Propargylamine MAO-B warhead`;
+- the Tanimoto was **plausible** at 0.32;
+- `is_novel` was **True**;
+- and nothing anywhere in the JSON, the CSV, or the console output indicated
+  that the comparison set had been cut in half.
+
+A missing file would have been caught in a minute. A silently reduced
+comparison survived two phases and got written into a protocol document.
+
+With `data/chemistry/pd_known_structures.json` registered — 26 structures
+covering the panel's small molecules — the same molecule's nearest neighbour is
+**selegiline** at **Tanimoto 0.47**. It still clears the declared 0.6 threshold,
+so the headline conclusion holds, but the margin is much narrower and it is now
+measured against an approved Parkinson's drug rather than against the pipeline's
+own parts. In hindsight the old answer was obviously wrong: the design *is* a
+propargylamine, so of course selegiline is its nearest neighbour. The number
+only looked defensible because selegiline was not in the comparison.
+
+Curating the 26 structures went the way this repo's chemistry work usually
+goes — three of my first 27 transcriptions were wrong (safinamide's amide was
+on the wrong carbon, minocycline had three carbons too many, and my *literature*
+mass for deferiprone was wrong rather than the SMILES). All three were caught by
+re-deriving formula and mass from the structure and comparing against the
+published values, which is exactly what that guard exists for. Every entry was
+additionally cross-checked against RDKit before admission.
+
+### The guards, because "remember to add the file" is not a guard
+
+- `test_each_disease_declares_a_novelty_reference_set` — fails if a registered
+  disease has no reference set, or one that barely overlaps its own panel.
+- `test_novelty_is_measured_against_real_drugs_not_only_fragments` — fails if
+  the set adds nothing the fragment library already contained, which would make
+  registering it a no-op.
+- `tests/test_chemistry.py` now iterates **every** registered disease's
+  structure file rather than naming the MS one, so a third disease's set is
+  formula- and mass-validated the moment it is added, without new test code.
+
+The campaign protocol's "adding a disease" checklist gained the reference set as
+step 5, with the reason attached rather than left as an instruction.
+
+### A second reporting defect, found while writing it up
+
+The design runner prints `design["candidates"]` — the diversity-selected
+deliverable — and wrote `design["all_ranked"]` to the CSV. Those are different
+lists drawn from different pools, and neither contains the other: **three of the
+four designs in the report were absent from the CSV entirely**, which is the
+file anyone would actually open.
+
+The CSV now carries the union, deduplicated and ordered by fitness, with a
+`selected_for_diversity` column distinguishing the deliverable from the raw
+ranking. Both diseases were regenerated so their artifacts stay comparable.
+
+### Results
+
+Parkinson's, at parity with MS (`--k 2 --arms 3 --top 4 --quantum-benchmark`,
+RDKit backend):
+
+- 14-requirement target profile led by LRRK2 (0.965), SLC6A3, NLRP3, MAOB, GBA1.
+- `DDC` and `SLC18A2` reported **unreachable** — no chemical matter in the
+  library. Still the most useful line a run produces.
+- 10-variable QUBO, 45 couplings, 45 feasible states of 1,024. Enumeration,
+  exact eigensolver, and QAOA all reach +0.0830; QAOA needs depth ≥ 2, with
+  d1 falling short at +0.0732.
+- Axis gaps: `synuclein_proteostasis` and `trophic_support` both **1.00**
+  unmet, `symptomatic_dopaminergic` 0.00.
+- Leading design `C19H24N2O3`, MW 328.4, CNS-MPO 4.93/6 — a MAO-B inhibitor
+  fused to a caspase-1 warhead.
+
+The **stage inversion held again**: the Hamiltonian's rank-1 arm set
+(GLUT + MAO-B, +0.0830) did not build the best molecule; rank 2
+(caspase-1 + MAO-B, +0.0732) did. Third disease, same lesson — carrying several
+arm sets forward is load-bearing.
+
+The axis-gap result is also the *screen's* Phase 5 finding arrived at
+independently: the combination screen's top mechanism strata all pair something
+with `trophic_support`, and the design campaign — reading only the panel's
+approved agents, never the combination scores — reports that axis at 1.00 unmet.
+
+Test suite: **236 passing** without RDKit, **260 with it**.
+
+### Reflection
+
+> Both defects this phase were the same shape as the `nan` bug in Phase 5:
+> nothing failed. An optional registry key degraded a scientific claim while
+> leaving a well-formed, plausible number in place, and a CSV confidently
+> presented the wrong four molecules. Neither would have been caught by reading
+> the output, because the output looked right — they were caught by asking what
+> the number was actually measured against, and by noticing that two views of
+> the same result disagreed. The fix in both cases was to make the quiet failure
+> loud: a test that fails when a reference set is missing, a column that names
+> which rows are the deliverable. I am increasingly convinced that the useful
+> question for this project is not "is this number right?" but "what would this
+> number look like if it were wrong?" — and that where the answer is "exactly
+> the same", that is the bug to go hunting.
+
+### Next steps
+
+1. **PK/DDI model** — still the largest declared gap, unchanged from Phase 5.
+2. Migrate the MS screen onto `combination_scoring` and re-run MS at k = 3.
+3. **Dock the proposals.** Three phases running, still the assumption
+   everything else rests on, and now the only untested claim standing between
+   these structures and a reason to make one.
+4. Replace both signatures with cohort-derived data; PD's remains the weaker.
+5. A non-CNS disease, to exercise the peripheral branch of the delivery
+   constraint — and, now, to be the first disease that gets its reference set
+   right on the first pass.

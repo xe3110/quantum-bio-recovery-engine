@@ -34,7 +34,7 @@ molecule do at all?* — and then builds one.
 | Modality realism | none — antibodies and small molecules ranked together | small-molecule tractability gates every target |
 | Optimisation | weighted score + Pareto front | QUBO / Ising Hamiltonian, three backends |
 | Delivery | `cns_penetration` as a scored term | CNS envelope as a **gate** on the design |
-| Novelty | not applicable | Tanimoto against 42 known structures + 20 parent chemotypes |
+| Novelty | not applicable | Tanimoto against the disease's own known drugs (MS 42, PD 26) + 31 parent chemotypes |
 
 ## 2. The disease model
 
@@ -375,13 +375,51 @@ C19H24N2O3   MW 328.4   cLogP 1.61   TPSA 58.6   CNS-MPO 4.93/6
 arms: caspase1_ketoamide (published_chemotype) + maob_propargylamine (approved_drug)
 axes: symptomatic_dopaminergic + neuroinflammation_control + mitochondrial_rescue
 mean engagement confidence 0.47, weakest claim IL1B
-nearest known compound: Tanimoto 0.32
+nearest known compound: Selegiline, Tanimoto 0.47
 ```
 
 A **MAO-B inhibitor fused to a caspase-1 warhead**: symptomatic dopaminergic
 benefit on one arm, inflammasome-driven neuroinflammation on the other.
 Predicted effects: MAOB −0.90, CASP1 −0.80, IL1B −0.60, CASP3 −0.35,
 AIF1 −0.30, with BCL2 +0.25 and SOD2 +0.20.
+
+### The novelty figure this design used to carry was wrong (2026-08-28)
+
+The line above previously read `nearest known compound: Tanimoto 0.32`, and the
+nearest neighbour was `Propargylamine MAO-B warhead` — a fragment from this
+pipeline's own library, not a drug.
+
+The cause: novelty is assessed against
+`disease.known_structures() + library.parent_structures()`, and the Parkinson's
+registry entry declared **no `structures` file at all**. `known_structures()`
+returns an empty list when the path is absent, so the whole first term silently
+vanished and every Parkinson's design was compared only against the fragments it
+was assembled from. Nothing in the output indicated a reduced comparison — the
+field was populated, the number was plausible, and it was measured against the
+wrong set.
+
+With `data/chemistry/pd_known_structures.json` registered (26 structures,
+covering the small-molecule members of the panel), the same molecule's nearest
+neighbour is **selegiline**, an approved Parkinson's drug, at **Tanimoto 0.47**.
+It still clears the declared novelty threshold of 0.6, so the conclusion does
+not reverse — but the margin is materially narrower than reported, and the
+comparison is now against real chemical matter. A propargylamine fused to a
+ketoamide *should* look like selegiline; the previous number said otherwise only
+because selegiline was not in the room.
+
+Two guards now exist so a third disease cannot repeat this:
+`test_each_disease_declares_a_novelty_reference_set` fails if a registered
+disease has no reference set or one that barely overlaps its own panel, and
+`test_novelty_is_measured_against_real_drugs_not_only_fragments` fails if the
+set adds nothing the fragment library did not already contain. Structure
+validation in `tests/test_chemistry.py` now iterates every registered disease's
+file rather than the MS one by name, so a new set is checked against its
+literature formula and mass automatically.
+
+**MS was unaffected** — its reference set has been registered since the campaign
+was built. Its designs' nearest neighbour is still a library fragment, which is
+the honest answer there: no approved MS agent resembles a dual BTK/CSF1R
+covalent.
 
 ### What their efficacy is
 

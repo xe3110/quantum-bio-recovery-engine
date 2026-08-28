@@ -25,8 +25,31 @@ from core.chemistry.molecule import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-STRUCTURES = json.loads((ROOT / "data/chemistry/ms_known_structures.json").read_text())["structures"]
-WITH_STRUCTURE = [e for e in STRUCTURES if e["smiles"]]
+
+
+def _curated_structures():
+    """Every reference set any registered disease declares, not just MS's.
+
+    Hardcoding one disease's file meant a second disease could add a novelty
+    reference set that nothing validated -- and an unvalidated reference set is
+    worse than none, because every novelty claim measured against it inherits
+    the error silently.
+    """
+    from core.models.disease import available_diseases, load_disease
+
+    entries = []
+    for identifier in available_diseases():
+        disease = load_disease(identifier)
+        if disease.structures_path is None:
+            continue
+        payload = json.loads(Path(disease.structures_path).read_text())
+        for entry in payload["structures"]:
+            if entry.get("smiles"):
+                entries.append({**entry, "disease": identifier})
+    return entries
+
+
+WITH_STRUCTURE = _curated_structures()
 
 ROUND_TRIP_CORPUS = [
     "c1ccccc1", "CC(=O)Oc1ccccc1C(=O)O", "C1=CC=CN=C1", "c1cc[nH]c1",
@@ -50,7 +73,10 @@ def test_smiles_round_trips_without_changing_the_molecule(smiles):
     assert reparsed.molecular_weight() == pytest.approx(original.molecular_weight())
 
 
-@pytest.mark.parametrize("entry", WITH_STRUCTURE, ids=[e["name"] for e in WITH_STRUCTURE])
+@pytest.mark.parametrize(
+    "entry", WITH_STRUCTURE,
+    ids=[f"{e['disease']}-{e['name']}" for e in WITH_STRUCTURE],
+)
 def test_curated_structures_match_their_literature_formula_and_mass(entry):
     """Every curated structure must reproduce its published formula and mass.
 

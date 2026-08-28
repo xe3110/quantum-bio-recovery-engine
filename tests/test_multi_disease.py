@@ -86,6 +86,40 @@ def test_design_modules_do_not_import_disease_specific_scoring():
 
 
 @pytest.mark.parametrize("identifier", DISEASES)
+def test_each_disease_declares_a_novelty_reference_set(identifier):
+    """Novelty is only as meaningful as the set it is measured against.
+
+    Parkinson's shipped its first design campaign without one, so its designs
+    were compared only against the pharmacophore library's own parent
+    fragments. A candidate could be reported novel while closely resembling an
+    approved drug for the disease -- with no symptom anywhere in the output.
+    The reference set must exist and must actually cover the panel's small
+    molecules.
+    """
+    disease = load_disease(identifier)
+    structures = disease.known_structures()
+    assert structures, f"{identifier} declares no known-structure reference set"
+    named = {name for name, _ in structures}
+    panel_names = {d["name"] for d in disease.panel()}
+    assert len(named & panel_names) >= len(structures) // 2, (
+        f"{identifier} reference set barely overlaps its own panel"
+    )
+
+
+@pytest.mark.parametrize("identifier", DISEASES)
+def test_novelty_is_measured_against_real_drugs_not_only_fragments(identifier, library):
+    """The reference set must add agents the fragment library does not contain.
+
+    If every structure came from the library's own parents, registering the
+    file would change nothing and the hole would still be open.
+    """
+    disease = load_disease(identifier)
+    known = {smiles for _, smiles in disease.known_structures()}
+    parents = {smiles for _, smiles in library.parent_structures()}
+    assert known - parents
+
+
+@pytest.mark.parametrize("identifier", DISEASES)
 def test_profile_derives_and_ranks_for_each_disease(identifier, library):
     profile = build_target_profile(load_disease(identifier), top_n=12)
     assert profile.requirements

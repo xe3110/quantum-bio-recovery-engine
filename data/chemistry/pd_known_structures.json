@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "disease": "parkinsons",
+    "purpose": "Structures for the small-molecule members of parkinsons_panel_v1, used as the known-chemical-matter reference set for novelty assessment in the de novo design campaign.",
+    "curation_rule": "Every entry carries the molecular formula and average mass reported in the public literature for that agent. tests/test_chemistry.py re-derives both from the SMILES and fails on any disagreement, so a mistyped structure cannot enter the reference set silently. Each structure was additionally cross-checked against RDKit before being admitted.",
+    "why_this_file_exists": "Without it, novelty for a Parkinson's design was measured only against the pharmacophore library's own parent fragments -- so a candidate could be reported as novel while closely resembling an approved Parkinson's drug that was simply absent from the comparison. Novelty is only as meaningful as the reference set it is measured against.",
+    "omissions": "Nine of the 35 panel records have no entry. Five are biologics with no small-molecule structure and are absent by construction (Prasinezumab, Cinpanemab, Sargramostim, GDNF, Exenatide). Two name a development compound or chemotype rather than a settled public structure ('LRRK2 inhibitor (BIIB122)', 'NLRP3 inhibitor (inzomelid-class)') and are omitted rather than guessed. Venglustat is omitted because its structure could not be transcribed with confidence. Nicotinamide riboside is omitted because it is a pyridinium cation whose formula string differs between the local backend (C11H15N2O5) and RDKit (C11H15N2O5+), which would make this file's validation backend-dependent. Absence weakens novelty checking against those agents and nothing else.",
+    "stereochemistry": "Stereodescriptors are retained where the marketed agent is a single enantiomer. The fingerprint used for novelty is connectivity-based and does not read them, so they document the entry rather than change any score.",
+    "n_structures": 26
+  },
+  "structures": [
+    {
+      "name": "Levodopa",
+      "smiles": "N[C@@H](Cc1ccc(O)c(O)c1)C(=O)O",
+      "formula": "C9H11NO4",
+      "mass": 197.19
+    },
+    {
+      "name": "Carbidopa",
+      "smiles": "C[C@](Cc1ccc(O)c(O)c1)(NN)C(=O)O",
+      "formula": "C10H14N2O4",
+      "mass": 226.23
+    },
+    {
+      "name": "Pramipexole",
+      "smiles": "CCCN[C@H]1CCc2nc(N)sc2C1",
+      "formula": "C10H17N3S",
+      "mass": 211.33
+    },
+    {
+      "name": "Ropinirole",
+      "smiles": "CCCN(CCC)CCc1cccc2[nH]c(=O)Cc12",
+      "formula": "C16H24N2O",
+      "mass": 260.38
+    },
+    {
+      "name": "Rotigotine",
+      "smiles": "CCCN(CCc1cccs1)[C@H]1CCc2c(O)cccc2C1",
+      "formula": "C19H25NOS",
+      "mass": 315.48
+    },
+    {
+      "name": "Apomorphine",
+      "smiles": "CN1CCc2cccc3c2[C@H]1Cc1ccc(O)c(O)c1-3",
+      "formula": "C17H17NO2",
+      "mass": 267.33
+    },
+    {
+      "name": "Pergolide",
+      "smiles": "CCCN1C[C@@H](CSC)C[C@H]2c3cccc4[nH]cc(c34)C[C@H]12",
+      "formula": "C19H26N2S",
+      "mass": 314.5
+    },
+    {
+      "name": "Selegiline",
+      "smiles": "C#CCN(C)[C@@H](C)Cc1ccccc1",
+      "formula": "C13H17N",
+      "mass": 187.29
+    },
+    {
+      "name": "Rasagiline",
+      "smiles": "C#CCN[C@H]1CCc2ccccc21",
+      "formula": "C12H13N",
+      "mass": 171.24
+    },
+    {
+      "name": "Safinamide",
+      "smiles": "C[C@H](NCc1ccc(OCc2cccc(F)c2)cc1)C(N)=O",
+      "formula": "C17H19FN2O2",
+      "mass": 302.35
+    },
+    {
+      "name": "Entacapone",
+      "smiles": "CCN(CC)C(=O)C(C#N)=Cc1cc(O)c(O)c([N+](=O)[O-])c1",
+      "formula": "C14H15N3O5",
+      "mass": 305.29
+    },
+    {
+      "name": "Opicapone",
+      "smiles": "Cc1c(Cl)[n+]([O-])c(Cl)c(C)c1-c1noc(-c2cc([N+](=O)[O-])c(O)c(O)c2)n1",
+      "formula": "C15H10Cl2N4O6",
+      "mass": 413.17
+    },
+    {
+      "name": "Tolcapone",
+      "smiles": "Cc1ccc(C(=O)c2cc([N+](=O)[O-])c(O)c(O)c2)cc1",
+      "formula": "C14H11NO5",
+      "mass": 273.24
+    },
+    {
+      "name": "Istradefylline",
+      "smiles": "CCn1c(=O)n(CC)c2c(c1=O)n(C)c(/C=C/c1ccc(OC)c(OC)c1)n2",
+      "formula": "C20H24N4O4",
+      "mass": 384.44
+    },
+    {
+      "name": "Amantadine",
+      "smiles": "NC12CC3CC(CC(C3)C1)C2",
+      "formula": "C10H17N",
+      "mass": 151.25
+    },
+    {
+      "name": "Trihexyphenidyl",
+      "smiles": "OC(CCN1CCCCC1)(C1CCCCC1)c1ccccc1",
+      "formula": "C20H31NO",
+      "mass": 301.47
+    },
+    {
+      "name": "Ambroxol",
+      "smiles": "Nc1c(Br)cc(CN[C@H]2CC[C@H](O)CC2)cc1Br",
+      "formula": "C13H18Br2N2O",
+      "mass": 378.11
+    },
+    {
+      "name": "Nilotinib",
+      "smiles": "Cc1ccc(C(=O)Nc2cc(-n3cc(C)nc3)cc(C(F)(F)F)c2)cc1Nc1nccc(-c2cccnc2)n1",
+      "formula": "C28H22F3N7O",
+      "mass": 529.53
+    },
+    {
+      "name": "Ursodeoxycholic acid",
+      "smiles": "C[C@H](CCC(=O)O)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C",
+      "formula": "C24H40O4",
+      "mass": 392.58
+    },
+    {
+      "name": "Deferiprone",
+      "smiles": "Cc1c(O)c(=O)ccn1C",
+      "formula": "C7H9NO2",
+      "mass": 139.15
+    },
+    {
+      "name": "Isradipine",
+      "smiles": "CC(C)OC(=O)C1=C(C)NC(C)=C(C(=O)OC)C1c1cccc2nonc12",
+      "formula": "C19H21N3O5",
+      "mass": 371.39
+    },
+    {
+      "name": "Inosine",
+      "smiles": "OC[C@H]1O[C@@H](n2cnc3c2nc[nH]c3=O)[C@H](O)[C@@H]1O",
+      "formula": "C10H12N4O5",
+      "mass": 268.23
+    },
+    {
+      "name": "Creatine",
+      "smiles": "CN(CC(=O)O)C(N)=N",
+      "formula": "C4H9N3O2",
+      "mass": 131.13
+    },
+    {
+      "name": "Pioglitazone",
+      "smiles": "CCc1ccc(CCOc2ccc(CC3SC(=O)NC3=O)cc2)nc1",
+      "formula": "C19H20N2O3S",
+      "mass": 356.45
+    },
+    {
+      "name": "Minocycline",
+      "smiles": "CN(C)c1ccc(O)c2c1C[C@H]1C[C@H]3[C@H](N(C)C)C(O)=C(C(N)=O)C(=O)[C@@]3(O)C(O)=C1C2=O",
+      "formula": "C23H27N3O7",
+      "mass": 457.48
+    },
+    {
+      "name": "Coenzyme Q10",
+      "smiles": "COC1=C(OC)C(=O)C(C/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CC/C=C(C)/CCC=C(C)C)=C(C)C1=O",
+      "formula": "C59H90O4",
+      "mass": 863.36
+    }
+  ]
+}

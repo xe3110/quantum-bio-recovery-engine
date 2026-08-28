@@ -16,6 +16,7 @@ from __future__ import annotations
 import csv
 import random
 from collections import defaultdict
+from itertools import combinations
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -197,4 +198,39 @@ def classify_exposure(scorer: ProximityScorer, targets_a, targets_b, disease_gen
     return ComplementaryExposure(
         separation=round(sep, 4) if not np.isnan(sep) else float("nan"),
         z_a=z_a, z_b=z_b, is_complementary=complementary,
+    )
+
+
+def classify_set_exposure(scorer: ProximityScorer, target_sets, disease_genes,
+                          z_threshold: float = -0.15) -> ComplementaryExposure:
+    """The k-ary generalisation of :func:`classify_exposure`.
+
+    A combination shows complementary exposure when *every* member sits close
+    to the disease module while *every* pair of members remains topologically
+    separated from the others. Requiring it of every pair rather than on
+    average is the conservative reading: a triple in which two agents overlap
+    is not exploiting three distinct neighbourhoods, whatever the mean says.
+
+    ``separation`` is reported as the minimum pairwise separation, which is the
+    binding one; ``z_a``/``z_b`` carry the best and worst member proximity.
+    """
+    sets = [list(s) for s in target_sets]
+    zs = [scorer.proximity_z(s, disease_genes)[1] for s in sets]
+    if len(sets) < 2:
+        z = zs[0] if zs else float("nan")
+        return ComplementaryExposure(separation=float("nan"), z_a=z, z_b=z, is_complementary=False)
+
+    seps = [scorer.separation(a, b) for a, b in combinations(sets, 2)]
+    finite = [s for s in seps if not np.isnan(s)]
+    worst_sep = min(finite) if finite else float("nan")
+    finite_z = [z for z in zs if not np.isnan(z)]
+    complementary = bool(
+        finite and len(finite) == len(seps) and worst_sep > 0
+        and len(finite_z) == len(zs) and max(finite_z) < z_threshold
+    )
+    return ComplementaryExposure(
+        separation=round(worst_sep, 4) if not np.isnan(worst_sep) else float("nan"),
+        z_a=round(min(finite_z), 4) if finite_z else float("nan"),
+        z_b=round(max(finite_z), 4) if finite_z else float("nan"),
+        is_complementary=complementary,
     )
